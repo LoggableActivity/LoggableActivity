@@ -6,20 +6,20 @@
           h2 Log in
         .card-body
           = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-horizontal', role: 'form' }) do |f|
-            .form-group
+            .form-group.mt-2
               = f.label :email, class: 'control-label'
               = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
             
-            .form-group
+            .form-group.mt-2
               = f.label :password, class: 'control-label'
               = f.password_field :password, autocomplete: "current-password", class: 'form-control'
             
             - if devise_mapping.rememberable?
-              .form-group.form-check
+              .form-group.form-check.mt-2
                 = f.check_box :remember_me, class: 'form-check-input'
                 = f.label :remember_me, class: 'form-check-label'
             
-            .form-group
+            .form-group.mt-2
               = f.submit "Log in", class: 'btn btn-primary'
             
-          = render "devise/shared/links"
+          .mt-2 = render "devise/shared/links"
