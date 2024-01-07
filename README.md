@@ -1,7 +1,13 @@
-# GDPR compliant logging
-A system for logging of who did what when while complying to the Genera Data Protection Regulation.
+## Loggable Activity - Work in progress 🌟
+Logging of who did what when while complying to the Genera Data Protection Regulation.
 
-### What is does
+
+👉 Join here: [LoggableActivity Slack Workspace](https://join.slack.com/t/loggableactivity/shared_invite/zt-2a3tvgv37-mGwjHJTrBXBH2srXFRRSXQ)
+
+We value each contribution and believe in the power of community. Looking forward to seeing you there!
+
+
+### What LoggableActivity does
 Given there is a web app with a backend with various features and personas with different roles and permissions, <br/>
 Then there might also be a need to log, who did what when.<br/>
 For example:
@@ -32,6 +38,7 @@ A log entry is a corelation between a timestamp, an actor and some data that bel
 <br/>
 <br/>
 <br/>
+
 
 # Considerations
 A log entry are created when an actor performs an action.<br/>

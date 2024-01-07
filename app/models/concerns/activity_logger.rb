@@ -4,12 +4,13 @@ module ActivityLogger
   included do
     # Fetch configuration for the class including this module
     config = Loggable::Configuration.for_class(base_action)
-    self.loggable_attrs = config&.fetch('attrs', []) || []
+    self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
     self.obfuscate_attrs = config&.fetch('obfuscate_attrs', []) || []
     self.relations = config&.fetch('relations', []) || []
   end
 
   def log(activity, actor)
+    build_payloads
     if activity == :update
       log_update(actor)
     else
@@ -32,7 +33,18 @@ module ActivityLogger
   end
 
   def build_payloads
-    ap self.attributes
+
+    ap attrs_to_log(self.class.loggable_attrs, self.attributes)
+
+
+    # ap self.class.relations
+    # self.class.loggable_attrs.each do |attr|
+    #   ap attr
+    # end 
+  end
+
+  def attrs_to_log(loggable_attrs, attrs)
+    attrs.slice(*self.class.loggable_attrs)
   end
 
 

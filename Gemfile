@@ -59,6 +59,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "awesome_print"
   gem 'factory_bot_rails'
+  gem 'bundler-audit'
 end
 
 group :development do

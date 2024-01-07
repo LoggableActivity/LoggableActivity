@@ -1,6 +1,5 @@
 user: 
-  model: user
-  attrs: 
+  loggable_attrs: 
     - first_name
     - last_name 
     - bio
@@ -12,12 +11,14 @@ user:
     - bio 
   relations:
     belongs_to:
-      - addresse:
-        model: demo_address
-        attrs:
+      - model: Demo::Address
+        loggable_attrs:
           - street
           - city
           - state
           - zip
         obfuscate:
-          - all_attrs  
+          - street
+          - city
+          - state
+          - zip
