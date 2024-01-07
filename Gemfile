@@ -60,6 +60,7 @@ group :development, :test do
   gem "awesome_print"
   gem 'factory_bot_rails'
   gem 'bundler-audit'
+  gem 'rubocop', '~> 1.59'
 end
 
 group :development do
