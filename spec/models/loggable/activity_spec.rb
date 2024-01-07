@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Loggable::Activity, type: :model do
@@ -10,16 +12,16 @@ RSpec.describe Loggable::Activity, type: :model do
 
     it 'is invalid without at least one payload' do
       actor = FactoryBot.create(:user)
-      activity = Loggable::Activity.new(actor: actor)
+      activity = Loggable::Activity.new(actor:)
       expect(activity).not_to be_valid
       expect(activity.errors[:payloads]).to include('must have at least one payload')
     end
 
     it 'is valid with actor and at least one payload' do
       actor = FactoryBot.create(:user)
-      activity = FactoryBot.build(:loggable_activity, actor: actor)
+      activity = FactoryBot.build(:loggable_activity, actor:)
 
-      payload_attrs = { owner: actor, attrs: { fo: 'bar' }.to_json }
+      payload_attrs = { owner: actor, encoded_attrs: { fo: 'bar' }.to_json }
       activity.payloads.build(payload_attrs)
 
       expect(activity).to be_valid

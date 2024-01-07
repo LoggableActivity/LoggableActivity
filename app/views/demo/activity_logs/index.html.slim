@@ -1,0 +1,14 @@
+.container
+  h1 Activities 
+  table.table 
+    thead
+      tr
+        th Action
+        th Actor 
+        th Date
+        th Owner 
+        th Attributes
+        th Actions
+    tbody
+      - @loggable_activities.each do |activity|
+        = render_activity(activity)

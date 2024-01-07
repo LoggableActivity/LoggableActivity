@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "home/index.html.slim", type: :view do
+RSpec.describe 'home/index.html.slim', type: :view do
   context 'when user is signed in' do
     before do
       user = instance_double('User', email: 'user@example.com')

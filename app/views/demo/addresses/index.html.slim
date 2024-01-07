@@ -1,6 +1,5 @@
 .container
   h1 Addresses
-
   table.table.table-hover
     thead
       tr
@@ -19,6 +18,6 @@
           td
             = link_to 'Show', [address], class: 'btn btn-info btn-sm'
             =< link_to 'Edit', edit_demo_address_path(address), class: 'btn btn-primary btn-sm'
-            =< link_to 'Delete', [address], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+            =< link_to 'Delete', [address], data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
 
   = link_to 'New Address', new_demo_address_path, class: 'btn btn-success'

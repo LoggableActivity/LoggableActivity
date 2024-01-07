@@ -1,24 +1,66 @@
-user: 
+User: 
+  owner_display_name: full_name
+  actor_display_name: email
   loggable_attrs: 
     - first_name
     - last_name 
     - bio
     - email
-  obfuscate_attrs: 
-    - email
-    - first_name
-    - last_name
-    - bio 
+  auto_log:
+    - create
+    - update
+    - destroy
   relations:
     belongs_to:
       - model: Demo::Address
+        delete: :nullify
         loggable_attrs:
           - street
           - city
-          - state
-          - zip
-        obfuscate:
+          - country
+          - postal_code
+      - model: Demo::Club
+        delete: :nullify
+        loggable_attrs:
+          - name
+Demo::Address: 
+  owner_display_name: full_address
+  actor_display_name: email
+  loggable_attrs:
+    - street
+    - city
+    - country
+    - postal_code
+  auto_log:
+    - create
+    - update
+    - destroy
+Demo::Product:
+  loggable_attrs:
+    - name
+    - description
+    - price
+    - part_number
+  auto_log:
+    - create
+    - update
+    - destroy
+Demo::Club:
+  loggable_attrs:
+    - name
+  relations:
+    belongs_to:
+      - model: Demo::Address
+        delete: :nullify
+        loggable_attrs:
           - street
           - city
-          - state
-          - zip
+          - country
+  auto_log:
+    - create
+    - update
+    - destroy
+
+  
+
+
