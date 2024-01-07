@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAddressToUsers < ActiveRecord::Migration[7.1]
   def change
     add_column :users, :demo_address_id, :uuid

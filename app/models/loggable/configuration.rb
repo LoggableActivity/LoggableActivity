@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Loggable
   class Configuration
     CONFIG = YAML.load_file(Rails.root.join('config', 'loggable_activity.yaml')).freeze

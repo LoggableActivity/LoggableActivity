@@ -1,0 +1,20 @@
+Style/Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false

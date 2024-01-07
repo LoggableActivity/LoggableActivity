@@ -1,19 +1,23 @@
-class Loggable::Activity < ApplicationRecord
-  has_many :payloads, class_name: 'Loggable::Payload', dependent: :destroy
-  accepts_nested_attributes_for :payloads
+# frozen_string_literal: true
 
-  validates :actor, presence: true
-  validates :action, presence: true
+module Loggable
+  class Activity < ApplicationRecord
+    has_many :payloads, class_name: 'Loggable::Payload', dependent: :destroy
+    accepts_nested_attributes_for :payloads
 
-  validate :must_have_at_least_one_payload
+    validates :actor, presence: true
+    validates :action, presence: true
 
-  belongs_to :loggable, polymorphic: true, optional: true
-  belongs_to :actor, polymorphic: true, optional: false 
-  # belongs_to :recipient, polymorphic: true, optional: true
+    validate :must_have_at_least_one_payload
 
-  private
+    belongs_to :loggable, polymorphic: true, optional: true
+    belongs_to :actor, polymorphic: true, optional: false
+    # belongs_to :recipient, polymorphic: true, optional: true
 
-  def must_have_at_least_one_payload
-    errors.add(:payloads, 'must have at least one payload') if payloads.empty?
+    private
+
+    def must_have_at_least_one_payload
+      errors.add(:payloads, 'must have at least one payload') if payloads.empty?
+    end
   end
 end
