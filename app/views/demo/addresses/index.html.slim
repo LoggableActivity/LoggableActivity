@@ -1,0 +1,24 @@
+.container
+  h1 Addresses
+
+  table.table.table-hover
+    thead
+      tr
+        th Street
+        th City
+        th Country
+        th Postal Code
+        th Actions
+    tbody
+      - @addresses.each do |address|
+        tr
+          td = address.street
+          td = address.city
+          td = address.country
+          td = address.postal_code
+          td
+            = link_to 'Show', [address], class: 'btn btn-info btn-sm'
+            =< link_to 'Edit', edit_demo_address_path(address), class: 'btn btn-primary btn-sm'
+            =< link_to 'Delete', [address], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+
+  = link_to 'New Address', new_demo_address_path, class: 'btn btn-success'

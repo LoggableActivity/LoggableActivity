@@ -1,5 +1,7 @@
 class Loggable::Payload < ApplicationRecord
   belongs_to :activity
-  validates :owner, :attrs, presence: true
-  validates :attrs, :attrs, presence: true
+  belongs_to :owner, polymorphic: true, optional: true 
+  # validates :owner, presence: true
+  validates :attrs, presence: true
+
 end

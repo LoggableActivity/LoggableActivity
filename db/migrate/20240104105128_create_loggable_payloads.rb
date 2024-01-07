@@ -1,7 +1,8 @@
 class CreateLoggablePayloads < ActiveRecord::Migration[7.1]
   def change
     create_table :loggable_payloads, id: :uuid do |t|
-      t.uuid :owner
+      t.uuid :owner_id
+      t.string :owner_type
       t.json :attrs
       
       # Manually create a UUID column for the foreign key

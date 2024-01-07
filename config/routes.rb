@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   root "home#index"
 
   namespace :demo do
+    resources :products
     resources :users
+    resources :addresses
   end
 end

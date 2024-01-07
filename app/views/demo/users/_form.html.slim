@@ -1,4 +1,3 @@
-/ app/views/users/_form.html.slim
 = form_for user, url: (user.new_record? ? demo_users_path : demo_user_path(user)), html: { class: 'form-horizontal' } do |f|
   .form-group.mt-2
     = f.label :email, class: 'col-sm-2 control-label'
@@ -6,15 +5,40 @@
       = f.email_field :email, class: 'form-control'
 
   .form-group.mt-2
-    = f.label :password, class: 'col-sm-2 control-label'
+    = f.label :first_name, class: 'col-sm-2 control-label'
     .col-sm-10
-      = f.password_field :password, class: 'form-control'
+      = f.text_field :first_name, class: 'form-control'
 
   .form-group.mt-2
-    = f.label :password_confirmation, class: 'col-sm-2 control-label'
+    = f.label :last_name, class: 'col-sm-2 control-label'
     .col-sm-10
-      = f.password_field :password_confirmation, class: 'form-control'
+      = f.text_field :last_name, class: 'form-control'
+
+  .form-group.mt-2
+    = f.label :age, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.number_field :age, class: 'form-control'
+
+  .form-group.mt-2
+    = f.label :bio, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :bio, class: 'form-control'
+
+  - if user.new_record?
+    .form-group.mt-2
+      = f.label :password, class: 'col-sm-2 control-label'
+      .col-sm-10
+        = f.password_field :password, class: 'form-control', placeholder: 'Leave blank if you do not want to change'
+
+    .form-group.mt-2
+      = f.label :password_confirmation, class: 'col-sm-2 control-label'
+      .col-sm-10
+        = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Leave blank if you do not want to change'
+    
+  .form-group.mt-2
+    = f.label :demo_address_id, 'Address', class: 'form-label'
+    = f.collection_select :demo_address_id, @addresses, :id, :street, { prompt: "Select an Address" }, { class: 'form-control' }
 
   .form-group.mt-2
     .col-sm-offset-2.col-sm-10
-      = f.submit class: 'btn btn-primary'
+      = f.submit class: 'btn btn-primary btn-sm'

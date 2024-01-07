@@ -1,0 +1,45 @@
+/ app/views/demo/@user./show.html.slim
+.container.mt-4
+  .card.panel-default
+    .card-header
+      h3.card-title = "#{@user.first_name} #{@user.last_name}"
+
+    .card-body
+      ul.list-group.list-group-flush
+        li.list-group-item
+          strong Email:
+          span.float-end = @user.email 
+        li.list-group-item
+          strong First Name:
+          span.float-end = @user.first_name
+        li.list-group-item
+          strong Last Name:
+          span.float-end = @user.last_name
+        li.list-group-item
+          strong Age:
+          span.float-end = @user.age
+        li.list-group-item  
+          strong Bio:
+          span.float-end = @user.bio
+        - if @user.demo_address.present?
+          li.list-group-item
+            h4 Address
+          li.list-group-item
+            strong Street:
+            span.float-end 
+              = @user.demo_address.street
+          li.list-group-item
+            strong City:
+            span.float-end 
+              = @user.demo_address.city
+          li.list-group-item
+            strong Postal Code:
+            span.float-end 
+              = @user.demo_address.postal_code
+          li.list-group-item
+            strong Country:
+            span.float-end 
+              = @user.demo_address.country
+
+    .card-footer
+      = link_to 'Edit', edit_demo_user_path(@user), class: 'btn btn-primary btn-sm'

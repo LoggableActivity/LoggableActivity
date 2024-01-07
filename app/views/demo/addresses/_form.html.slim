@@ -1,0 +1,24 @@
+= form_for [address], html: { class: 'form-horizontal' } do |f|
+  .form-group.mt-2
+    = f.label :street, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :street, class: 'form-control'
+
+  .form-group.mt-2
+    = f.label :city, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :city, class: 'form-control'
+
+  .form-group.mt-2
+    = f.label :country, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :country, class: 'form-control'
+
+  .form-group.mt-2
+    = f.label :postal_code, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :postal_code, class: 'form-control'
+
+  .form-group.mt-2
+    .col-sm-offset-2.col-sm-10
+      = f.submit 'Save Address', class: 'btn btn-primary btn-sm'

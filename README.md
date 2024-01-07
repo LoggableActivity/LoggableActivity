@@ -106,26 +106,30 @@ Then a payload could look like this
 But what about Bob, he is in the system and want to have control of his own data.<br/> 
 To achieve this we need to organize the way we store log entries so owners can be identified even within a payload.
 ```
-┌──────────────────────┐
-│       LogEntry       │
-├──────────────────────┤
-│key: String           │
-├──────────────────────┤
-│who_did_it: UUID      │
-├──────────────────────┤
-│time: DateTime        │
-└──────────────────────┘
-            ┼           
-            │           
-            │           
-           ╱│╲          
-┌──────────────────────┐
-│       Payload        │
-├──────────────────────┤
-│data: Json            │
-├──────────────────────┤
-│owner: UUID           │
-└──────────────────────┘
+        ┌────────────────────────┐
+        │        Activity        │
+        ├────────────────────────┤
+        │key: String             │
+        ├────────────────────────┤
+        │who_did_it_type: String │
+        ├────────────────────────┤
+        │who_did_it_id: UUID     │
+        ├────────────────────────┤
+        │time: DateTime          │
+        └────────────────────────┘
+                    ┼            
+                    │            
+                    │            
+                    ╱│╲           
+        ┌────────────────────────┐
+        │        Payload         │
+        ├────────────────────────┤
+        │data: Json              │
+        ├────────────────────────┤
+        │owner_id: UUID          │
+        ├────────────────────────┤
+        │owner_type: String      │
+        └────────────────────────┘
 ```
 So now we can control access to Bobs data in the Logging DB
 

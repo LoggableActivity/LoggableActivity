@@ -1,0 +1,23 @@
+user: 
+  model: user
+  attrs: 
+    - first_name
+    - last_name 
+    - bio
+    - email
+  obfuscate_attrs: 
+    - email
+    - first_name
+    - last_name
+    - bio 
+  relations:
+    belongs_to:
+      - addresse:
+        model: demo_address
+        attrs:
+          - street
+          - city
+          - state
+          - zip
+        obfuscate:
+          - all_attrs  

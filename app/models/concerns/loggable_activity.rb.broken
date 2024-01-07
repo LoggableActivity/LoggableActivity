@@ -1,0 +1,221 @@
+module LoggableActivity
+  extend ActiveSupport::Concern
+  # Default excluded attributes
+  DEFAULT_LOGGABLE_EXCLUDED_ATTRIBUTES =
+    %w[created_at updated_at attribute_with_time_zone]
+
+  included do
+     has_many :activities, as: :trackable, class_name: 'Loggable::Activity'
+  end
+
+  def log(action, who_did_id)
+  end
+
+  def log_create(user, action = 'create')
+    log_create_for(user, nil, action)
+  end
+
+  def log_create_for(user, recipient, action = 'create')
+    prepare_activity_attributes
+    create_activity(user, recipient, action, @activity_attributes)
+  end
+
+  def log_update(user, action = 'update')
+    log_update_for(user, nil, action)
+  end
+
+  def log_update_for(user, recipient, action = 'update')
+    prepare_activity_attributes
+    attrs = @activity_attributes.merge(update_attributes)
+    activity = create_activity(user, recipient, action, attrs)
+    delete_recent_show_activities(user, activity)
+    activity
+  end
+
+  def log_show(user, action = 'show')
+    log_show_for(user, nil, action)
+  end
+
+  def log_show_for(user, recipient, action = 'show')
+    prepare_activity_attributes
+    activity = create_activity(user, recipient, action, @activity_attributes)
+    delete_recent_show_activities(user, activity)
+    activity
+  end
+
+  def log_destroy(user, action = 'destroy')
+    log_destory_for(user, nil, action)
+  end
+
+  def log_destroy_for(user, recipient, action = 'destroy')
+    prepare_activity_attributes
+    create_activity(user, recipient, action, @activity_attributes)
+  end
+
+  def log_activity(user, params, action = 'activity_log')
+    log_activity_for(user, nil, params, action)
+  end
+
+  def log_activity_for(user, recipient, params, _action = 'activity_log')
+    prepare_activity_attributes
+    attrs = @activity_attributes.merge(params).to_json
+    create_activity(user, recipient, attrs, action)
+  end
+
+  def create_activity(user, recipient, action, payload)
+    prepare_key(action)
+    activities
+      .create(
+        payload: payload.to_json,
+        owner: user,
+        key: @key,
+        recipient: recipient
+      )
+  end
+
+  def delete_logs
+    logs.delete_all
+  end
+
+  def self.user_activities(user)
+    Activity.where(owner: user)
+  end
+
+  def obfuscate_logs
+    obfuscated_attrs = self.class.loggable_obfuscate_attrs
+
+    logs.in_batches.each do |batch|
+      batch.each do |activity|
+        payload = JSON.parse(activity.payload)
+
+        obfuscated_attrs.each do |attr|
+          payload[attr.to_s] = 'obfuscated'
+        end
+
+        activity.update(payload: payload.to_json)
+      end
+    end
+  end
+
+  def self.obfuscate_activities_for_recipient(recipient)
+    activities = Activity.where(recipient_id: recipient.id, recipient_type: recipient.class.name)
+    activities.all.in_batches.each do |batch|
+      batch.each do |activity|
+        payload = JSON.parse(activity.payload)
+
+        obfuscated_attrs = activity.trackable.class.loggable_obfuscate_attrs
+        obfuscated_attrs.each do |attr|
+          payload[attr.to_s] = 'obfuscated'
+        end
+
+        payload['changes'] = obfuscate_changes(payload['changes'], obfuscated_attrs) if payload.has_key?('changes')
+        activity.update(payload: payload.to_json)
+      end
+    end
+  end
+
+  def self.obfuscate_changes(changes, obfuscated_attrs)
+    changes_to_obfuscate = changes.select { |change| obfuscated_attrs.include?(change['attr_changed']) }
+
+    changes_to_obfuscate.each do |change|
+      change['from'] = 'obfuscated'
+      change['to'] = 'obfuscated'
+    end
+    changes
+  end
+
+  def self.recipient_activities(recipient)
+    Activity.where(recipient_id: recipient.id, recipient_type: recipient.class.name)
+  end
+
+  def self.user_activities(user)
+    Activity.where(owner_id: user.id, owner_type: user.class.name)
+  end
+
+  private
+
+  def logs
+    Activity.where(trackable_type: self.class.name, trackable_id: id)
+  end
+
+  def update_attributes
+    previous_values = saved_changes.transform_values(&:first)
+    current_values = saved_changes.transform_values(&:last)
+    payload = {
+      'from' => sanitize_attributes(previous_values),
+      'to' => sanitize_attributes(current_values)
+    }
+
+    changes = []
+
+    payload['from'].each do |attr, from_value|
+      to_value = payload['to'][attr]
+      changes << { attr_changed: attr, from: from_value, to: to_value } if from_value != to_value
+    end
+
+    { changes: changes }
+  end
+
+  def prepare_activity_attributes
+    @activity_attributes = sanitize_attributes(attributes)
+  end
+
+  def sanitize_attributes(attrs)
+    excluded_attrs = self.class.loggable_excluded_attributes
+    attrs.except(*excluded_attrs)
+  end
+
+  def prepare_key(action)
+    @key = "#{self.class.name.underscore}.#{action}"
+  end
+
+  def delete_recent_show_activities(user, activity)
+    last_updated_activity = Activity
+                            .where(key: "#{self.class.name.downcase}.update")
+                            .where(trackable_id: activity.trackable_id, trackable_type: activity.trackable_type)
+                            .where(owner_id: user.id, owner_type: user.class.name)
+                            .where('created_at >= ?', 1.seconds.ago)
+                            .any?
+
+    return unless last_updated_activity
+
+    Activity
+      .where(key: "#{self.class.name.downcase}.show")
+      .where(trackable_id: activity.trackable_id, trackable_type: activity.trackable_type)
+      .where(owner_id: user.id, owner_type: user.class.name)
+      .where('created_at >= ?', 20.seconds.ago)
+      .delete_all
+  end
+
+  def owned_by; end
+
+  class_methods do
+    def loggable_excluded_attributes
+      @loggable_excluded_attributes ||= DEFAULT_LOGGABLE_EXCLUDED_ATTRIBUTES
+    end
+
+    def loggable_excluded_attributes=(attributes)
+      @loggable_excluded_attributes = (DEFAULT_LOGGABLE_EXCLUDED_ATTRIBUTES + attributes).uniq
+    end
+
+    def loggable_obfuscate_attrs
+      @loggable_obfuscate_attrs ||= {}
+    end
+
+    def loggable_obfuscate_attrs=(attributes)
+      @loggable_obfuscate_attrs = attributes
+    end
+
+    def loggable_show_owner_by=(identifier)
+      @loggable_show_owner_by = identifier
+    end
+
+    def loggable_show_owner_by
+      @loggable_show_owner_by
+    end
+
+    def delete_user_activities(user)
+      user_activities(user).delete_all
+    end
+  end
+end
