@@ -14,6 +14,10 @@ module Loggable
     belongs_to :actor, polymorphic: true, optional: false
     # belongs_to :recipient, polymorphic: true, optional: true
 
+    def self.activities_for_actor(actor)
+      Loggable::Activity.where(actor:).order(created_at: :desc)
+    end
+
     private
 
     def must_have_at_least_one_payload

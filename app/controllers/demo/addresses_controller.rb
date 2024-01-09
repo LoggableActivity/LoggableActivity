@@ -10,7 +10,9 @@ module Demo
     end
 
     # GET /demo/addresses/1 or /demo/addresses/1.json
-    def show; end
+    def show
+      @address.log(:show, current_user)
+    end
 
     # GET /demo/addresses/new
     def new
@@ -26,6 +28,7 @@ module Demo
 
       respond_to do |format|
         if @address.save
+          @address.log(:create, current_user)
           format.html { redirect_to demo_address_url(@address), notice: 'Address was successfully created.' }
           format.json { render :show, status: :created, location: @address }
         else

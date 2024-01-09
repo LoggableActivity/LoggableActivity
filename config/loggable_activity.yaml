@@ -1,4 +1,4 @@
-user: 
+User: 
   loggable_attrs: 
     - first_name
     - last_name 
@@ -12,13 +12,26 @@ user:
   relations:
     belongs_to:
       - model: Demo::Address
+        on_obfuscate: :nullify
         loggable_attrs:
           - street
           - city
-          - state
-          - zip
+          - country
+          - postal_code
         obfuscate:
           - street
           - city
-          - state
-          - zip
+          - country
+          - postal_code
+      - model: Demo::Product
+Demo::Address: 
+  loggable_attrs:
+    - street
+    - city
+    - country
+    - postal_code
+  obfuscate:
+    - street
+    - city
+    - country
+    - postal_code

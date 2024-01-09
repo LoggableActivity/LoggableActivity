@@ -9,11 +9,12 @@ module Demo
     end
 
     def show
-      @user.log(:show, current_user)
+      @user.log(:show, current_user, @user)
     end
 
     def new
       @user = User.new
+      @addresses = Demo::Address.all
     end
 
     def edit
@@ -23,6 +24,7 @@ module Demo
     def create
       @user = User.new(user_params)
       if @user.save
+        @user.log(:create, current_user)
         redirect_to demo_users_path, notice: 'User was successfully created.'
       else
         render :new
@@ -38,6 +40,7 @@ module Demo
     end
 
     def destroy
+      Loggable::EncryptionKey.delete_key_for_owner(@user)
       @user.destroy
       redirect_to demo_users_url, notice: 'User was successfully destroyed.'
     end

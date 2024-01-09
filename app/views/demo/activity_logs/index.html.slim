@@ -1,0 +1,33 @@
+.container
+  h1 Activities 
+  table.table 
+    thead
+      tr
+        th Action
+        th Actor 
+        th Date
+        th Payloads
+        th Actions
+    tbody
+      - @loggable_activities.each do |activity|
+        tr
+          td = activity.action
+          td = activity.actor.name 
+          td = activity.created_at
+          td 
+            - activity.payloads.each do |payload|
+              - owner = payload.owner
+              - enctyption_key = Loggable::EncryptionKey.for_owner(owner) || "na"
+              b = payload.name
+              br
+              - payload.attrs.each do |key, value|
+                - decrypted = Loggable::Encryption.decrypt(value, enctyption_key)
+                - if decrypted 
+                  = decrypted
+                - else
+                  | Deleted
+                br/
+              br/
+          td 
+            / = link_to 'Delete', demo_activity_log_path(activity)
+            =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'

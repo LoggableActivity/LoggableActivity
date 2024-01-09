@@ -7,4 +7,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :demo_address, class_name: 'Demo::Address', foreign_key: :demo_address_id, optional: true
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 end
