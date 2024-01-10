@@ -44,6 +44,8 @@ RSpec.describe '/demo/products', type: :request do
 
   describe 'GET /new' do
     it 'renders a successful response' do
+      user = FactoryBot.create(:user)
+      sign_in user
       get new_demo_product_url
       expect(response).to be_successful
     end

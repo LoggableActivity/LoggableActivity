@@ -2,6 +2,8 @@
 
 module Demo
   class ActivityLogsController < ApplicationController
+    before_action :authenticate_user!
+
     def show
       @loggable_activity = Loggable::Activity.find(params[:id])
     end

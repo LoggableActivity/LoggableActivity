@@ -3,6 +3,6 @@
 module Demo
   class Address < ApplicationRecord
     include ActivityLogger
-    has_many :users, foreign_key: :demo_address_id
+    has_many :users, foreign_key: :demo_address_id, dependent: :nullify
   end
 end

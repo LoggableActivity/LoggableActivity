@@ -37,7 +37,7 @@ module ActivityLogger
   def build_payloads(owner)
     payloads = []
     add_payload_for_self(payloads, owner)
-    add_payloads_for_associations(payloads, owner)
+    add_payloads_for_associations(payloads)
     payloads
   end
 
@@ -49,14 +49,14 @@ module ActivityLogger
     payloads << Loggable::Payload.new(owner:, name: self.class.name, attrs: payload_attrs)
   end
 
-  def add_payloads_for_associations(payloads, owner)
+  def add_payloads_for_associations(payloads)
     self.class.reflect_on_all_associations(:belongs_to).each do |association|
       associated_object = send(association.name)
       next unless associated_object
 
       payload_name, payload_attrs = build_payload_attributes_for_association(association, associated_object)
-      encrypt_attrs(payload_attrs, owner)
-      payloads << Loggable::Payload.new(owner:, name: payload_name, attrs: payload_attrs) if payload_attrs
+      # attrs = encrypt_attrs(payload_attrs, associated_object)
+      payloads << Loggable::Payload.new(owner: associated_object, name: payload_name, attrs: payload_attrs) if payload_attrs
     end
   end
 
@@ -66,7 +66,7 @@ module ActivityLogger
 
     payload_name = associated_object.class.name
     payload_attrs = attrs_to_log(relation_attrs, associated_object.attributes)
-    encrypt_attrs(payload_attrs)
+    encrypt_attrs(payload_attrs, associated_object)
     [payload_name, payload_attrs]
   end
 
@@ -80,13 +80,9 @@ module ActivityLogger
     attrs.slice(*loggable_attrs)
   end
 
-  def encrypt_attrs(attrs, owner = nil)
-    # TODO: what to do if owner is nil?
-    return attrs unless owner
-
-    enctyption_key = Loggable::EncryptionKey.for_owner(owner)
+  def encrypt_attrs(attrs, owner)
     attrs.each do |key, value|
-      attrs[key] = Loggable::Encryption.encrypt(value, enctyption_key) # if obfuscate_attrs.include?(key)
+      attrs[key] = Loggable::Encryption.encrypt(value, owner) # if obfuscate_attrs.include?(key)
     end
   end
 

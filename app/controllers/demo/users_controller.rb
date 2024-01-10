@@ -2,14 +2,15 @@
 
 module Demo
   class UsersController < ApplicationController
+    before_action :authenticate_user!
     before_action :set_user, only: %i[show edit update destroy]
 
     def index
-      @users = User.all
+      @users = User.all.order(:first_name)
     end
 
     def show
-      @user.log(:show, current_user, @user)
+      @user.log(:show, current_user)
     end
 
     def new

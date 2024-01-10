@@ -2,6 +2,7 @@
 
 module Demo
   class AddressesController < ApplicationController
+    before_action :authenticate_user!
     before_action :set_address, only: %i[show edit update destroy]
 
     # GET /demo/addresses or /demo/addresses.json
@@ -53,6 +54,7 @@ module Demo
 
     # DELETE /demo/addresses/1 or /demo/addresses/1.json
     def destroy
+      Loggable::EncryptionKey.delete_key_for_owner(@address)
       @address.destroy!
 
       respond_to do |format|

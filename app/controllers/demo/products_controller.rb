@@ -2,6 +2,7 @@
 
 module Demo
   class ProductsController < ApplicationController
+    before_action :authenticate_user!
     before_action :set_demo_product, only: %i[show edit update destroy]
 
     # GET /demo/products or /demo/products.json

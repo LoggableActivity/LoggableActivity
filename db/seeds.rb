@@ -67,10 +67,20 @@ users = [
     email: 'michael-brown@example.com',
     password: 'password',
     password_confirmation: 'password',
-    first_name: 'Michael',
-    last_name: 'Brown',
+    first_name: 'michael',
+    last_name: 'brown',
     age: 32,
-    bio: 'I am a nice dude too',
+    bio: 'i am a nice dude too',
+    demo_address_id: Demo::Address.first.id
+  },
+  {
+    email: 'max@synthmax.dk',
+    password: 'password',
+    password_confirmation: 'password',
+    first_name: 'Max',
+    last_name: 'Grønlund',
+    age: 32,
+    bio: 'i the proggrammer',
     demo_address_id: Demo::Address.first.id
   }
 ]
