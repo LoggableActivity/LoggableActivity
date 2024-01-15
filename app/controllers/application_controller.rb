@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include LoggableActivity::CurrentUser
+
   def authenticate_user!
     return if current_user
 

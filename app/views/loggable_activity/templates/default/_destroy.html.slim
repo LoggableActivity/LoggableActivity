@@ -1,0 +1,7 @@
+tr 
+  td = activity.action
+  td = activity.actor.email
+  td = activity.created_at
+  td Deleted
+  td 
+    =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'

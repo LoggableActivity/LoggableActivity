@@ -1,0 +1,19 @@
+.container.mt-4
+  .card.panel-default
+    .card-header
+      h3.card-title = "Club"
+    .card-body 
+      ul.list-group.list-group-flush 
+        li.list-group-item
+          strong Name:
+          span.float-end = @demo_club.name
+    .card-footer
+      = link_to 'Edit', edit_demo_club_path(@demo_club), class: 'btn btn-sm btn-primary'
+      =< link_to 'Back', demo_clubs_path, class: 'btn btn-sm btn-secondary ml-2'
+
+
+/ div
+  => link_to "Edit this club", edit_demo_club_path(@demo_club)
+  '|
+  =< link_to "Back to clubs", demo_clubs_path
+  = button_to "Destroy this club", @demo_club, method: :delete

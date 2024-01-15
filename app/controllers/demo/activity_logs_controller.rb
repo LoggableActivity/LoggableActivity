@@ -9,7 +9,7 @@ module Demo
     end
 
     def index
-      @loggable_activities = Loggable::Activity.all.order(created_at: :desc)
+      @loggable_activities = Loggable::Activity.latest(50)
     end
 
     def destroy

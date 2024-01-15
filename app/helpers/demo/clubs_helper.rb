@@ -1,0 +1,2 @@
+module Demo::ClubsHelper
+end

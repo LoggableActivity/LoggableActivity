@@ -1,3 +1,7 @@
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+
 Style/Documentation:
   Enabled: false
 

@@ -6,10 +6,60 @@
         th Action
         th Actor 
         th Date
-        th Payloads
+        th Changes 
         th Actions
     tbody
       - @loggable_activities.each do |activity|
+        = render_activity(activity)
+        / tr
+          td = activity.action 
+          td = activity.actor.name
+          td = activity.created_at
+          td
+            - activity.payload_attrs.each do |payload|
+              b = payload[:name]
+              br/
+              - case activity.activity_type
+              - when 'update'
+                - payload[:attrs].each do |attrs|
+                  - attrs.each do |k, v|
+                    i = k + ' from: '
+                    - from = v[:from].nil? ? 'Deleted' : v[:from] 
+                    = "#{from}".html_safe
+                  
+                    | &nbsp;=>&nbsp;
+                    - to = v[:to].nil? ? 'Deleted' : v[:to] 
+                    = "<i>to:</i> #{to}".html_safe
+                     
+                  br/
+                br/
+              - when 'show', 'create'
+                - payload[:attrs].each do |k, v|
+                  = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
+                  br/
+              - when 'destroy'
+                | Deleted
+                / - payload[:attrs].each do |k, v|
+                  = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
+                  br/
+          td 
+            =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+
+        / tr
+          td = payload.name
+          td = payload.owner.name
+          td = payload.created_at
+          td 
+            - payload.attrs.each do |key, value|
+              i = key + ': '
+              - if decrypted = Loggable::Encryption.decrypt_for(value, payload.owner)
+                = decrypted
+              - else
+                | Deleted
+              br/
+          td 
+            =< link_to 'Delete', demo_activity_log_path(payload), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+      /- @loggable_activities.each do |activity|
         tr
           td = activity.action
           td = activity.actor.name
@@ -20,7 +70,7 @@
               br/
               b = payload.name
               br
-              - payload.attrs.each do |key, value|
+              /- payload.attrs.each do |key, value|
                 i = key + ': '
                 - if decrypted = Loggable::Encryption.decrypt_for(value, owner)
                   = decrypted
@@ -28,5 +78,4 @@
                   | Deleted
                 br/
           td 
-            / = link_to 'Delete', demo_activity_log_path(activity)
             =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
