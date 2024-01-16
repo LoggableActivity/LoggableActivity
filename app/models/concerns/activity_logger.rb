@@ -80,8 +80,8 @@ module ActivityLogger
         encoded_attrs: {status: 'deleted'}
         )
     ]
-    ap Loggable::EncryptionKey.delete_key_for_owner(@owner)
-    ap Loggable::Activity.create!(
+    Loggable::EncryptionKey.delete_key_for_owner(@owner)
+    Loggable::Activity.create!(
       action: action(activity),
       actor: Thread.current[:current_user] ,
       payloads:

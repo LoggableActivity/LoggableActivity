@@ -1,10 +1,11 @@
 class Demo::ClubsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_demo_club, only: %i[ show edit update destroy ]
   before_action :set_relations, only: %i[ new edit ]
 
   # GET /demo/clubs or /demo/clubs.json
   def index
-    @demo_clubs = Demo::Club.all
+    @demo_clubs = Demo::Club.all || []
   end
 
   # GET /demo/clubs/1 or /demo/clubs/1.json
@@ -63,7 +64,7 @@ class Demo::ClubsController < ApplicationController
   private
 
     def set_relations
-      @addresses = Demo::Address.all
+      @addresses = Demo::Address.all || []
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_demo_club
