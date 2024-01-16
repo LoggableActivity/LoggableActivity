@@ -2,5 +2,6 @@
 
 module Demo
   class Product < ApplicationRecord
+    include ActivityLogger
   end
 end

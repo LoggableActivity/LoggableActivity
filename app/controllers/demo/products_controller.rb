@@ -11,7 +11,9 @@ module Demo
     end
 
     # GET /demo/products/1 or /demo/products/1.json
-    def show; end
+    def show
+      @demo_product.log(:show)
+    end
 
     # GET /demo/products/new
     def new
@@ -52,7 +54,6 @@ module Demo
     # DELETE /demo/products/1 or /demo/products/1.json
     def destroy
       @demo_product.destroy!
-
       respond_to do |format|
         format.html { redirect_to demo_products_url, notice: 'Product was successfully destroyed.' }
         format.json { head :no_content }

@@ -6,7 +6,9 @@ class CreateLoggablePayloads < ActiveRecord::Migration[7.1]
       t.uuid :owner_id
       t.string :owner_type
       t.string :name
-      t.json :attrs
+      t.json :encoded_attrs
+      t.string :payload_type, default: 'primary'
+      t.integer :relation_position, default: 0
 
       # Manually create a UUID column for the foreign key
       t.uuid :activity_id, null: false

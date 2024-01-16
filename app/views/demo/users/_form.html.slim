@@ -40,5 +40,9 @@
     = f.collection_select :demo_address_id, @addresses, :id, :street, { prompt: "Select an Address" }, { class: 'form-control' }
 
   .form-group.mt-2
+    = f.label :demo_club_id, 'Club', class: 'form-label'
+    = f.collection_select :demo_club_id, @clubs, :id, :name, { prompt: "Select an Club" }, { class: 'form-control' }
+
+  .form-group.mt-2
     .col-sm-offset-2.col-sm-10
       = f.submit class: 'btn btn-primary btn-sm'

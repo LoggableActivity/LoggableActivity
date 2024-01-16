@@ -12,7 +12,7 @@ module Demo
 
     # GET /demo/addresses/1 or /demo/addresses/1.json
     def show
-      @address.log(:show, current_user)
+      @address.log(:show)
     end
 
     # GET /demo/addresses/new
@@ -29,7 +29,7 @@ module Demo
 
       respond_to do |format|
         if @address.save
-          @address.log(:create, current_user)
+          # @address.log(:create, current_user)
           format.html { redirect_to demo_address_url(@address), notice: 'Address was successfully created.' }
           format.json { render :show, status: :created, location: @address }
         else
@@ -54,7 +54,7 @@ module Demo
 
     # DELETE /demo/addresses/1 or /demo/addresses/1.json
     def destroy
-      Loggable::EncryptionKey.delete_key_for_owner(@address)
+      # Loggable::EncryptionKey.delete_key_for_owner(@address)
       @address.destroy!
 
       respond_to do |format|

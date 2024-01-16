@@ -9,12 +9,14 @@ module Loggable
       key = Loggable::EncryptionKey.for_owner(owner)
       cipher = OpenSSL::Cipher.new('AES-128-CBC').encrypt
       cipher.key = Digest::SHA1.hexdigest(key)[0..15]
-      encrypted = cipher.update(data) + cipher.final
+      encrypted = cipher.update(data.to_s) + cipher.final
       Base64.encode64(encrypted)
     end
 
     def self.decrypt_for(data, owner)
       key = Loggable::EncryptionKey.for_owner(owner)
+      return 'Deleted!' if key.blank?
+
       decrypt(data, key)
     end
 

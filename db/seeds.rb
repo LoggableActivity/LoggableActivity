@@ -32,6 +32,17 @@ addresses.each do |address|
   Demo::Address.find_or_create_by!(address)
 end
 
+clubs = [
+  { name: 'Lions Club', demo_address_id: Demo::Address.first.id },
+  { name: 'Kitcat', demo_address_id: Demo::Address.second.id },
+  { name: 'Monkey Bar', demo_address_id: Demo::Address.third.id },
+  { name: 'Tropical Lounge', demo_address_id: Demo::Address.fourth.id }
+]
+
+clubs.each do |club|
+  Demo::Club.find_or_create_by!(club)
+end
+
 users = [
   {
     email: 'bob@example.com',
@@ -41,7 +52,8 @@ users = [
     last_name: 'Smith',
     age: 32,
     bio: 'I am a nice guy',
-    demo_address_id: Demo::Address.first.id
+    demo_address_id: Demo::Address.first.id,
+    demo_club_id: Demo::Club.first.id
   },
   {
     email: 'jane@example.com',
@@ -51,7 +63,8 @@ users = [
     last_name: 'Doe',
     age: 28,
     bio: 'Im a nice girl',
-    demo_address_id: Demo::Address.second.id
+    demo_address_id: Demo::Address.second.id,
+    demo_club_id: Demo::Club.second.id
   },
   {
     email: 'emily@example.com',
@@ -61,7 +74,8 @@ users = [
     last_name: 'Johnson',
     age: 32,
     bio: 'I am a nice girl too',
-    demo_address_id: Demo::Address.first.id
+    demo_address_id: Demo::Address.first.id,
+    demo_club_id: Demo::Club.third.id
   },
   {
     email: 'michael-brown@example.com',
@@ -71,7 +85,8 @@ users = [
     last_name: 'brown',
     age: 32,
     bio: 'i am a nice dude too',
-    demo_address_id: Demo::Address.first.id
+    demo_address_id: Demo::Address.first.id,
+    demo_club_id: Demo::Club.fourth.id
   },
   {
     email: 'max@synthmax.dk',
@@ -81,7 +96,8 @@ users = [
     last_name: 'Grønlund',
     age: 32,
     bio: 'i the proggrammer',
-    demo_address_id: Demo::Address.first.id
+    demo_address_id: Demo::Address.first.id,
+    demo_club_id: Demo::Club.fourth.id
   }
 ]
 

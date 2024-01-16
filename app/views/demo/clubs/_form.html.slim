@@ -1,0 +1,13 @@
+= form_for [demo_club], html: { class: 'form-horizontal' } do |f|
+  .form-group.mt-2
+    = f.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :name, class: 'form-control'
+  
+  .form-group.mt-2
+    = f.label :demo_address_id, 'Address', class: 'form-label'
+    = f.collection_select :demo_address_id, @addresses, :id, :street, { prompt: "Select an Address" }, { class: 'form-control' }
+
+  .form-group.mt-2
+    .col-sm-offset-2.col-sm-10
+      = f.submit 'Save Club', class: 'btn btn-primary btn-sm'

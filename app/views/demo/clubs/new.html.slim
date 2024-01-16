@@ -1,0 +1,9 @@
+.container
+  h1 New club
+
+  == render "form", demo_club: @demo_club
+
+  br
+
+  div
+    = link_to "Back to clubs", demo_clubs_path

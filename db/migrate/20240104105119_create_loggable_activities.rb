@@ -6,6 +6,8 @@ class CreateLoggableActivities < ActiveRecord::Migration[7.1]
       t.string :action
       t.uuid :actor_id
       t.string :actor_type
+      t.uuid :loggable_id
+      t.string :loggable_type
 
       t.timestamps
     end

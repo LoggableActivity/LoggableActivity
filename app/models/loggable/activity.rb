@@ -18,6 +18,29 @@ module Loggable
       Loggable::Activity.where(actor:).order(created_at: :desc)
     end
 
+    def self.latest(limit = 20, params = { offset: 0 })
+      offset = params[:offset] || 0
+      Loggable::Activity
+        .all
+        .order(created_at: :desc)
+        .offset(offset)
+        .limit(limit)
+    end
+
+    def attrs
+      Loggable::PresentationBuilder
+        .new(self)
+        .attrs
+    end
+
+    def primary_attrs
+      attrs[:primary]
+    end
+
+    def relations_attrs
+      attrs[:relations]
+    end
+
     private
 
     def must_have_at_least_one_payload

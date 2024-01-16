@@ -2,88 +2,77 @@
 
 module ActivityLogger
   extend ActiveSupport::Concern
+  include Loggable::Attributes
+  include Loggable::LogUpdate
 
   included do
-    # Fetch configuration for the class including this module
     config = Loggable::Configuration.for_class(name)
     self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
-    self.obfuscate_attrs = config&.fetch('obfuscate_attrs', []) || []
     self.relations = config&.fetch('relations', []) || []
+    self.auto_log = config&.fetch('auto_log', []) || []
+
+    after_create :log_create_activity
+    after_update :log_update_activity
+    before_destroy :log_destroy_activity
   end
 
-  def log(activity, actor, owner = nil)
-    owner ||= self
-    if activity == :update
-      log_update(activity, actor, owner)
+  def log(activity, actor: nil, owner: nil, params: {})
+    @actor = actor || Thread.current[:current_user]
+
+    return if @actor.nil?
+
+    @owner = owner || self
+    @params = params
+    case activity
+    when :create, :show, :destroy
+      log_activity(activity)
+    when :update
+      log_update(activity)
     else
-      log_activity(activity, actor, owner)
+      log_custom_activity(activity)
     end
   end
-
-  def obfucate(owner); end
 
   private
 
-  def log_update(actor); end
-
-  def log_activity(activity, actor, owner)
+  def log_activity(activity)
     Loggable::Activity.create!(
       action: action(activity),
-      actor:,
-      payloads: build_payloads(owner)
+      actor: @actor,
+      loggable: @owner,
+      payloads: build_payloads
     )
   end
 
-  def build_payloads(owner)
-    payloads = []
-    add_payload_for_self(payloads, owner)
-    add_payloads_for_associations(payloads)
-    payloads
+  def log_custom_activity(activity); end
+
+  def log_create_activity
+    log(:create) if self.class.auto_log.include?('create')
   end
 
-  def add_payload_for_self(payloads, owner)
-    # payload_name = self.class.name.downcase.gsub('::', '_')
-    self.class.name
-    payload_attrs = attrs_to_log(self.class.loggable_attrs, attributes)
-    encrypt_attrs(payload_attrs, owner)
-    payloads << Loggable::Payload.new(owner:, name: self.class.name, attrs: payload_attrs)
+  def log_destroy_activity
+    log_destroy(:destroy) if self.class.auto_log.include?('destroy')
   end
 
-  def add_payloads_for_associations(payloads)
-    self.class.reflect_on_all_associations(:belongs_to).each do |association|
-      associated_object = send(association.name)
-      next unless associated_object
-
-      payload_name, payload_attrs = build_payload_attributes_for_association(association, associated_object)
-      # attrs = encrypt_attrs(payload_attrs, associated_object)
-      payloads << Loggable::Payload.new(owner: associated_object, name: payload_name, attrs: payload_attrs) if payload_attrs
-    end
+  def log_destroy(activity)
+    payloads = [
+      Loggable::Payload.new(
+        owner: @owner,
+        name: self.class.name,
+        encoded_attrs: { status: 'deleted' }
+      )
+    ]
+    Loggable::EncryptionKey.delete_key_for_owner(@owner)
+    Loggable::Activity.create!(
+      action: action(activity),
+      actor: Thread.current[:current_user],
+      payloads:
+    )
   end
 
-  def build_payload_attributes_for_association(_association, associated_object)
-    relation_attrs = find_relation_attrs(associated_object.class.name)
-    return nil unless relation_attrs
-
-    payload_name = associated_object.class.name
-    payload_attrs = attrs_to_log(relation_attrs, associated_object.attributes)
-    encrypt_attrs(payload_attrs, associated_object)
-    [payload_name, payload_attrs]
-  end
-
-  def find_relation_attrs(class_name)
-    list_of_hashes = self.class.relations.fetch('belongs_to', [])
-    relation_hash = list_of_hashes.find { |hash| hash['model'] == class_name }
-    relation_hash&.fetch('loggable_attrs', nil)
-  end
-
-  def attrs_to_log(loggable_attrs, attrs)
-    attrs.slice(*loggable_attrs)
-  end
-
-  def encrypt_attrs(attrs, owner)
-    attrs.each do |key, value|
-      attrs[key] = Loggable::Encryption.encrypt(value, owner) # if obfuscate_attrs.include?(key)
-    end
+  def build_payloads
+    payload_builder = Loggable::PayloadBuilder.new(@owner, @actor)
+    payload_builder.build_payloads
   end
 
   def action(activity)
@@ -91,7 +80,7 @@ module ActivityLogger
   end
 
   class_methods do
-    attr_accessor :loggable_attrs, :obfuscate_attrs, :relations
+    attr_accessor :loggable_attrs, :relations, :auto_log
 
     def base_action
       name.downcase.gsub('::', '/')

@@ -1,0 +1,14 @@
+tr
+  td 
+    = activity.action 
+  td = activity.actor.name
+  td = activity.created_at
+  td
+    = render partial: 'loggable_activity/templates/shared/changes', locals: { attrs: activity.primary_attrs }
+    br/
+    - activity.relations_attrs.each do |relation_attrs|
+      = render partial: 'loggable_activity/templates/shared/changes', locals: { attrs: relation_attrs}
+      br/
+
+  td 
+    =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'

@@ -7,6 +7,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :demo_address, class_name: 'Demo::Address', foreign_key: :demo_address_id, optional: true
+  belongs_to :demo_club, class_name: 'Demo::Club', foreign_key: :demo_club_id, optional: true
 
   def name
     "#{first_name} #{last_name}"
