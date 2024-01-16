@@ -64,6 +64,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'rubocop', '~> 1.59'
+  gem 'rubocop-discourse', '~> 3.6'
 end
 
 group :development do
