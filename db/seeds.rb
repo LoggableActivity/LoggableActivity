@@ -103,5 +103,6 @@ users = [
 
 users.each do |user|
   next if User.find_by(email: user[:email]).present?
+
   User.create!(user)
 end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "demo/clubs/edit", type: :view do
-  let(:demo_club) { Demo::Club.create!(name: "MyString") }
+RSpec.describe 'demo/clubs/edit', type: :view do
+  let(:demo_club) { Demo::Club.create!(name: 'MyString') }
   let(:addresses) { FactoryBot.create_list(:demo_address, 2) }
 
   before(:each) do
@@ -9,11 +11,11 @@ RSpec.describe "demo/clubs/edit", type: :view do
     assign(:addresses, addresses)
   end
 
-  it "renders the edit demo_club form" do
+  it 'renders the edit demo_club form' do
     render
 
-    assert_select "form[action=?][method=?]", demo_club_path(demo_club), "post" do
-      assert_select "input[name=?]", "demo_club[name]"
+    assert_select 'form[action=?][method=?]', demo_club_path(demo_club), 'post' do
+      assert_select 'input[name=?]', 'demo_club[name]'
     end
   end
 end

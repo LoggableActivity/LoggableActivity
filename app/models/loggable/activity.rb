@@ -18,19 +18,19 @@ module Loggable
       Loggable::Activity.where(actor:).order(created_at: :desc)
     end
 
-    def self.latest(limit = 20, params = {offset: 0})
+    def self.latest(limit = 20, params = { offset: 0 })
       offset = params[:offset] || 0
       Loggable::Activity
-      .all
-      .order(created_at: :desc)
-      .offset(offset)
-      .limit(limit)
+        .all
+        .order(created_at: :desc)
+        .offset(offset)
+        .limit(limit)
     end
 
     def attrs
       Loggable::PresentationBuilder
-      .new(self)
-      .attrs
+        .new(self)
+        .attrs
     end
 
     def primary_attrs

@@ -51,6 +51,7 @@ module Loggable
       previous_values = saved_changes.transform_values(&:first)
       current_values = saved_changes.transform_values(&:last)
       return [] if previous_values.empty?
+
       change_attrs(self.class.loggable_attrs, previous_values, current_values)
     end
 

@@ -37,6 +37,7 @@ module Loggable
       @owner.class.reflect_on_all_associations(:belongs_to).each do |association|
         associated_object = @owner.send(association.name)
         next unless associated_object
+
         objects << associated_object
       end
       objects

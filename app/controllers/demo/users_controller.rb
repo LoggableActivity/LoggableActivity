@@ -18,8 +18,7 @@ module Demo
       @user = User.new
     end
 
-    def edit
-    end
+    def edit; end
 
     def create
       @user = User.new(user_params)
@@ -50,7 +49,7 @@ module Demo
 
     def set_relations
       @addresses = Demo::Address.all
-      @clubs= Demo::Club.all
+      @clubs = Demo::Club.all
     end
 
     def set_user

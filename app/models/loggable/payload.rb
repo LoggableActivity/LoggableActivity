@@ -6,21 +6,21 @@ module Loggable
     belongs_to :owner, polymorphic: true, optional: true
     # validates :owner, presence: true
     validates :encoded_attrs, presence: true
-    enum payload_type: { 
-      primary: 'primary', 
+    enum payload_type: {
+      primary: 'primary',
       previous_association: 'previous_association',
       current_association: 'current_association'
     }
 
-    def attrs 
+    def attrs
       { name:, attrs: decoded_attrs }
     end
 
     def update_attrs
-        {
-          name: name,
-          changes: decoded_changes
-        }
+      {
+        name:,
+        changes: decoded_changes
+      }
     end
 
     def decoded_changes
@@ -43,7 +43,7 @@ module Loggable
 
     def decoded_attrs
       encoded_attrs.map do |key, value|
-        {key =>  decode_attr(value)}
+        { key => decode_attr(value) }
       end
     end
 

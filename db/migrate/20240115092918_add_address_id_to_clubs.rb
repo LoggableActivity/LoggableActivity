@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAddressIdToClubs < ActiveRecord::Migration[7.1]
   def change
     add_column :demo_clubs, :demo_address_id, :uuid
