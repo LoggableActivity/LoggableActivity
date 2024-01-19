@@ -11,6 +11,7 @@ module Loggable
       log_associations_updates
 
       Loggable::Activity.create!(
+        owner_name: owner_name,
         action: action(activity),
         actor: @actor,
         loggable: @owner,
