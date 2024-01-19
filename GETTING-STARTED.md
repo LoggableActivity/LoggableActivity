@@ -26,7 +26,7 @@ Then you have to add `LogggableActivity` to the `User Model` like this
 
 ```
 class User < ApplicationRecord
-  include ActivityLogger
+  include Loggable::Activities
 ```
 
 And finally you have to add this to the `ApplicationController`

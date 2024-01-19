@@ -2,6 +2,6 @@
 
 module Demo
   class Product < ApplicationRecord
-    include ActivityLogger
+    include Loggable::Activities
   end
 end

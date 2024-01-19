@@ -3,7 +3,6 @@ tr
     = activity.action 
   td = activity.actor.full_name
   td = activity.created_at
-  td = activity.attrs[:owner_name]
   td = activity.attrs[:owner_type]
   td
     = render partial: 'loggable_activity/templates/shared/changes', locals: { attrs: activity.primary_attrs }

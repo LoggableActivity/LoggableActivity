@@ -14,8 +14,14 @@ module Loggable
 
     def attrs
       { name:, attrs: decoded_attrs }
-      # { name:, attrs: [{fo: 'bar'}] }
     end
+
+    # def encoded_attrs
+    #   {
+    #     name:,
+    #     attrs: decoded_attrs
+    #   }
+    # end
 
     def update_attrs
       {

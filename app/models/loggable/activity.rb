@@ -10,9 +10,8 @@ module Loggable
 
     validate :must_have_at_least_one_payload
 
-    belongs_to :loggable, polymorphic: true, optional: true
+    belongs_to :owner, polymorphic: true, optional: true
     belongs_to :actor, polymorphic: true, optional: false
-    # belongs_to :recipient, polymorphic: true, optional: true
 
     def self.activities_for_actor(actor)
       Loggable::Activity.where(actor:).order(created_at: :desc)
@@ -27,11 +26,12 @@ module Loggable
         .limit(limit)
     end
 
-    def attrs
-      Loggable::PresentationBuilder
-        .new(self)
-        .attrs
-    end
+    # def attrs
+    #   # Loggable::PresentationBuilder
+    #     # .new(self)
+    #     # .attrs
+    #     {}
+    # end
 
     def primary_attrs
       attrs[:primary]
@@ -39,6 +39,20 @@ module Loggable
 
     def relations_attrs
       attrs[:relations]
+    end
+
+    def attrs
+      {
+        id: id,
+        action: action,
+        actor_id: actor_id,
+        actor_type: actor_type,
+        owner_id: owner_id,
+        owner_type: owner_type,
+        created_at: created_at,
+        actor_display_name: encoded_actor_display_name,
+        owner_display_name: encoded_owner_display_name,
+      }
     end
 
     private

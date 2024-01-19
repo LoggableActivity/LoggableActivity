@@ -43,9 +43,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_092918) do
     t.string "action"
     t.uuid "actor_id"
     t.string "actor_type"
-    t.uuid "loggable_id"
-    t.string "loggable_type"
-    t.string "owner_name"
+    t.string "encoded_actor_display_name"
+    t.uuid "owner_id"
+    t.string "owner_type"
+    t.string "encoded_owner_display_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

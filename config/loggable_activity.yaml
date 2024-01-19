@@ -1,5 +1,6 @@
 User: 
-  owner_name: full_name
+  owner_display_name: full_name
+  actor_display_name: email
   loggable_attrs: 
     - first_name
     - last_name 
@@ -22,8 +23,9 @@ User:
         delete: :nullify
         loggable_attrs:
           - name
-
 Demo::Address: 
+  owner_display_name: full_address
+  actor_display_name: email
   loggable_attrs:
     - street
     - city
@@ -57,5 +59,7 @@ Demo::Club:
     - create
     - update
     - destroy
+
+  
 
 

@@ -7,11 +7,10 @@ module Loggable
     end
 
     def log_update(activity)
-      @payloads = [Loggable::Payload.new(owner: @owner, name: self.class.name, encoded_attrs: update_attrs)]
+      @payloads = [Loggable::Payload.new(owner: @owner, encoded_attrs: update_attrs)]
       log_associations_updates
 
       Loggable::Activity.create!(
-        owner_name:,
         action: action(activity),
         actor: @actor,
         loggable: @owner,

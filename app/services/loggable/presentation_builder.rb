@@ -16,7 +16,6 @@ module Loggable
       # @fetch_attrs ||= payloads.flat_map(&:attrs)
       @fetch_attrs ||=
         {
-          owner_name: @activity.owner_name,
           owner_type: @activity.loggable_type,
           primary_attrs: payloads.find_by(payload_type: 'primary').attrs,
           relations: fetch_relation_attrs
@@ -30,7 +29,6 @@ module Loggable
     def fetch_update_attrs
       @fetch_update_attrs ||=
         {
-          owner_name: @activity.owner_name,
           owner_type: @activity.loggable_type,
           primary: payloads.find_by(payload_type: 'primary').update_attrs,
           relations: fetch_relation_update_attrs
@@ -44,7 +42,6 @@ module Loggable
 
       [
         {
-          owner_name: @activity.owner_name,
           owner_type: @activity.loggable_type,
           name: current_associations.first.name,
           changes: changes(previous_associations.first, current_associations.first)
