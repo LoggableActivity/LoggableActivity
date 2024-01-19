@@ -14,7 +14,7 @@ module Loggable
 
     def fetch_attrs
       # @fetch_attrs ||= payloads.flat_map(&:attrs)
-      @fetch_attrs ||= 
+      @fetch_attrs ||=
         {
           owner_name: @activity.owner_name,
           owner_type: @activity.loggable_type,
@@ -24,9 +24,7 @@ module Loggable
     end
 
     def fetch_relation_attrs
-      @activity.payloads.where.not(payload_type: 'primary').map do |payload|
-        payload.attrs
-      end
+      @activity.payloads.where.not(payload_type: 'primary').map(&:attrs)
     end
 
     def fetch_update_attrs

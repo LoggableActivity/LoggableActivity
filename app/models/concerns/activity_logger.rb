@@ -38,7 +38,7 @@ module ActivityLogger
 
   def log_activity(activity)
     Loggable::Activity.create!(
-      owner_name: owner_name,
+      owner_name:,
       action: action(activity),
       actor: @actor,
       loggable: @owner,
@@ -66,7 +66,7 @@ module ActivityLogger
     ]
     Loggable::EncryptionKey.delete_key_for_owner(@owner)
     Loggable::Activity.create!(
-      owner_name: owner_name,
+      owner_name:,
       action: action(activity),
       actor: Thread.current[:current_user],
       payloads:
@@ -75,7 +75,8 @@ module ActivityLogger
 
   def owner_name
     return self.class.name if self.class.owner_name.nil?
-    self.send(self.class.owner_name.to_sym)
+
+    send(self.class.owner_name.to_sym)
   end
 
   def build_payloads
