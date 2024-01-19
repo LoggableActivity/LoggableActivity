@@ -10,6 +10,7 @@ module ActivityLogger
     self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
     self.relations = config&.fetch('relations', []) || []
     self.auto_log = config&.fetch('auto_log', []) || []
+    self.owner_name = config&.fetch('activity_name', nil)
 
     after_create :log_create_activity
     after_update :log_update_activity
@@ -37,6 +38,7 @@ module ActivityLogger
 
   def log_activity(activity)
     Loggable::Activity.create!(
+      owner_name:,
       action: action(activity),
       actor: @actor,
       loggable: @owner,
@@ -64,10 +66,17 @@ module ActivityLogger
     ]
     Loggable::EncryptionKey.delete_key_for_owner(@owner)
     Loggable::Activity.create!(
+      owner_name:,
       action: action(activity),
       actor: Thread.current[:current_user],
       payloads:
     )
+  end
+
+  def owner_name
+    return self.class.name if self.class.owner_name.nil?
+
+    send(self.class.owner_name.to_sym)
   end
 
   def build_payloads
@@ -80,7 +89,7 @@ module ActivityLogger
   end
 
   class_methods do
-    attr_accessor :loggable_attrs, :relations, :auto_log
+    attr_accessor :loggable_attrs, :relations, :auto_log, :owner_name
 
     def base_action
       name.downcase.gsub('::', '/')

@@ -13,14 +13,28 @@ module Loggable
     private
 
     def fetch_attrs
-      payloads.flat_map(&:attrs)
+      # @fetch_attrs ||= payloads.flat_map(&:attrs)
+      @fetch_attrs ||=
+        {
+          owner_name: @activity.owner_name,
+          owner_type: @activity.loggable_type,
+          primary_attrs: payloads.find_by(payload_type: 'primary').attrs,
+          relations: fetch_relation_attrs
+        }
+    end
+
+    def fetch_relation_attrs
+      @activity.payloads.where.not(payload_type: 'primary').map(&:attrs)
     end
 
     def fetch_update_attrs
-      {
-        primary: payloads.find_by(payload_type: 'primary').update_attrs,
-        relations: fetch_relation_update_attrs
-      }
+      @fetch_update_attrs ||=
+        {
+          owner_name: @activity.owner_name,
+          owner_type: @activity.loggable_type,
+          primary: payloads.find_by(payload_type: 'primary').update_attrs,
+          relations: fetch_relation_update_attrs
+        }
     end
 
     def fetch_relation_update_attrs
@@ -28,16 +42,10 @@ module Loggable
       current_associations = payloads.where(payload_type: 'current_association')
       return [] if previous_associations.empty? && current_associations.empty?
 
-      # if previous_associations.count == current_associations.count
-      #   update_relations_attrs(previous_associations, current_associations)
-      # elsif previous_associations.count > current_associations.count
-      #   add_relations_attrs(previous_associations, current_associations)
-      # elsif previous_associations.count < current_associations.count
-      #   remove_relations_attrs(previous_associations, current_associations)
-      # end
-
       [
         {
+          owner_name: @activity.owner_name,
+          owner_type: @activity.loggable_type,
           name: current_associations.first.name,
           changes: changes(previous_associations.first, current_associations.first)
         }

@@ -45,6 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_092918) do
     t.string "actor_type"
     t.uuid "loggable_id"
     t.string "loggable_type"
+    t.string "owner_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

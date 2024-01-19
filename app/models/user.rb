@@ -9,7 +9,7 @@ class User < ApplicationRecord
   belongs_to :demo_address, class_name: 'Demo::Address', foreign_key: :demo_address_id, optional: true
   belongs_to :demo_club, class_name: 'Demo::Club', foreign_key: :demo_club_id, optional: true
 
-  def name
+  def full_name
     "#{first_name} #{last_name}"
   end
 end

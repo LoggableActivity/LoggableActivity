@@ -14,6 +14,7 @@ module Loggable
 
     def attrs
       { name:, attrs: decoded_attrs }
+      # { name:, attrs: [{fo: 'bar'}] }
     end
 
     def update_attrs
@@ -48,9 +49,7 @@ module Loggable
     end
 
     def decode_attr(value)
-      ap owner
       Loggable::Encryption.decrypt_for(value, owner)
-      # "fo"
     end
   end
 end
