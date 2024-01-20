@@ -55,6 +55,17 @@ module Loggable
       }
     end
 
+    def json_payload
+      json_payload_factory = 
+        Loggable::JsonPayloadFactory.new(self)
+      json_payload_factory
+        .build_payload
+    end
+
+    def payload
+      JSON.parse(json_payload)
+    end
+
     private
 
     def must_have_at_least_one_payload

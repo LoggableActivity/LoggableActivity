@@ -44,6 +44,7 @@ module Loggable::Activities
     
   end
 
+
   private
 
   def log_activity(activity)
