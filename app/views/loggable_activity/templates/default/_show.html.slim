@@ -1,22 +1,17 @@
+/ = activity.action
+- presentation = Loggable::PresentationBuilder.new(activity)
 tr
-  td = activity.action 
-  td = activity.actor.full_name
-  td = activity.created_at
-  td = activity.attrs[:owner_type]
-  td
-    - activity.attrs.each do |attr|
-      - attr.each do |k, v|
+  td = presentation.action
+  td = presentation.actor_display_name 
+  td = presentation.created_at
+  td = presentation.owner_type
+  td 
+    - presentation.payloads.each do |payload|
+      b = payload[:owner_type]
+      br/
+      - payload[:attrs].each do |k, v|
         = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
-    
-      / - attr[:attrs].each do |k, v|
-        = k
         br/
-      / b = payload[:name]
-      / br/
-      / - payload[:attrs].each do |attr|
-      /   - attr.each do |k, v|
-      /     = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
-      /   br/
-      / br
+      br
   td 
     =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'

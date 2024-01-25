@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Loggable
-  class PresentationBuilder
+  class XpresentationBuilder
     def initialize(activity)
       @activity = activity
     end

@@ -24,3 +24,7 @@ Style/IfUnlessModifier:
 
 Metrics/PerceivedComplexity:
   Enabled: false
+
+Metrics/ClassLength:
+  Exclude:
+    - 'app/presenters/loggable/presentation_builder.rb'

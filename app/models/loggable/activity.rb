@@ -43,28 +43,28 @@ module Loggable
 
     def attrs
       {
-        id: id,
-        action: action,
-        actor_id: actor_id,
-        actor_type: actor_type,
-        owner_id: owner_id,
-        owner_type: owner_type,
-        created_at: created_at,
+        id:,
+        action:,
+        actor_id:,
+        actor_type:,
+        owner_id:,
+        owner_type:,
+        created_at:,
         actor_display_name: encoded_actor_display_name,
-        owner_display_name: encoded_owner_display_name,
+        owner_display_name: encoded_owner_display_name
       }
     end
 
-    def json_payload
-      json_payload_factory = 
-        Loggable::JsonPayloadFactory.new(self)
-      json_payload_factory
-        .build_payload
-    end
+    # def json_payload
+    #   json_payload_factory =
+    #     Loggable::JsonPayloadFactory.new(self)
+    #   json_payload_factory
+    #     .build_payload
+    # end
 
-    def payload
-      JSON.parse(json_payload)
-    end
+    # def payload
+    #   JSON.parse(json_payload)
+    # end
 
     private
 

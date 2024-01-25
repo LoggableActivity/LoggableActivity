@@ -12,7 +12,9 @@ module Demo
     end
 
     # GET /demo/clubs/1 or /demo/clubs/1.json
-    def show; end
+    def show
+      @demo_club.log(:show)
+    end
 
     # GET /demo/clubs/new
     def new

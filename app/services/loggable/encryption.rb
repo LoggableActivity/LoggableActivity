@@ -21,7 +21,9 @@ module Loggable
     end
 
     def self.decrypt(data, key)
-      # return 'na' if key.blank?
+      # TOTO: use env variable for ******
+      return '*******' if key.blank?
+
       cipher = OpenSSL::Cipher.new('AES-128-CBC').decrypt
       cipher.key = Digest::SHA1.hexdigest(key)[0..15]
       decrypted_data = Base64.decode64(data)

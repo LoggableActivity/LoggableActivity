@@ -32,8 +32,10 @@ module Loggable
     end
 
     def build_payload_attributes_for_association(associated_object)
+      return nil if  @owner.class.relations.empty?
+
       relation_attrs = find_relation_attrs(associated_object.class.name)
-      return nil unless relation_attrs
+      return nil if relation_attrs.empty?
 
       payload_name = associated_object.class.name
       payload_attrs = attrs_to_log(relation_attrs, associated_object.attributes)

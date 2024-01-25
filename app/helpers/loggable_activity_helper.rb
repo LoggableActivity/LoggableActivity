@@ -22,4 +22,16 @@ module LoggableActivityHelper
       "loggable_activity/templates/default/#{action}"
     end
   end
+
+  def activity_payload(activity)
+    @activity_payload ||= build_payload(activity)
+  end
+
+  def activity_attrs(activity)
+    @activity_attrs ||= activity_payload(activity).fetch(:activity, {})
+  end
+
+  def build_payload(activity)
+    Loggable::JsonPayloadFactory.new(activity).build_payload
+  end
 end

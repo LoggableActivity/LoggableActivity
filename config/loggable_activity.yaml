@@ -48,13 +48,14 @@ Demo::Product:
 Demo::Club:
   loggable_attrs:
     - name
-  belongs_to:
-    - model: Demo::Address
-      delete: :nullify
-      loggable_attrs:
-        - street
-        - city
-        - country
+  relations:
+    belongs_to:
+      - model: Demo::Address
+        delete: :nullify
+        loggable_attrs:
+          - street
+          - city
+          - country
   auto_log:
     - create
     - update

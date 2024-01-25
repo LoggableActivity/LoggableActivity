@@ -39,6 +39,8 @@ clubs = [
   { name: 'Tropical Lounge', demo_address_id: Demo::Address.fourth.id }
 ]
 
+Demo::Club.delete_all
+
 clubs.each do |club|
   Demo::Club.find_or_create_by!(club)
 end
