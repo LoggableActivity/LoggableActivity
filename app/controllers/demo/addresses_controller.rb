@@ -52,9 +52,7 @@ module Demo
       end
     end
 
-    # DELETE /demo/addresses/1 or /demo/addresses/1.json
     def destroy
-      # Loggable::EncryptionKey.delete_key_for_owner(@address)
       @address.destroy!
 
       respond_to do |format|

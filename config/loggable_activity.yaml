@@ -1,30 +1,30 @@
 User: 
-  owner_display_name: full_name
+  record_display_name: full_name
   actor_display_name: email
   loggable_attrs: 
     - first_name
     - last_name 
-    - bio
+    - age 
     - email
+    - role
   auto_log:
     - create
     - update
     - destroy
   relations:
-    belongs_to:
-      - model: Demo::Address
-        delete: :nullify
-        loggable_attrs:
-          - street
-          - city
-          - country
-          - postal_code
-      - model: Demo::Club
-        delete: :nullify
-        loggable_attrs:
-          - name
+    - belongs_to: :demo_address
+      model: Demo::Address
+      loggable_attrs:
+        - street
+        - city
+        - country
+        - postal_code
+    - belongs_to: :demo_club
+      model: Demo::Club
+      loggable_attrs:
+        - name
 Demo::Address: 
-  owner_display_name: full_address
+  record_display_name: full_address
   actor_display_name: email
   loggable_attrs:
     - street
@@ -45,22 +45,45 @@ Demo::Product:
     - create
     - update
     - destroy
-Demo::Club:
-  loggable_attrs:
+Demo::Club: 
+  record_display_name: name 
+  loggable_attrs: 
     - name
-  relations:
-    belongs_to:
-      - model: Demo::Address
-        delete: :nullify
-        loggable_attrs:
-          - street
-          - city
-          - country
   auto_log:
     - create
     - update
     - destroy
-
-  
-
-
+  relations:
+    - belongs_to: :demo_address
+      model: Demo::Address
+      loggable_attrs:
+        - street
+        - city
+        - country
+        - postal_code
+Demo::Journal: 
+  record_display_name: title 
+  loggable_attrs: 
+    - title 
+    - body
+    - state
+  auto_log:
+    - create
+    - update
+    - destroy
+  relations:
+    - belongs_to: :doctor
+      model: User 
+      data_owner: true
+      loggable_attrs:
+        - first_name 
+        - last_name 
+        - email 
+    - belongs_to: :patient
+      model: User 
+      data_owner: true
+      loggable_attrs:
+        - full_name 
+        - last_name 
+        - email 
+        - age 

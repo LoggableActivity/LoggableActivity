@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   namespace :demo do
+    resources :journals
     resources :clubs
     resources :activity_logs
     resources :products

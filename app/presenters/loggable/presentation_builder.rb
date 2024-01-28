@@ -22,15 +22,18 @@ module Loggable
       Loggable::Encryption.decrypt(encoded_display_name, actor_key)
     end
 
-    def owner_display_name
-      encoded_display_name = @activity_attrs[:owner_display_name]
-      return '*********' if owner_key.nil?
+    def record_display_name
+      return @activity_attrs[:record_type] if @activity_attrs[:record_type] == @activity_attrs[:record_display_name]
+      encoded_display_name = @activity_attrs[:record_display_name]
+      return '*********' if record_key.nil?
 
-      Loggable::Encryption.decrypt(encoded_display_name, owner_key)
+      Loggable::Encryption.decrypt(encoded_display_name, record_key)
     end
 
-    def owner_type
-      @activity_attrs[:owner_type]
+
+
+    def record_type
+      @activity_attrs[:record_type]
     end
 
     def payloads
@@ -76,7 +79,7 @@ module Loggable
       changes = decrypt_change_attrs(changed_attrs, encryption_key)
 
       {
-        owner_type: payload_attrs[:owner_type],
+        record_type: payload_attrs[:record_type],
         primary: true,
         attrs: changes
       }
@@ -144,25 +147,25 @@ module Loggable
 
     def payload_attrs(payload)
       payload
-        .encoded_attrs
+        .encrypted_attrs
         .merge(
           relation_position: payload.relation_position,
           payload_type: payload.payload_type,
-          owner_id: payload.owner_id,
-          owner_type: payload.owner_type
+          record_id: payload.record_id,
+          record_type: payload.record_type
         )
     end
 
     def payload_key(payload)
-      Loggable::EncryptionKey.for_owner_by_type_and_id(payload[:owner_type], payload[:owner_id])
+      Loggable::EncryptionKey.for_record_by_type_and_id(payload[:record_type], payload[:record_id])
     end
 
-    def owner_key
-      Loggable::EncryptionKey.for_owner_by_type_and_id(owner_type, owner_id)
+    def record_key
+      Loggable::EncryptionKey.for_record_by_type_and_id(record_type, record_id)
     end
 
     def actor_key
-      Loggable::EncryptionKey.for_owner_by_type_and_id(actor_type, actor_id)
+      Loggable::EncryptionKey.for_record_by_type_and_id(actor_type, actor_id)
     end
 
     def actor_type
@@ -173,14 +176,14 @@ module Loggable
       @activity_attrs[:actor_id]
     end
 
-    def owner_id
-      @activity_attrs[:owner_id]
+    def record_id
+      @activity_attrs[:record_id]
     end
 
     def decrypted_payload(payload_attrs)
-      payload_name, encryption_key, payload_attrs = prepare_payload(payload_attrs)
+      record_type, encryption_key, payload_attrs = prepare_payload(payload_attrs)
       {
-        owner_type: payload_name,
+        record_type: record_type,
         attrs:
           payload_attrs.transform_values do |encoded_value|
             Loggable::Encryption.decrypt(encoded_value, encryption_key)
@@ -189,21 +192,21 @@ module Loggable
     end
 
     def obfuscated_payload(payload_attrs)
-      payload_name, _, payload_attrs = prepare_payload(payload_attrs)
+      record_type, _, payload_attrs = prepare_payload(payload_attrs)
       {
-        owner_type: payload_name,
+        record_type: payload_name,
         attrs: payload_attrs.transform_values! { |_| '********' }
       }
     end
 
     def prepare_payload(payload_attrs)
-      payload_name = payload_attrs[:owner_type]
+      record_type = payload_attrs[:record_type]
       encryption_key = payload_key(payload_attrs)
-      payload_attrs.delete(:owner_id)
-      payload_attrs.delete(:owner_type)
+      payload_attrs.delete(:record_id)
+      payload_attrs.delete(:record_type)
       payload_attrs.delete(:relation_position)
       payload_attrs.delete(:payload_type)
-      [payload_name, encryption_key, payload_attrs]
+      [record_type, encryption_key, payload_attrs]
     end
   end
 end

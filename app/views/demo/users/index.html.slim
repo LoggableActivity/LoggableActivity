@@ -5,16 +5,18 @@
   table.table.table-hover
     thead
       tr
-        th= 'Name'
-        th= 'Email'
-        th= 'Street Address'
-        th= 'Club'
-        th= 'Actions'
+        th = 'Name'
+        th = 'Role'
+        th = 'Email'
+        th = 'Street Address'
+        th = 'Club'
+        th = 'Actions'
     tbody
       - @users.each do |user|
         tr
-          td= user.full_name 
-          td= user.email
+          td = user.full_name 
+          td = user.role
+          td = user.email
           td
             - if user.demo_address.present?
               = user.demo_address.street

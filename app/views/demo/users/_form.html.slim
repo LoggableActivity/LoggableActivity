@@ -37,11 +37,16 @@
     
   .form-group.mt-2
     = f.label :demo_address_id, 'Address', class: 'form-label'
-    = f.collection_select :demo_address_id, @addresses, :id, :street, { prompt: "Select an Address" }, { class: 'form-control' }
+    = f.collection_select :demo_address_id, @addresses, :id, :street, { include_blank: 'No Address selected' }, { class: 'form-control' }
+
 
   .form-group.mt-2
     = f.label :demo_club_id, 'Club', class: 'form-label'
-    = f.collection_select :demo_club_id, @clubs, :id, :name, { prompt: "Select an Club" }, { class: 'form-control' }
+    = f.collection_select :demo_club_id, @clubs, :id, :name, { include_blank: "No Club selectede" }, { class: 'form-control' }
+
+  .form-group.mt-2
+    = f.label :demo_role_id, 'Role', class: 'form-label'
+    = f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, { include_blank: true }, { class: 'form-control'}
 
   .form-group.mt-2
     .col-sm-offset-2.col-sm-10

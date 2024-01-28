@@ -30,7 +30,7 @@ module Demo
 
       respond_to do |format|
         if @demo_club.save
-          format.html { redirect_to demo_club_url(@demo_club), notice: 'Club was successfully created.' }
+          format.html { redirect_to demo_clubs_path, notice: 'Club was successfully created.' }
           format.json { render :show, status: :created, location: @demo_club }
         else
           set_relations
@@ -44,7 +44,7 @@ module Demo
     def update
       respond_to do |format|
         if @demo_club.update(demo_club_params)
-          format.html { redirect_to demo_club_url(@demo_club), notice: 'Club was successfully updated.' }
+          format.html { redirect_to demo_clubs_path, notice: 'Club was successfully updated.' }
           format.json { render :show, status: :ok, location: @demo_club }
         else
           set_relations
@@ -77,7 +77,7 @@ module Demo
 
     # Only allow a list of trusted parameters through.
     def demo_club_params
-      params.require(:demo_club).permit(:name)
+      params.require(:demo_club).permit(:name, :demo_address_id)
     end
   end
 end

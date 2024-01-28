@@ -43,3 +43,16 @@
 
     .card-footer
       = link_to 'Edit', edit_demo_user_path(@user), class: 'btn btn-primary btn-sm'
+.container.mt-4
+  h1 Activities 
+  table.table 
+    thead
+      tr
+        th Action
+        th Actor 
+        th Date
+        th Attributes
+        th Actions
+    tbody
+      - @loggable_activities.each do |activity|
+        = render_activity(activity)

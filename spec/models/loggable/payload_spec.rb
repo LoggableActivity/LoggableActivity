@@ -7,30 +7,30 @@ RSpec.describe Loggable::Payload, type: :model do
     let(:activity) { build(:loggable_activity) }
 
     it 'is valid with valid attributes and a valid activity' do
-      owner = FactoryBot.create(:user)
-      encoded_attrs = { key: 'value' }.to_json
-      payload = Loggable::Payload.new(owner:, encoded_attrs:, activity:)
+      record = FactoryBot.create(:user)
+      encrypted_attrs = { key: 'value' }.to_json
+      payload = Loggable::Payload.new(record:, encrypted_attrs:, activity:)
       expect(payload).to be_valid
     end
 
-    # it 'is invalid without an owner' do
+    # it 'is invalid without an record' do
     #   attrs = { key: "value"}.to_json
     #   payload = Loggable::Payload.new(attrs: attrs , activity: activity)
     #   payload.valid?
-    #   expect(payload.errors[:owner]).to include("can't be blank")
+    #   expect(payload.errors[:record]).to include("can't be blank")
     # end
 
     it 'is invalid without attrs' do
-      owner = FactoryBot.create(:user)
-      payload = Loggable::Payload.new(owner:, activity:)
+      record = FactoryBot.create(:user)
+      payload = Loggable::Payload.new(record:, activity:)
       payload.valid?
-      expect(payload.errors[:encoded_attrs]).to include("can't be blank")
+      expect(payload.errors[:encrypted_attrs]).to include("can't be blank")
     end
 
     it 'is invalid without an associated activity' do
-      encoded_attrs = { key: 'value' }.to_json
-      owner = FactoryBot.create(:user)
-      payload = Loggable::Payload.new(owner:, encoded_attrs:)
+      encrypted_attrs = { key: 'value' }.to_json
+      record = FactoryBot.create(:user)
+      payload = Loggable::Payload.new(record:, encrypted_attrs:)
       payload.valid?
       expect(payload.errors[:activity]).to include('must exist')
     end

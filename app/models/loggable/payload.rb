@@ -3,59 +3,66 @@
 module Loggable
   class Payload < ApplicationRecord
     belongs_to :activity
-    belongs_to :owner, polymorphic: true, optional: true
-    # validates :owner, presence: true
-    validates :encoded_attrs, presence: true
+    belongs_to :record, polymorphic: true, optional: true
+    validates :encrypted_attrs, presence: true
     enum payload_type: {
-      primary: 'primary',
-      previous_association: 'previous_association',
-      current_association: 'current_association'
+      primary_payload: 0,
+      update_payload: 1,
+      current_association: 2,
+      previous_association: 3,
     }
 
     def attrs
-      { name:, attrs: decoded_attrs }
+      case payload_type
+      when 'primary_payload'
+        decrypted_primary_payload
+      when 'update_payload'
+        decrypted_update_payload
+      when 'current_association'
+        decrypted_primary_payload
+      when 'previous_association'
+        decrypted_primary_payload
+      end
     end
 
-    # def encoded_attrs
-    #   {
-    #     name:,
-    #     attrs: decoded_attrs
-    #   }
+    private 
+
+    def decrypted_primary_payload
+      decrypted_attrs 
+    end
+
+    # def decrypted_update_payload
+    #   ap decrypted_changes
+    #   decrypted_changes
     # end
 
-    def update_attrs
-      {
-        name:,
-        changes: decoded_changes
-      }
-    end
+    private
 
-    def decoded_changes
-      return { name:, attrs: [] } if encoded_attrs['changes'].empty?
-
-      encoded_attrs['changes'].flat_map do |change|
-        decode_change_attr(change)
+    def decrypted_update_payload
+      encrypted_attrs['changes'].map do |change|
+        decrypted_from_to_attr(change)
       end
     end
 
-    # private
-
-    def decode_change_attr(change)
+    def decrypted_from_to_attr(change)
+      encryption_key = Loggable::EncryptionKey.for_record(record) 
       change.map do |key, value|
-        from = decode_attr(value['from'])
-        to = decode_attr(value['to'])
-        { key => { from:, to: } }
+        from = decrypt_attr(value['from'], encryption_key)
+        to = decrypt_attr(value['to'], encryption_key)
+        [key, { from: from, to: to }]
+      end.to_h
+    end
+    
+
+    def decrypted_attrs
+      key = Loggable::EncryptionKey.for_record(record) 
+      encrypted_attrs.each do |key, value|
+        encrypted_attrs[key] = decrypt_attr(value, key)
       end
     end
 
-    def decoded_attrs
-      encoded_attrs.map do |key, value|
-        { key => decode_attr(value) }
-      end
-    end
-
-    def decode_attr(value)
-      Loggable::Encryption.decrypt_for(value, owner)
+    def decrypt_attr(value, key)
+      Loggable::Encryption.decrypt(value, key)
     end
   end
 end

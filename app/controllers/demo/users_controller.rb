@@ -4,6 +4,7 @@ module Demo
   class UsersController < ApplicationController
     before_action :authenticate_user!
     before_action :set_user, only: %i[show edit update destroy]
+    before_action :ser_roles, only: %i[new edit]
     before_action :set_relations, only: %i[new edit]
 
     def index
@@ -12,6 +13,7 @@ module Demo
 
     def show
       @user.log(:show)
+      @loggable_activities = Loggable::Activity.where(actor: @user)
     end
 
     def new
@@ -40,7 +42,6 @@ module Demo
     end
 
     def destroy
-      # Loggable::EncryptionKey.delete_key_for_owner(@user)
       @user.destroy
       redirect_to demo_users_url, notice: 'User was successfully destroyed.'
     end
@@ -56,6 +57,10 @@ module Demo
       @user = User.find(params[:id])
     end
 
+    def ser_roles
+      @roles = User.roles.keys
+    end
+
     def user_params
       params.require(:user).permit(
         :email,
@@ -66,7 +71,8 @@ module Demo
         :age,
         :bio,
         :demo_address_id,
-        :demo_club_id
+        :demo_club_id,
+        :role
       )
     end
   end

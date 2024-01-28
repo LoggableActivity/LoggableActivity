@@ -83,9 +83,9 @@ To achieve this we need to organize the way we store log entries so owners can b
         ├────────────────────────┤
         │data: Json              │
         ├────────────────────────┤
-        │owner_id: UUID          │
+        │record_id: UUID         │
         ├────────────────────────┤
-        │owner_type: String      │
+        │record_type: String     │
         └────────────────────────┘
 ```
 So now we can control access to Bobs data in the Logging DB

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_15_092918) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -20,23 +20,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_092918) do
     t.string "city"
     t.string "country"
     t.string "postal_code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "demo_clubs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
+    t.uuid "demo_address_id"
+  end
+
+  create_table "demo_journals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.integer "state", default: 0
+    t.uuid "patient_id"
+    t.uuid "doctor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "demo_address_id"
   end
 
   create_table "demo_products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "part_number"
     t.decimal "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "loggable_activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -44,31 +48,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_092918) do
     t.uuid "actor_id"
     t.string "actor_type"
     t.string "encoded_actor_display_name"
-    t.uuid "owner_id"
-    t.string "owner_type"
-    t.string "encoded_owner_display_name"
+    t.uuid "record_id"
+    t.string "record_type"
+    t.string "encoded_record_display_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "loggable_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "owner_id"
-    t.string "owner_type"
+    t.uuid "record_id"
+    t.string "record_type"
     t.string "encryption_key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "loggable_payloads", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "owner_id"
-    t.string "owner_type"
-    t.string "name"
-    t.json "encoded_attrs"
-    t.string "payload_type", default: "primary"
-    t.integer "relation_position", default: 0
+    t.uuid "record_id"
+    t.string "record_type"
+    t.json "encrypted_attrs"
+    t.integer "payload_type", default: 0
     t.uuid "activity_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -84,6 +82,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_092918) do
     t.string "last_name"
     t.integer "age"
     t.text "bio"
+    t.integer "role", default: 0
     t.uuid "demo_club_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

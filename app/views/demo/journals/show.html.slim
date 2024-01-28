@@ -1,0 +1,21 @@
+.container.mt-4
+  p style="color: green" = notice
+  .card.panel-default 
+    .card-header
+      h3.card-title = "Journal"
+    .card-body 
+      ul.list-group.list-group-flush 
+        li.list-group-item
+          strong Title:
+          span.float-end = @demo_journal.title
+        li.list-group-item
+          strong Body:
+          span.float-end = @demo_journal.body
+        li.list-group-item
+          strong Patient:
+          span.float-end = @demo_journal.patient&.full_name || 'Deleted'
+        li.list-group-item
+          strong Doctor:
+          span.float-end = @demo_journal.doctor&.full_name || 'Deleted'
+    .card-footer
+      = link_to 'Edit', edit_demo_journal_path(@demo_journal), class: 'btn btn-sm btn-primary'

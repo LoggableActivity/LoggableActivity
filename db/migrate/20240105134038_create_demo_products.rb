@@ -6,8 +6,6 @@ class CreateDemoProducts < ActiveRecord::Migration[7.1]
       t.string :name
       t.string :part_number
       t.decimal :price
-
-      t.timestamps
     end
   end
 end

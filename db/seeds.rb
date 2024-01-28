@@ -10,6 +10,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+Loggable::Activity.destroy_all
+Loggable::EncryptionKey.destroy_all
+Loggable::Payload.destroy_all
+
 products = [
   { name: 'Banana', price: 0.32, part_number: 'BANANA-1108' },
   { name: 'Skim-milk', price: 0.49, part_number: 'SKIM-MILK-2208' },
@@ -17,6 +21,7 @@ products = [
   { name: 'Bread', price: 3.29, part_number: 'BREAD-4408' }
 ]
 
+Demo::Product.delete_all
 products.each do |product|
   Demo::Product.find_or_create_by!(product)
 end
@@ -28,6 +33,7 @@ addresses = [
   { street: 'Lystrup Centervej', city: 'Lystrup', country: 'Denmark', postal_code: '8520' }
 ]
 
+Demo::Address.destroy_all
 addresses.each do |address|
   Demo::Address.find_or_create_by!(address)
 end
@@ -39,8 +45,7 @@ clubs = [
   { name: 'Tropical Lounge', demo_address_id: Demo::Address.fourth.id }
 ]
 
-Demo::Club.delete_all
-
+Demo::Club.destroy_all
 clubs.each do |club|
   Demo::Club.find_or_create_by!(club)
 end
@@ -53,9 +58,10 @@ users = [
     first_name: 'Bob',
     last_name: 'Smith',
     age: 32,
-    bio: 'I am a nice guy',
+    bio: 'I am politician with a drinking problem',
     demo_address_id: Demo::Address.first.id,
-    demo_club_id: Demo::Club.first.id
+    demo_club_id: Demo::Club.first.id,
+    role: 'Patient'
   },
   {
     email: 'jane@example.com',
@@ -64,9 +70,10 @@ users = [
     first_name: 'Jane',
     last_name: 'Doe',
     age: 28,
-    bio: 'Im a nice girl',
+    bio: 'Im a selebrity on rehab',
     demo_address_id: Demo::Address.second.id,
-    demo_club_id: Demo::Club.second.id
+    demo_club_id: Demo::Club.second.id,
+    role: 'Patient'
   },
   {
     email: 'emily@example.com',
@@ -75,9 +82,10 @@ users = [
     first_name: 'Emily',
     last_name: 'Johnson',
     age: 32,
-    bio: 'I am a nice girl too',
+    bio: 'I a really private person',
     demo_address_id: Demo::Address.first.id,
-    demo_club_id: Demo::Club.third.id
+    demo_club_id: Demo::Club.third.id,
+    role: 'Patient'
   },
   {
     email: 'michael-brown@example.com',
@@ -86,9 +94,10 @@ users = [
     first_name: 'michael',
     last_name: 'brown',
     age: 32,
-    bio: 'i am a nice dude too',
+    bio: 'i am a dangerous kriminal killer',
     demo_address_id: Demo::Address.first.id,
-    demo_club_id: Demo::Club.fourth.id
+    demo_club_id: Demo::Club.fourth.id,
+    role: 'Doctor'
   },
   {
     email: 'max@synthmax.dk',
@@ -97,12 +106,14 @@ users = [
     first_name: 'Max',
     last_name: 'Grønlund',
     age: 32,
-    bio: 'i the proggrammer',
+    bio: 'I am a system administrator',
     demo_address_id: Demo::Address.first.id,
-    demo_club_id: Demo::Club.fourth.id
+    demo_club_id: Demo::Club.fourth.id,
+    role: 'Admin'
   }
 ]
 
+User.delete_all
 users.each do |user|
   next if User.find_by(email: user[:email]).present?
 
