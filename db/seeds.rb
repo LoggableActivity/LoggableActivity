@@ -11,6 +11,7 @@
 #   end
 
 Loggable::Activity.destroy_all
+Loggable::DataOwnerEncryptionKey.destroy_all
 Loggable::EncryptionKey.destroy_all
 Loggable::Payload.destroy_all
 
@@ -118,4 +119,26 @@ users.each do |user|
   next if User.find_by(email: user[:email]).present?
 
   User.create!(user)
+end
+
+journals = [
+  {
+    patient_id: User.find_by(email: 'emily@example.com').id,
+    doctor_id: User.find_by(email: 'michael-brown@example.com').id,
+    title: 'My first journal',
+    body: 'I am a really private person',
+    state: 'pending'
+  },
+  {
+    patient_id: User.find_by(email: 'jane@example.com').id,
+    doctor_id: User.find_by(email: 'michael-brown@example.com').id,
+    title: 'My second journal',
+    body: 'I am a really private person',
+    state: 'pending'
+  }
+]
+
+Demo::Journal.delete_all
+journals.each do |journal|
+  Demo::Journal.find_or_create_by!(journal)
 end

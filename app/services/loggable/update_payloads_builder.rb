@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 module Loggable
   module UpdatePayloadsBuilder
-    
-
-    def build_update_payloads()
+    def build_update_payloads
       @update_payloads = []
 
       previous_values, current_values = primary_update_attrs
@@ -12,9 +12,7 @@ module Loggable
         build_update_relation_payloads(relation_config)
       end
       @update_payloads
-      
     end
-
 
     def primary_update_attrs
       previous_values = saved_changes.transform_values(&:first)
@@ -26,75 +24,72 @@ module Loggable
     def build_primary_update_payload(previous_values, current_values)
       encrypted_update_attrs = encrypted_update_attrs(previous_values, current_values)
       @update_payloads << Loggable::Payload.new(
-        record: @record, 
+        record: @record,
         payload_type: 'update_payload',
-        encrypted_attrs: encrypted_update_attrs 
-        )
+        encrypted_attrs: encrypted_update_attrs
+      )
     end
 
     def encrypted_update_attrs(previous_values, current_values)
       changes = []
       changed_attrs = previous_values.slice(*self.class.loggable_attrs)
-      # key = Loggable::EncryptionKey.for_record(@record)
       changed_attrs.each do |key, from_value|
-        from = Loggable::Encryption.encrypt(from_value, primary_encryption_key) 
+        from = Loggable::Encryption.encrypt(from_value, primary_encryption_key)
         to_value = current_values[key]
         to = Loggable::Encryption.encrypt(to_value, primary_encryption_key)
-        changes << { key => { from:, to: }}
+        changes << { key => { from:, to: } }
       end
       { changes: }
     end
 
     def build_update_relation_payloads(relation_config)
-      relation_config.each do |key, value|
+      relation_config.each_key do |key|
         case key
-        when :has_one
-        when :has_many
         when 'belongs_to'
-           build_relation_update_for_belongs_to(relation_config)
+          build_relation_update_for_belongs_to(relation_config)
         end
       end
     end
-
 
     def build_relation_update_for_belongs_to(relation_config)
       relation_id = "#{relation_config['belongs_to']}_id"
       model_class_name = relation_config['model']
       model_class = model_class_name.constantize
 
-      if saved_changes.include?(relation_id)
-        relation_id_changes = saved_changes[relation_id]
-        previous_relation_id, current_relation_id = relation_id_changes
+      return unless saved_changes.include?(relation_id)
 
-        [previous_relation_id, current_relation_id].each_with_index do |relation_id, index|
-          relation_record = relation_id ? model_class.find_by(id: relation_id) : nil
-          next unless relation_record
+      relation_id_changes = saved_changes[relation_id]
+      previous_relation_id, current_relation_id = relation_id_changes
 
-          payload_type = index.zero? ? 'previous_association' : 'current_association'
-          build_relation_update_payload(
-            relation_record.attributes, 
-            relation_config['loggable_attrs'],
-            relation_record,
-            payload_type
-          )
-        end
+      [previous_relation_id, current_relation_id].each_with_index do |id, index|
+        relation_record = id ? model_class.find_by(id:) : nil
+        next unless relation_record
+
+        payload_type = index.zero? ? 'previous_association' : 'current_association'
+        build_relation_update_payload(
+          relation_record.attributes,
+          relation_config['loggable_attrs'],
+          relation_record,
+          payload_type
+        )
       end
     end
 
-    def build_relation_update_payload(attrs, loggable_attrs, record, payload_type)
-      key = Loggable::EncryptionKey.for_record(record)
-      encrypted_attrs = relation_encrypted_attrs(record.attributes, loggable_attrs, key)
+    def build_relation_update_payload(_attrs, loggable_attrs, record, payload_type)
+      encryption_key = Loggable::EncryptionKey.encryption_key_for_record(record)&.encryption_key
+      encrypted_attrs = relation_encrypted_attrs(record.attributes, loggable_attrs, encryption_key)
+
+      ap "building relation update payload for #{record.id} with encryption_key: #{encryption_key}"
 
       @update_payloads << Loggable::Payload.new(
-        record: record, 
-        encrypted_attrs: encrypted_attrs,
-        payload_type: payload_type
+        record:,
+        encrypted_attrs:,
+        payload_type:
       )
     end
 
-    def relation_encrypted_attrs(attrs, loggable_attrs, key)
-      attrs = attrs.slice(*loggable_attrs)
-      encrypt_attrs(attrs, key)
+    def relation_encrypted_attrs(attrs, loggable_attrs, encryption_key)
+      encrypt_attrs(attrs, loggable_attrs, encryption_key)
     end
   end
 end

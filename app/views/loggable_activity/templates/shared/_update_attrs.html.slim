@@ -5,5 +5,5 @@ br/
     - next if from_to.nil?
     i = key
     br/
-    = " from: #{from_to[:from].empty? ? "Empty" : from_to[:from]} - to: #{from_to[:to].empty? ? "Empty" : from_to[:to]}"
+    = " from: #{from_to[:from].nil? ? "Empty" : from_to[:from]} - to: #{from_to[:to].nil? ? "Empty" : from_to[:to]}"
     br/

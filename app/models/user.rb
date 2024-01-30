@@ -12,7 +12,6 @@ class User < ApplicationRecord
   has_many :doctor_journals, class_name: 'Demo::Journal', foreign_key: 'doctor_id'
   enum role: { Patient: 0, Doctor: 1, Admin: 2 }
 
-
   def full_name
     "#{first_name} #{last_name}"
   end

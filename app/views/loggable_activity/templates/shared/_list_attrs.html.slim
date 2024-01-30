@@ -1,3 +1,3 @@
 - attrs.each do |k, v|
-  = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
+  = "<i>#{k}:</i> #{v.blank? ? t('loggable.activity.deleted') : v}".html_safe
   br/

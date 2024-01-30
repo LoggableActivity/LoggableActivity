@@ -1,0 +1,20 @@
+.row
+  .col.col-3
+    i Action:&nbsp; 
+  .col.col-9
+    = activity.action
+.row
+  .col.col-3
+    i Acted on:&nbsp
+  .col.col-9
+    = activity.record_display_name
+.row
+  .col.col-3
+    i Actor:&nbsp;
+  .col.col-9
+    = activity.actor_display_name
+.row
+  .col.col-3 
+    i When:&nbsp;
+  .col.col-9
+    = I18n.l(activity.created_at, format: :long)

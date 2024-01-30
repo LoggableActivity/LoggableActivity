@@ -1,12 +1,11 @@
 tr
-  td = activity.action
-  td = activity.actor_display_name
-  td = I18n.l(activity.created_at, format: :long)
+  td
+    = render partial: 'loggable_activity/templates/shared/activity_info', locals: { activity: activity }
   td 
     b = activity.record_type
     br
     - activity.primary_payload_attrs.each do |k, v|
-      = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
+      = "<i>#{k}:</i> #{v.blank? ? t('loggable.activity.deleted') : v}".html_safe
       br/
     br
     - activity.relations_attrs.each do |relation_attrs|

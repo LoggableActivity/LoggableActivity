@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_28_190839) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -55,6 +55,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "loggable_data_owner_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "data_owner_id"
+    t.string "data_owner_type"
+    t.uuid "encryption_key_id"
+    t.uuid "record_id"
+    t.string "record_type"
+  end
+
   create_table "loggable_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "record_id"
     t.string "record_type"
@@ -89,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
   end
 
   add_foreign_key "demo_clubs", "demo_addresses"
+  add_foreign_key "loggable_data_owner_encryption_keys", "loggable_encryption_keys", column: "encryption_key_id"
   add_foreign_key "loggable_payloads", "loggable_activities", column: "activity_id"
   add_foreign_key "users", "demo_addresses"
   add_foreign_key "users", "demo_clubs"

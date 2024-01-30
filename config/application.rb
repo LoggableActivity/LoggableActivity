@@ -25,6 +25,10 @@ module LoggableActivity
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.loggable_activity = ActiveSupport::OrderedOptions.new
+    config.loggable_activity.actor_display_name = :full_name
+    config.loggable_activity.current_user_model_name = :full_name
+    config.loggable_activity.current_user_model_name = 'User'
 
   end
 end

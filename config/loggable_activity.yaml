@@ -1,6 +1,5 @@
 User: 
   record_display_name: full_name
-  actor_display_name: email
   loggable_attrs: 
     - first_name
     - last_name 
@@ -79,6 +78,7 @@ Demo::Journal:
         - first_name 
         - last_name 
         - email 
+        - role
     - belongs_to: :patient
       model: User 
       data_owner: true
@@ -87,3 +87,4 @@ Demo::Journal:
         - last_name 
         - email 
         - age 
+        - role

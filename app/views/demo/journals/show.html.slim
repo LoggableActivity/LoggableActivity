@@ -13,9 +13,9 @@
           span.float-end = @demo_journal.body
         li.list-group-item
           strong Patient:
-          span.float-end = @demo_journal.patient&.full_name || 'Deleted'
+          span.float-end = @demo_journal.patient&.full_name || t('loggable.activity.deleted')
         li.list-group-item
           strong Doctor:
-          span.float-end = @demo_journal.doctor&.full_name || 'Deleted'
+          span.float-end = @demo_journal.doctor&.full_name || t('loggable.activity.deleted') 
     .card-footer
       = link_to 'Edit', edit_demo_journal_path(@demo_journal), class: 'btn btn-sm btn-primary'

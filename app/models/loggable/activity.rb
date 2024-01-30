@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+# This is the activity log. It contains an agregation of payloads.
+# It reprecent one activity for the log
 
 module Loggable
   class Activity < ApplicationRecord
@@ -26,50 +28,44 @@ module Loggable
         .limit(limit)
     end
 
-    def relations_attrs
-      attrs[:relations]
-    end
-
     def attrs
       @attrs ||= payloads_attrs
     end
 
-    def presentation_attrs
+    def update_activity_attrs
       {
-        update_attrs: update_attrs,
-        updated_relations_attrs: updated_relations 
+        update_attrs:,
+        updated_relations_attrs: updated_relations
       }
     end
 
     def primary_payload_attrs
-      payload = payloads.find { |p| p.payload_type == "primary_payload" }
+      payload = ordered_payloads.find { |p| p.payload_type == 'primary_payload' }
       payload ? payload.attrs : {}
     end
 
+    def ordered_payloads
+      @ordered_payloads ||= payloads.order(:payload_type)
+    end
+
     def relations_attrs
-      attrs.filter { |p| p[:payload_type] == "current_association" }
+      attrs.filter { |p| p[:payload_type] == 'current_association' }
     end
 
     def updated_relations
-      grouped_associations = attrs.group_by { |p| p[:record_type] }
+      grouped_associations = attrs.group_by { |p| p[:record_class] }
 
-      grouped_associations.map do |record_type, payloads|
-        previous_attrs = payloads.find { |p| p[:payload_type] == "previous_association" }
-        current_attrs = payloads.find { |p| p[:payload_type] == "current_association" }
-        return if previous_attrs.nil? && current_attrs.nil?
-
-        record_class = current_attrs.nil? ? previous_attrs[:record_class] : current_attrs[:record_class]
-
-        {
-          record_class: record_class,
-          previous_attrs: previous_attrs,
-          current_attrs: current_attrs
-        }
-      end
+      grouped_associations.map do |record_class, payloads|
+        previous_attrs = payloads.find { |p| p[:payload_type] == 'previous_association' }
+        current_attrs = payloads.find { |p| p[:payload_type] == 'current_association' }
+        next if previous_attrs.nil? && current_attrs.nil?
+        
+        { record_class:, previous_attrs:, current_attrs: }
+      end.compact
     end
 
     def update_attrs
-      update_payload_attrs = attrs.find { |p| p[:payload_type] == "update_payload" }
+      update_payload_attrs = attrs.find { |p| p[:payload_type] == 'update_payload' }
       return nil unless update_payload_attrs
 
       update_payload_attrs.delete(:payload_type)
@@ -77,21 +73,29 @@ module Loggable
     end
 
     def previous_associations_attrs
-      attrs.select { |p| p[:payload_type] == "previous_association" }
+      attrs.select { |p| p[:payload_type] == 'previous_association' }
     end
-
 
     def actor_display_name
       Loggable::Encryption.decrypt(encoded_actor_display_name, actor_key)
     end
 
+    def record_display_name
+      Loggable::Encryption.decrypt(encoded_record_display_name, record_key)
+    end
 
     def actor_key
-      Loggable::EncryptionKey.for_record_by_type_and_id(actor_type, actor_id)
+      Loggable::EncryptionKey
+        .for_record_by_type_and_id(actor_type, actor_id)&.encryption_key
+    end
+
+    def record_key
+      Loggable::EncryptionKey
+        .for_record_by_type_and_id(record_type, record_id)&.encryption_key
     end
 
     def payloads_attrs
-      payloads.order(:payload_type).map do  |payload|
+      ordered_payloads.map do |payload|
         {
           record_class: payload.record_type,
           payload_type: payload.payload_type,
