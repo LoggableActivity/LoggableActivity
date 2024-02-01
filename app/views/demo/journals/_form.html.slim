@@ -28,14 +28,9 @@
     = f.label :state, 'State', class: 'form-label'
     = f.select :state, Demo::Journal.states.keys.map { |state| [state.titleize, state] }, { include_blank: true }, { class: 'form-control'}
 
-  / .form-group.mt-2
-  /   = f.label :state, style: "display: block"
-  /   = f.text_field :state
-  
   .form-group.mt-2 
     = f.label 'Doctor', class: 'col-sm-2 control-label'
     = f.collection_select :doctor_id, @doctors, :id, :email, { prompt: "Select a Doctor" }, { class: 'form-control' }
-
 
   .form-group.mt-2
     = f.submit 'Save Journal', class: 'btn btn-primary btn-sm'

@@ -85,7 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.string "last_name"
     t.integer "age"
     t.text "bio"
-    t.integer "role", default: 0
+    t.integer "user_type", default: 0
     t.uuid "demo_club_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

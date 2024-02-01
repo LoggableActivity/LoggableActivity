@@ -4,7 +4,7 @@ module Demo
   class UsersController < ApplicationController
     before_action :authenticate_user!
     before_action :set_user, only: %i[show edit update destroy]
-    before_action :ser_roles, only: %i[new edit]
+    before_action :ser_user_types, only: %i[new edit]
     before_action :set_relations, only: %i[new edit]
 
     def index
@@ -57,8 +57,8 @@ module Demo
       @user = User.find(params[:id])
     end
 
-    def ser_roles
-      @roles = User.roles.keys
+    def ser_user_types
+      @roles = User.user_types.keys
     end
 
     def user_params
@@ -72,7 +72,7 @@ module Demo
         :bio,
         :demo_address_id,
         :demo_club_id,
-        :role
+        :user_type
       )
     end
   end

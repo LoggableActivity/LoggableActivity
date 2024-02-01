@@ -6,6 +6,6 @@ class AddDetailsToUsers < ActiveRecord::Migration[7.1]
     add_column :users, :last_name, :string
     add_column :users, :age, :integer
     add_column :users, :bio, :text
-    add_column :users, :role, :integer, default: 0
+    add_column :users, :user_type, :integer, default: 0
   end
 end

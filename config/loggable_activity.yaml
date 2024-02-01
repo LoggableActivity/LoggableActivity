@@ -5,7 +5,7 @@ User:
     - last_name 
     - age 
     - email
-    - role
+    - user_type 
   auto_log:
     - create
     - update
@@ -78,7 +78,7 @@ Demo::Journal:
         - first_name 
         - last_name 
         - email 
-        - role
+        - user_type
     - belongs_to: :patient
       model: User 
       data_owner: true
@@ -87,4 +87,4 @@ Demo::Journal:
         - last_name 
         - email 
         - age 
-        - role
+        - user_type

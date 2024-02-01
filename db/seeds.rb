@@ -62,7 +62,7 @@ users = [
     bio: 'I am politician with a drinking problem',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.first.id,
-    role: 'Patient'
+    user_type: 'Patient'
   },
   {
     email: 'house@example.com',
@@ -74,7 +74,7 @@ users = [
     bio: 'I am a famous actress',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.first.id,
-    role: 'Doctor'
+    user_type: 'Doctor'
   },
   {
     email: 'alice@example.com',
@@ -86,7 +86,7 @@ users = [
     bio: 'I am a famous actress',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.first.id,
-    role: 'Patient'
+    user_type: 'Patient'
   },
   {
     email: 'jane@example.com',
@@ -98,7 +98,7 @@ users = [
     bio: 'Im a selebrity on rehab',
     demo_address_id: Demo::Address.second.id,
     demo_club_id: Demo::Club.second.id,
-    role: 'Patient'
+    user_type: 'Patient'
   },
   {
     email: 'emily@example.com',
@@ -110,7 +110,7 @@ users = [
     bio: 'I am a really private person',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.third.id,
-    role: 'Patient'
+    user_type: 'Patient'
   },
   {
     email: 'michael-brown@example.com',
@@ -122,7 +122,7 @@ users = [
     bio: 'I am a dangerous kriminal killer',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.fourth.id,
-    role: 'Doctor'
+    user_type: 'Doctor'
   },
   {
     email: 'max@example.com',
@@ -134,7 +134,7 @@ users = [
     bio: 'I am a system administrator',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.fourth.id,
-    role: 'Admin'
+    user_type: 'Admin'
   }
 ]
 
