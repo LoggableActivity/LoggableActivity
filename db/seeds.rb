@@ -9,9 +9,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+puts '-------------------- Seeding data ---------------------'
 
 Loggable::Activity.destroy_all
-Loggable::DataOwnerEncryptionKey.destroy_all
 Loggable::EncryptionKey.destroy_all
 Loggable::Payload.destroy_all
 
@@ -54,8 +54,8 @@ end
 users = [
   {
     email: 'bob@example.com',
-    password: 'password',
-    password_confirmation: 'password',
+    password: 'password1234',
+    password_confirmation: 'password1234',
     first_name: 'Bob',
     last_name: 'Smith',
     age: 32,
@@ -65,9 +65,33 @@ users = [
     role: 'Patient'
   },
   {
+    email: 'house@example.com',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'DR.',
+    last_name: 'House',
+    age: 32,
+    bio: 'I am a famous actress',
+    demo_address_id: Demo::Address.first.id,
+    demo_club_id: Demo::Club.first.id,
+    role: 'Doctor'
+  },
+  {
+    email: 'alice@example.com',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'Alice',
+    last_name: 'Springs',
+    age: 32,
+    bio: 'I am a famous actress',
+    demo_address_id: Demo::Address.first.id,
+    demo_club_id: Demo::Club.first.id,
+    role: 'Patient'
+  },
+  {
     email: 'jane@example.com',
-    password: 'password',
-    password_confirmation: 'password',
+    password: 'password1234',
+    password_confirmation: 'password1234',
     first_name: 'Jane',
     last_name: 'Doe',
     age: 28,
@@ -78,32 +102,32 @@ users = [
   },
   {
     email: 'emily@example.com',
-    password: 'password',
-    password_confirmation: 'password',
+    password: 'password1234',
+    password_confirmation: 'password1234',
     first_name: 'Emily',
     last_name: 'Johnson',
     age: 32,
-    bio: 'I a really private person',
+    bio: 'I am a really private person',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.third.id,
     role: 'Patient'
   },
   {
     email: 'michael-brown@example.com',
-    password: 'password',
-    password_confirmation: 'password',
-    first_name: 'michael',
-    last_name: 'brown',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'Michael',
+    last_name: 'Brown',
     age: 32,
-    bio: 'i am a dangerous kriminal killer',
+    bio: 'I am a dangerous kriminal killer',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.fourth.id,
     role: 'Doctor'
   },
   {
-    email: 'max@synthmax.dk',
-    password: 'password',
-    password_confirmation: 'password',
+    email: 'max@example.com',
+    password: 'iL9Ac%&w2mqD$TKl.kXW}e-L1%',
+    password_confirmation: 'iL9Ac%&w2mqD$TKl.kXW}e-L1%',
     first_name: 'Max',
     last_name: 'Grønlund',
     age: 32,
@@ -125,15 +149,22 @@ journals = [
   {
     patient_id: User.find_by(email: 'emily@example.com').id,
     doctor_id: User.find_by(email: 'michael-brown@example.com').id,
-    title: 'My first journal',
-    body: 'I am a really private person',
+    title: 'Private information',
+    body: 'Lumbersexual mumblecore same, ennui enamel pin affogato gentrify bruh taxidermy',
+    state: 'pending'
+  },
+  {
+    patient_id: User.find_by(email: 'max@example.com').id,
+    doctor_id: User.find_by(email: 'jane@example.com').id,
+    title: 'Please dont tell anyone',
+    body: 'Waistcoat copper mug grailed, hella farm-to-table tbh pitchfork four loko austin.',
     state: 'pending'
   },
   {
     patient_id: User.find_by(email: 'jane@example.com').id,
     doctor_id: User.find_by(email: 'michael-brown@example.com').id,
-    title: 'My second journal',
-    body: 'I am a really private person',
+    title: 'Confidential',
+    body: 'Gastropub ascot lyft banh mi gatekeep, sustainable retro listicle cloud bread.',
     state: 'pending'
   }
 ]
@@ -142,3 +173,4 @@ Demo::Journal.delete_all
 journals.each do |journal|
   Demo::Journal.find_or_create_by!(journal)
 end
+puts '------------------ Seeding data done -------------------'

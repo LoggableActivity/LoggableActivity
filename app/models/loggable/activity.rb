@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This is the activity log. It contains an agregation of payloads.
 # It reprecent one activity for the log
 
@@ -40,8 +41,11 @@ module Loggable
     end
 
     def primary_payload_attrs
-      payload = ordered_payloads.find { |p| p.payload_type == 'primary_payload' }
-      payload ? payload.attrs : {}
+      primary_payload ? primary_payload.attrs : {}
+    end
+
+    def primary_payload
+      @primary_payload = ordered_payloads.find { |p| p.payload_type == 'primary_payload' }
     end
 
     def ordered_payloads
@@ -59,10 +63,14 @@ module Loggable
         previous_attrs = payloads.find { |p| p[:payload_type] == 'previous_association' }
         current_attrs = payloads.find { |p| p[:payload_type] == 'current_association' }
         next if previous_attrs.nil? && current_attrs.nil?
-        
+
         { record_class:, previous_attrs:, current_attrs: }
       end.compact
     end
+
+    # def destroyed_relations
+    #   attrs.filter { |p| p[:payload_type] == 'destroy_payload' }
+    # end
 
     def update_attrs
       update_payload_attrs = attrs.find { |p| p[:payload_type] == 'update_payload' }
@@ -76,22 +84,22 @@ module Loggable
       attrs.select { |p| p[:payload_type] == 'previous_association' }
     end
 
-    def actor_display_name
-      Loggable::Encryption.decrypt(encoded_actor_display_name, actor_key)
+    def record_display_name
+      Loggable::Encryption.decrypt(encrypted_record_display_name, record_key)
     end
 
-    def record_display_name
-      Loggable::Encryption.decrypt(encoded_record_display_name, record_key)
+    def actor_display_name
+      Loggable::Encryption.decrypt(encrypted_actor_display_name, actor_key)
     end
 
     def actor_key
       Loggable::EncryptionKey
-        .for_record_by_type_and_id(actor_type, actor_id)&.encryption_key
+        .for_record_by_type_and_id(actor_type, actor_id)&.key
     end
 
     def record_key
       Loggable::EncryptionKey
-        .for_record_by_type_and_id(record_type, record_id)&.encryption_key
+        .for_record_by_type_and_id(record_type, record_id)&.key
     end
 
     def payloads_attrs

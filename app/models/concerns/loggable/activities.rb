@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-# This is the main module for loggable. 
+
+# This is the main module for loggable.
 # When included to a model, it provides the features for creating the activities.
 
 module Loggable
@@ -7,10 +8,6 @@ module Loggable
     extend ActiveSupport::Concern
     include Loggable::PayloadsBuilder
     include Loggable::UpdatePayloadsBuilder
-    include Loggable::DataOwnerBuilder
-
-    # has_many :data_owner_encryption_keys, as: :data_owner, class_name: 'Loggable::DataOwnerEncryptionKey'
-    # has_many :encryption_keys, through: :data_owner_encryption_keys, class_name: 'Loggable::EncryptionKey'
 
     included do
       config = Loggable::Configuration.for_class(name)
@@ -49,16 +46,6 @@ module Loggable
       else
         log_custom_activity(action)
       end
-
-      build_data_owners
-    end
-
-    def delete_data_owner_encryption_keys
-      Loggable::DataOwnerEncryptionKey.where(data_owner: self).each(&:encryption_key)
-    end
-
-    def data_owner_encryption_keys
-      Loggable::DataOwnerEncryptionKey.where(data_owner: self)
     end
 
     private
@@ -73,34 +60,34 @@ module Loggable
 
     def log_destroy
       Loggable::Activity.create!(
-        encoded_actor_display_name: encoded_actor_name,
-        encoded_record_display_name: '',
+        encrypted_actor_display_name: encrypted_actor_name,
+        encrypted_record_display_name: '',
         action: action_key,
         actor: @actor,
         record: @record,
         payloads: [
           Loggable::Payload.new(
             record: @record,
-            payload_type: 'destroy_payload',
+            payload_type: 'primary_payload',
             encrypted_attrs: {}.to_json
           )
         ]
       )
     end
-    
+
     def create_activity(payloads)
       Loggable::Activity.create!(
-        encoded_actor_display_name: encoded_actor_name,
-        encoded_record_display_name: encoded_record_name,
+        encrypted_actor_display_name: encrypted_actor_name,
+        encrypted_record_display_name: encrypted_record_name,
         action: action_key,
         actor: @actor,
         record: @record,
-        payloads: payloads
+        payloads:
       )
     end
 
     def log_custom_activity(activity); end
-    
+
     def log_update_activity
       log(:update) if self.class.auto_log.include?('update')
     end
@@ -110,12 +97,16 @@ module Loggable
     end
 
     def log_destroy_activity
-      Loggable::EncryptionKey.delete_key_for_record(self)
+      Loggable::EncryptionKey.for_record(self).mark_as_deleted
       log(:destroy) if self.class.auto_log.include?('destroy')
     end
 
+    def encrypted_actor_name
+      actor_display_name = @actor.send(actor_display_name_field)
+      Loggable::Encryption.encrypt(actor_display_name, actor_encryption_key)
+    end
 
-    def encoded_record_name
+    def encrypted_record_name
       display_name =
         if self.class.record_display_name.nil?
           "#{self.class.name} id: #{id}"
@@ -125,21 +116,21 @@ module Loggable
       Loggable::Encryption.encrypt(display_name, primary_encryption_key)
     end
 
-    def encoded_actor_name
-      actor_display_name = @actor.send(actor_display_name_field)
-      Loggable::Encryption.encrypt(actor_display_name, actor_encryption_key)
-    end
-
     def action_key
       @action_key ||= self.class.base_action + ".#{@action}"
     end
 
     def primary_encryption_key
-      Loggable::EncryptionKey.encryption_key_for_record(self)&.encryption_key
+      @primary_encryption_key ||=
+        Loggable::EncryptionKey.for_record(self)&.key
+    end
+
+    def primary_encryption_key_deleted?
+      primary_encryption_key.nil?
     end
 
     def actor_encryption_key
-      Loggable::EncryptionKey.encryption_key_for_record(@actor)&.encryption_key
+      Loggable::EncryptionKey.for_record(@actor)&.key
     end
 
     def actor_display_name_field
@@ -151,7 +142,7 @@ module Loggable
     end
 
     class_methods do
-      attr_accessor :loggable_attrs, :relations, :auto_log, :record_display_name, :actor_display_name
+      attr_accessor :loggable_attrs, :relations, :auto_log, :actor_display_name, :record_display_name
 
       def base_action
         name.downcase.gsub('::', '/')

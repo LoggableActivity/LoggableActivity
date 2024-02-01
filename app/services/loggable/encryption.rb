@@ -6,6 +6,8 @@ require 'base64'
 module Loggable
   module Encryption
     def self.encrypt(data, encryption_key)
+      return data if encryption_key.nil?
+
       cipher = OpenSSL::Cipher.new('AES-128-CBC').encrypt
       cipher.key = Digest::SHA1.hexdigest(encryption_key)[0..15]
       encrypted = cipher.update(data.to_s) + cipher.final

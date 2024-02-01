@@ -1,20 +1,15 @@
-.row
-  .col.col-3
-    i Action:&nbsp; 
-  .col.col-9
-    = activity.action
-.row
-  .col.col-3
-    i Acted on:&nbsp
-  .col.col-9
-    = activity.record_display_name
-.row
-  .col.col-3
-    i Actor:&nbsp;
-  .col.col-9
-    = activity.actor_display_name
-.row
-  .col.col-3 
-    i When:&nbsp;
-  .col.col-9
-    = I18n.l(activity.created_at, format: :long)
+.px-4
+  / = "loggable.activity.#{activity.action}"
+  / br/
+  / i Action:&nbsp; 
+  / br
+  .h5 = t("loggable.activity.#{activity.action}", name: "fo")
+  b = activity.record_display_name
+  br
+  i Actor:&nbsp;
+  br
+  = activity.actor_display_name
+  br
+  i When:&nbsp;
+  br
+  = I18n.l(activity.created_at, format: :long)

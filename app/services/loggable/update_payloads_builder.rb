@@ -76,7 +76,7 @@ module Loggable
     end
 
     def build_relation_update_payload(_attrs, loggable_attrs, record, payload_type)
-      encryption_key = Loggable::EncryptionKey.encryption_key_for_record(record)&.encryption_key
+      encryption_key = Loggable::EncryptionKey.for_record(record)&.key
       encrypted_attrs = relation_encrypted_attrs(record.attributes, loggable_attrs, encryption_key)
 
       ap "building relation update payload for #{record.id} with encryption_key: #{encryption_key}"

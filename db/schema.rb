@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_28_190839) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -47,26 +47,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_190839) do
     t.string "action"
     t.uuid "actor_id"
     t.string "actor_type"
-    t.string "encoded_actor_display_name"
+    t.string "encrypted_actor_display_name"
+    t.string "encrypted_record_display_name"
     t.uuid "record_id"
     t.string "record_type"
-    t.string "encoded_record_display_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "loggable_data_owner_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "data_owner_id"
-    t.string "data_owner_type"
-    t.uuid "encryption_key_id"
-    t.uuid "record_id"
-    t.string "record_type"
-  end
-
   create_table "loggable_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "parrent_key_id"
     t.uuid "record_id"
     t.string "record_type"
-    t.string "encryption_key"
+    t.string "key"
+    t.index ["record_type", "record_id"], name: "index_loggable_encryption_keys_on_record_type_and_record_id"
   end
 
   create_table "loggable_payloads", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -74,6 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_190839) do
     t.string "record_type"
     t.json "encrypted_attrs"
     t.integer "payload_type", default: 0
+    t.boolean "data_owner", default: false
     t.uuid "activity_id", null: false
   end
 
@@ -97,7 +92,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_190839) do
   end
 
   add_foreign_key "demo_clubs", "demo_addresses"
-  add_foreign_key "loggable_data_owner_encryption_keys", "loggable_encryption_keys", column: "encryption_key_id"
   add_foreign_key "loggable_payloads", "loggable_activities", column: "activity_id"
   add_foreign_key "users", "demo_addresses"
   add_foreign_key "users", "demo_clubs"

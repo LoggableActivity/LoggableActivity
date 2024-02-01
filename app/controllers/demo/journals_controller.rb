@@ -3,7 +3,8 @@
 module Demo
   class JournalsController < ApplicationController
     before_action :set_demo_journal, only: %i[show edit update destroy]
-    before_action :set_patients, only: %i[new edit update create]
+    before_action :set_patients, only: %i[new create]
+    before_action :set_doctors, only: %i[new edit update create]
 
     # GET /demo/journals or /demo/journals.json
     def index
@@ -70,6 +71,10 @@ module Demo
 
     def set_patients
       @patients = User.where(role: 'Patient')
+    end
+
+    def set_doctors
+      @doctors = User.where(role: 'Doctor')
     end
 
     # Only allow a list of trusted parameters through.

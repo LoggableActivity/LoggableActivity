@@ -7,6 +7,18 @@ module LoggableActivityHelper
     render partial: template_path(activity), locals: { activity: }
   end
 
+  def primary_type(activity)
+    I18n.t("loggable.activity.models.#{activity.record_type}")
+  end
+
+  def relation_type(relation_attrs)
+    I18n.t("loggable.activity.models.#{relation_attrs[:record_class]}")
+  end
+
+  def update_relation_class(update_attrs)
+    I18n.t("loggable.activity.models.#{update_attrs[:record_class]}")
+  end
+
   private
 
   def action_template_path(activity)

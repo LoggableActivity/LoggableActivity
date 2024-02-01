@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This it a factory for building payloads.
 
 module Loggable
@@ -13,12 +14,22 @@ module Loggable
 
     def build_primary_payload
       encrypted_attrs = encrypt_attrs(attributes, self.class.loggable_attrs, primary_encryption_key)
-
+      # if primary_encryption_key_deleted?
       @payloads << Loggable::Payload.new(
         record: @record,
         payload_type: 'primary_payload',
-        encrypted_attrs:
+        encrypted_attrs:,
+        data_owner: true
       )
+      # else
+      #   encrypted_attrs = encrypt_attrs(attributes, self.class.loggable_attrs, primary_encryption_key)
+
+      #   @payloads << Loggable::Payload.new(
+      #     record: @record,
+      #     payload_type: 'primary_payload',
+      #     encrypted_attrs:
+      #   )
+      # end
     end
 
     def build_relation_payload(relation_config)
@@ -36,33 +47,29 @@ module Loggable
 
       associated_loggable_attrs = relation_config['loggable_attrs']
 
-      encryption_key = associated_record_encryption_key(associated_record)
+      encryption_key = associated_record_encryption_key(associated_record, relation_config['data_owner'])
 
       encrypted_attrs =
         encrypt_attrs(
           associated_record.attributes,
           associated_loggable_attrs,
-          encryption_key.encryption_key
+          encryption_key.key
         )
 
       @payloads << Loggable::Payload.new(
         record: associated_record,
         encrypted_attrs:,
-        payload_type: 'current_association'
+        payload_type: 'current_association',
+        data_owner: relation_config['data_owner']
       )
-      # add_enctyption_key_to_data_owner(associated_record, encryption_key) if relation_config['data_owner']
     end
 
-    # def add_enctyption_key_to_data_owner(associated_record, encryption_key)
-    #   Loggable::DataOwnerEncryptionKey.first_or_create!(
-    #     encryption_key: encryption_key,
-    #     data_owner: associated_record,
-    #     record: @record
-    #   )
-    # end
-
-    def associated_record_encryption_key(record)
-      Loggable::EncryptionKey.encryption_key_for_record(record)
+    def associated_record_encryption_key(associated_record, data_owner)
+      if data_owner
+        Loggable::EncryptionKey.for_record(associated_record, Loggable::EncryptionKey.for_record(self))
+      else
+        Loggable::EncryptionKey.for_record(associated_record)
+      end
     end
 
     def encrypt_attrs(attrs, loggable_attrs, encryption_key)
