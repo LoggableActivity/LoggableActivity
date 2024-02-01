@@ -28,3 +28,11 @@ Metrics/PerceivedComplexity:
 Metrics/ClassLength:
   Exclude:
     - 'app/presenters/loggable/presentation_builder.rb'
+Metrics/ModuleLength:
+  Exclude:
+    - 'app/models/concerns/loggable/activities.rb'
+Metrics/AbcSize:
+  Exclude:
+    - 'app/models/loggable/activity.rb'
+    - 'app/services/loggable/encryption.rb'
+    - 'app/services/loggable/update_payloads_builder.rb'

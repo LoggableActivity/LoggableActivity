@@ -8,7 +8,7 @@ tr
       br/
       - payload[:attrs].delete_if { |list| list[0] == "demo_address_id" }
       - payload[:attrs].each do |k, v|
-        = "<i>#{k}:</i> #{v.blank? ? "Deleted" : v}".html_safe
+        = "<i>#{k}:</i> #{v.blank? ? t('loggable.activity.deleted') : v}".html_safe
         br/
   td 
     =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'

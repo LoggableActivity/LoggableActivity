@@ -45,8 +45,8 @@
     = f.collection_select :demo_club_id, @clubs, :id, :name, { include_blank: "No Club selectede" }, { class: 'form-control' }
 
   .form-group.mt-2
-    = f.label :demo_role_id, 'Role', class: 'form-label'
-    = f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, { include_blank: true }, { class: 'form-control'}
+    = f.label :user_type, 'User type', class: 'form-label'
+    = f.select :user_type, User.user_types.keys.map { |user_type| [user_type.titleize, user_type] }, { include_blank: true }, { class: 'form-control'}
 
   .form-group.mt-2
     .col-sm-offset-2.col-sm-10

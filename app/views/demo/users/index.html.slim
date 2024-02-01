@@ -15,7 +15,7 @@
       - @users.each do |user|
         tr
           td = user.full_name 
-          td = user.role
+          td = user.user_type
           td = user.email
           td
             - if user.demo_address.present?

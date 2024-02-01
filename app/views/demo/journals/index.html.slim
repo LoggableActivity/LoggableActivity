@@ -12,8 +12,8 @@
         th Actions
     - @demo_journals.each do |demo_journal|
       tr
-        td = demo_journal.patient&.full_name || "Deleted"
-        td = demo_journal.doctor&.full_name || "Deleted"
+        td = demo_journal.patient&.full_name || t('loggable.activity.deleted') 
+        td = demo_journal.doctor&.full_name || t('loggable.activity.deleted') 
         td = demo_journal.title
         td = demo_journal.state
         td

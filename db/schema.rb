@@ -47,18 +47,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.string "action"
     t.uuid "actor_id"
     t.string "actor_type"
-    t.string "encoded_actor_display_name"
+    t.string "encrypted_actor_display_name"
+    t.string "encrypted_record_display_name"
     t.uuid "record_id"
     t.string "record_type"
-    t.string "encoded_record_display_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "loggable_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "parrent_key_id"
     t.uuid "record_id"
     t.string "record_type"
-    t.string "encryption_key"
+    t.string "key"
+    t.index ["record_type", "record_id"], name: "index_loggable_encryption_keys_on_record_type_and_record_id"
   end
 
   create_table "loggable_payloads", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -66,6 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.string "record_type"
     t.json "encrypted_attrs"
     t.integer "payload_type", default: 0
+    t.boolean "data_owner", default: false
     t.uuid "activity_id", null: false
   end
 
@@ -82,7 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.string "last_name"
     t.integer "age"
     t.text "bio"
-    t.integer "role", default: 0
+    t.integer "user_type", default: 0
     t.uuid "demo_club_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -60,7 +60,7 @@ RSpec.describe '/demo/clubs', type: :request do
 
       it 'redirects to the created demo_club' do
         post demo_clubs_url, params: { demo_club: valid_attributes }
-        expect(response).to redirect_to(demo_club_url(Demo::Club.last))
+        expect(response).to redirect_to(demo_clubs_path)
       end
     end
 
@@ -92,18 +92,18 @@ RSpec.describe '/demo/clubs', type: :request do
         sign_in user
       end
 
-      it 'updates the requested demo_club' do
+      it 'updates the requested index' do
         club = Demo::Club.create! valid_attributes
         patch demo_club_url(club), params: { demo_club: new_attributes }
         club.reload
         expect(club.name).to eq(new_attributes[:name])
       end
 
-      it 'redirects to the demo_club' do
+      it 'redirects to the index' do
         club = Demo::Club.create!(valid_attributes)
         patch demo_club_url(club), params: { demo_club: new_attributes }
         club.reload
-        expect(response).to redirect_to(demo_club_url(club))
+        expect(response).to redirect_to(demo_clubs_path)
       end
     end
 

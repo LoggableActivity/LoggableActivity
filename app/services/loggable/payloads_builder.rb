@@ -1,90 +1,86 @@
+# frozen_string_literal: true
+
+# This it a factory for building payloads.
+
 module Loggable
   module PayloadsBuilder
-    def log_activity
-      Loggable::Activity.create!(
-        encoded_actor_display_name: encoded_actor_name,
-        encoded_record_display_name: encoded_record_name,
-        action: action_key,
-        actor: @actor,
-        record: @record,
-        payloads: build_payloads
-      )
-    end
-
     def build_payloads
-      build_primary_payload 
-      self.class.relations.each do |relation|
-        build_relation_payload(relation)
+      build_primary_payload
+      self.class.relations.each do |relation_config|
+        build_relation_payload(relation_config)
       end
       @payloads
     end
 
     def build_primary_payload
-      encrypted_attrs = encrypted_attrs(self.attributes, self.class.loggable_attrs, primary_encryption_key)
+      encrypted_attrs = encrypt_attrs(attributes, self.class.loggable_attrs, primary_encryption_key)
+      # if primary_encryption_key_deleted?
       @payloads << Loggable::Payload.new(
-        record: @record, 
+        record: @record,
         payload_type: 'primary_payload',
-        encrypted_attrs: encrypted_attrs
+        encrypted_attrs:,
+        data_owner: true
       )
+      # else
+      #   encrypted_attrs = encrypt_attrs(attributes, self.class.loggable_attrs, primary_encryption_key)
+
+      #   @payloads << Loggable::Payload.new(
+      #     record: @record,
+      #     payload_type: 'primary_payload',
+      #     encrypted_attrs:
+      #   )
+      # end
     end
 
-    def build_relation_payload(relation)
-      relation.each do |key, value|
+    def build_relation_payload(relation_config)
+      relation_config.each_key do |key|
         case key
-        when :has_one
-        when :has_many
         when 'belongs_to'
-          payload = build_belongs_to_payload(relation)
-          @payloads << payload unless payload.nil?
+          build_belongs_to_payload(relation_config)
         end
       end
     end
 
-    def build_belongs_to_payload(relation)
-      associated_record = self.send(relation['belongs_to'])
+    def build_belongs_to_payload(relation_config)
+      associated_record = send(relation_config['belongs_to'])
       return nil if associated_record.nil?
-      associated_loggable_attrs = relation['loggable_attrs']
 
-      encryption_key = associated_record_encryption_key(associated_record)
-      encrypted_attrs = 
-        encrypted_attrs(associated_record.attributes, associated_loggable_attrs, encryption_key) 
+      associated_loggable_attrs = relation_config['loggable_attrs']
 
-       Loggable::Payload.new(
-          record: associated_record, 
-          encrypted_attrs: encrypted_attrs,
-          payload_type: 'current_association'
+      encryption_key = associated_record_encryption_key(associated_record, relation_config['data_owner'])
+
+      encrypted_attrs =
+        encrypt_attrs(
+          associated_record.attributes,
+          associated_loggable_attrs,
+          encryption_key.key
         )
-      if relation['data_owner']
-        add_enctyption_key_to_data_owner(associated_record, encryption_key)
+
+      @payloads << Loggable::Payload.new(
+        record: associated_record,
+        encrypted_attrs:,
+        payload_type: 'current_association',
+        data_owner: relation_config['data_owner']
+      )
+    end
+
+    def associated_record_encryption_key(associated_record, data_owner)
+      if data_owner
+        Loggable::EncryptionKey.for_record(associated_record, Loggable::EncryptionKey.for_record(self))
+      else
+        Loggable::EncryptionKey.for_record(associated_record)
       end
     end
 
-    def add_enctyption_key_to_data_owner(associated_record, encryption_key)
-      ap 'add_enctyption_key_to_data_owner'
-      ap @record
-      ap associated_record 
-    end
-
-    def associated_record_encryption_key(record)
-      Loggable::EncryptionKey.for_record(record)
-    end
-
-    def encrypted_attrs(attrs, loggable_attrs, key)
+    def encrypt_attrs(attrs, loggable_attrs, encryption_key)
       attrs = attrs.slice(*loggable_attrs)
-      encrypt_attrs(attrs, key)
+      encrypt_attr(attrs, encryption_key)
     end
 
-    # def encode_attr(attr, record)
-    #   # key = encryption_key(record.class.name, record.id)
-    #   # key = Loggable::EncryptionKey.for_record(record)
-    #   encode(attr, record, key)
-    # end
-
-    def encrypt_attrs(attrs, key)
+    def encrypt_attr(attrs, encryption_key)
       attrs.each do |key, value|
-        attrs[key] = Loggable::Encryption.encrypt(value, key) 
+        attrs[key] = Loggable::Encryption.encrypt(value, encryption_key)
       end
     end
-
   end
 end

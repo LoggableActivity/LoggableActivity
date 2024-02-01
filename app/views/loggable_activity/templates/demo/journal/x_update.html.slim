@@ -1,0 +1,28 @@
+tr
+  td
+    = render partial: 'loggable_activity/templates/shared/activity_info', locals: { activity: activity }
+  td
+    - update_activity_attrs = activity.update_activity_attrs
+    - if update_attrs = update_activity_attrs[:update_attrs]
+      / b = update_attrs[:record_class]
+      / br/
+      
+      - update_attrs[:attrs].each do |attr|
+        - attr.each do |key, from_to|
+          - next if from_to.nil?
+          b = key
+          br/
+          i From:&nbsp;
+          br
+          = "#{from_to[:from].nil? ? "" : from_to[:from]}"
+          br/
+          i To:&nbsp;
+          br
+          = "#{from_to[:to].nil? ? "" : from_to[:to]}"
+          br/
+        br/
+      / = render partial: 'loggable_activity/templates/shared/update_attrs', locals: { update_attrs: update_attrs }
+    - if updated_relations = update_activity_attrs[:updated_relations_attrs]
+      / = render partial: 'loggable_activity/templates/shared/updated_relations', locals: { updated_relations: updated_relations }
+  td 
+    =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
