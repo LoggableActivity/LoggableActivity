@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_01_114259) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -37,29 +37,33 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "demo_products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "part_number"
-    t.decimal "price"
+  create_table "demo_user_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "sex"
+    t.string "religion"
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_demo_user_profiles_on_user_id"
   end
 
   create_table "loggable_activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "action"
-    t.uuid "actor_id"
     t.string "actor_type"
+    t.uuid "actor_id"
     t.string "encrypted_actor_display_name"
     t.string "encrypted_record_display_name"
-    t.uuid "record_id"
     t.string "record_type"
+    t.uuid "record_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["actor_type", "actor_id"], name: "index_loggable_activities_on_actor"
+    t.index ["record_type", "record_id"], name: "index_loggable_activities_on_record"
   end
 
   create_table "loggable_encryption_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "parrent_key_id"
-    t.uuid "record_id"
-    t.string "record_type"
     t.string "key"
+    t.string "record_type"
+    t.uuid "record_id"
+    t.index ["record_type", "record_id"], name: "index_loggable_encryption_keys_on_record"
     t.index ["record_type", "record_id"], name: "index_loggable_encryption_keys_on_record_type_and_record_id"
   end
 
@@ -69,7 +73,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
     t.json "encrypted_attrs"
     t.integer "payload_type", default: 0
     t.boolean "data_owner", default: false
-    t.uuid "activity_id", null: false
+    t.uuid "activity_id"
+    t.index ["activity_id"], name: "index_loggable_payloads_on_activity_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -92,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_073126) do
   end
 
   add_foreign_key "demo_clubs", "demo_addresses"
+  add_foreign_key "demo_user_profiles", "users"
   add_foreign_key "loggable_payloads", "loggable_activities", column: "activity_id"
   add_foreign_key "users", "demo_addresses"
   add_foreign_key "users", "demo_clubs"

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# This is a factory for building update payloads
+
 module Loggable
   module UpdatePayloadsBuilder
     def build_update_payloads
@@ -22,6 +24,8 @@ module Loggable
     end
 
     def build_primary_update_payload(previous_values, current_values)
+      return if previous_values == current_values
+
       encrypted_update_attrs = encrypted_update_attrs(previous_values, current_values)
       @update_payloads << Loggable::Payload.new(
         record: @record,

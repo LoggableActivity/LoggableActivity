@@ -15,23 +15,15 @@ Loggable::Activity.destroy_all
 Loggable::EncryptionKey.destroy_all
 Loggable::Payload.destroy_all
 
-products = [
-  { name: 'Banana', price: 0.32, part_number: 'BANANA-1108' },
-  { name: 'Skim-milk', price: 0.49, part_number: 'SKIM-MILK-2208' },
-  { name: 'Eggs 6 stk.', price: 2.49, part_number: 'EGGS-3308' },
-  { name: 'Bread', price: 3.29, part_number: 'BREAD-4408' }
-]
-
-Demo::Product.delete_all
-products.each do |product|
-  Demo::Product.find_or_create_by!(product)
-end
-
 addresses = [
-  { street: 'Kongens gate 1', city: 'Oslo', country: 'Norway', postal_code: '0153' },
-  { street: 'Store kongensgade', city: 'København', country: 'Denmark', postal_code: '1264' },
-  { street: 'Vestergade', city: 'Aarhus', country: 'Denmark', postal_code: '8000' },
-  { street: 'Lystrup Centervej', city: 'Lystrup', country: 'Denmark', postal_code: '8520' }
+  { street: 'Ice Hotel, Marknadsvägen 63', city: 'Jukkasjärvi', country: 'Sweden', postal_code: '981 91' },
+  { street: 'The Palace of Versailles', city: 'Versailles', country: 'France', postal_code: '78000' },
+  { street: 'Santorini, Thera 847 00', city: 'Santorini', country: 'Greece', postal_code: '847 00' },
+  { street: 'Petra, Wadi Musa', city: 'Ma\'an', country: 'Jordan', postal_code: '71810' },
+  { street: 'Pyramid of Giza', city: 'Giza', country: 'Egypt', postal_code: '12588' },
+  { street: 'The Great Wall of China', city: 'Beijing', country: 'China', postal_code: '100006' },
+  { street: 'Eiffel Tower', city: 'Paris', country: 'France', postal_code: '75007' },
+  { street: 'Machu Picchu', city: 'Aguas Calientes', country: 'Peru', postal_code: '08680' }
 ]
 
 Demo::Address.destroy_all
@@ -40,10 +32,26 @@ addresses.each do |address|
 end
 
 clubs = [
-  { name: 'Lions Club', demo_address_id: Demo::Address.first.id },
-  { name: 'Kitcat', demo_address_id: Demo::Address.second.id },
-  { name: 'Monkey Bar', demo_address_id: Demo::Address.third.id },
-  { name: 'Tropical Lounge', demo_address_id: Demo::Address.fourth.id }
+  { name: 'Electric Oasis Club', demo_address_id: Demo::Address.first.id },
+  { name: 'Sapphire Moon Lounge', demo_address_id: Demo::Address.second.id },
+  { name: 'Starlight Jazz Café', demo_address_id: Demo::Address.third.id },
+  { name: 'Mystic Fusion Lounge', demo_address_id: Demo::Address.fourth.id },
+  { name: 'Galactic Groove Hub', demo_address_id: Demo::Address.fifth.id },
+  { name: 'Neon Jungle Club', demo_address_id: Demo::Address.first(6).last.id },
+  { name: 'Cosmic Beats Bar', demo_address_id: Demo::Address.first(7).last.id },
+  { name: 'Enchanted Harbor Lounge', demo_address_id: Demo::Address.first(8).last.id },
+  { name: 'Retro Rocket Club', demo_address_id: Demo::Address.first.id },
+  { name: 'Emerald Dream Lounge', demo_address_id: Demo::Address.second.id },
+  { name: 'Time Warp Disco', demo_address_id: Demo::Address.third.id },
+  { name: 'Aurora Borealis Bar', demo_address_id: Demo::Address.fourth.id },
+  { name: 'Underground Labyrinth Club', demo_address_id: Demo::Address.fifth.id },
+  { name: 'Crystal Cavern Lounge', demo_address_id: Demo::Address.first(8).last.id },
+  { name: 'Phantom Masquerade Ball', demo_address_id: Demo::Address.first(7).last.id },
+  { name: 'Elysian Gardens Club', demo_address_id: Demo::Address.first(6).last.id },
+  { name: 'Jungle Fever Disco', demo_address_id: Demo::Address.first.id },
+  { name: 'Lost Galaxy Lounge', demo_address_id: Demo::Address.second.id },
+  { name: 'Secret Haven Club', demo_address_id: Demo::Address.third.id },
+  { name: 'Nebula Nightfall Bar', demo_address_id: Demo::Address.fourth.id }
 ]
 
 Demo::Club.destroy_all
@@ -53,92 +61,152 @@ end
 
 users = [
   {
-    email: 'bob@example.com',
+    email: 'kurt@example.com',
     password: 'password1234',
     password_confirmation: 'password1234',
-    first_name: 'Bob',
-    last_name: 'Smith',
-    age: 32,
-    bio: 'I am politician with a drinking problem',
+    first_name: 'Kurt',
+    last_name: 'Cobain',
+    age: 27,
+    bio: 'Lead singer of Nirvana',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.first.id,
-    user_type: 'Patient'
+    user_type: 'Patient',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Atheist'
+    }
   },
   {
-    email: 'house@example.com',
+    email: 'jimi@example.com',
     password: 'password1234',
     password_confirmation: 'password1234',
-    first_name: 'DR.',
-    last_name: 'House',
-    age: 32,
-    bio: 'I am a famous actress',
-    demo_address_id: Demo::Address.first.id,
-    demo_club_id: Demo::Club.first.id,
-    user_type: 'Doctor'
-  },
-  {
-    email: 'alice@example.com',
-    password: 'password1234',
-    password_confirmation: 'password1234',
-    first_name: 'Alice',
-    last_name: 'Springs',
-    age: 32,
-    bio: 'I am a famous actress',
-    demo_address_id: Demo::Address.first.id,
-    demo_club_id: Demo::Club.first.id,
-    user_type: 'Patient'
-  },
-  {
-    email: 'jane@example.com',
-    password: 'password1234',
-    password_confirmation: 'password1234',
-    first_name: 'Jane',
-    last_name: 'Doe',
-    age: 28,
-    bio: 'Im a selebrity on rehab',
+    first_name: 'Jimi',
+    last_name: 'Hendrix',
+    age: 27,
+    bio: 'Legendary guitarist',
     demo_address_id: Demo::Address.second.id,
+    demo_club_id: Demo::Club.first.id,
+    user_type: 'Patient',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Buddhist'
+    }
+  },
+  {
+    email: 'janis@example.com',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'Janis',
+    last_name: 'Joplin',
+    age: 27,
+    bio: 'Rock and blues singer',
+    demo_address_id: Demo::Address.third.id,
+    demo_club_id: Demo::Club.first.id,
+    user_type: 'Patient',
+    demo_user_profile_attributes: {
+      sex: 'Female',
+      religion: 'Christianity'
+    }
+  },
+  {
+    email: 'jim@example.com',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'Jim',
+    last_name: 'Morrison',
+    age: 27,
+    bio: 'Lead singer of The Doors',
+    demo_address_id: Demo::Address.fourth.id,
     demo_club_id: Demo::Club.second.id,
-    user_type: 'Patient'
+    user_type: 'Doctor',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Atheist'
+    }
   },
   {
-    email: 'emily@example.com',
+    email: 'elvis@example.com',
     password: 'password1234',
     password_confirmation: 'password1234',
-    first_name: 'Emily',
-    last_name: 'Johnson',
-    age: 32,
-    bio: 'I am a really private person',
-    demo_address_id: Demo::Address.first.id,
+    first_name: 'Elvis',
+    last_name: 'Presley',
+    age: 42,
+    bio: 'King of Rock and Roll',
+    demo_address_id: Demo::Address.fifth.id,
     demo_club_id: Demo::Club.third.id,
-    user_type: 'Patient'
+    user_type: 'Patient',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Christianity'
+    }
   },
   {
-    email: 'michael-brown@example.com',
+    email: 'freddie@example.com',
     password: 'password1234',
     password_confirmation: 'password1234',
-    first_name: 'Michael',
-    last_name: 'Brown',
-    age: 32,
-    bio: 'I am a dangerous kriminal killer',
-    demo_address_id: Demo::Address.first.id,
+    first_name: 'Freddie',
+    last_name: 'Mercury',
+    age: 45,
+    bio: 'Lead singer of Queen',
+    demo_address_id: Demo::Address.first(6).last.id,
     demo_club_id: Demo::Club.fourth.id,
-    user_type: 'Doctor'
+    user_type: 'Doctor',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Zoroastrianism'
+    }
+  },
+  {
+    email: 'david@example.com',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'David',
+    last_name: 'Bowie',
+    age: 69,
+    bio: 'Legendary musician and actor',
+    demo_address_id: Demo::Address.first(7).last.id,
+    demo_club_id: Demo::Club.fourth.id,
+    user_type: 'Patient',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Agnostic'
+    }
+  },
+  {
+    email: 'prince@example.com',
+    password: 'password1234',
+    password_confirmation: 'password1234',
+    first_name: 'Prince',
+    last_name: 'Rogers Nelson',
+    age: 57,
+    bio: 'Iconic musician and artist',
+    demo_address_id: Demo::Address.first(8).last.id,
+    demo_club_id: Demo::Club.fourth.id,
+    user_type: 'Patient',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Jehovah\'s Witness'
+    }
   },
   {
     email: 'max@example.com',
-    password: 'iL9Ac%&w2mqD$TKl.kXW}e-L1%',
-    password_confirmation: 'iL9Ac%&w2mqD$TKl.kXW}e-L1%',
+    password: 'password1234',
+    password_confirmation: 'password1234',
     first_name: 'Max',
-    last_name: 'Grønlund',
-    age: 32,
-    bio: 'I am a system administrator',
+    last_name: 'Greenfield',
+    age: 57,
+    bio: 'Tech entrepreneur',
     demo_address_id: Demo::Address.first.id,
     demo_club_id: Demo::Club.fourth.id,
-    user_type: 'Admin'
+    user_type: 'Admin',
+    demo_user_profile_attributes: {
+      sex: 'Male',
+      religion: 'Christianity'
+    }
   }
 ]
 
-User.delete_all
+User.destroy_all
 users.each do |user|
   next if User.find_by(email: user[:email]).present?
 
@@ -147,30 +215,59 @@ end
 
 journals = [
   {
-    patient_id: User.find_by(email: 'emily@example.com').id,
-    doctor_id: User.find_by(email: 'michael-brown@example.com').id,
-    title: 'Private information',
-    body: 'Lumbersexual mumblecore same, ennui enamel pin affogato gentrify bruh taxidermy',
+    patient_id: User.find_by(email: 'prince@example.com').id,
+    doctor_id: User.find_by(email: 'freddie@example.com').id,
+    title: 'Confidential Musings',
+    body: 'I have some confidential musings to share about my life. Please keep them between us.',
     state: 'pending'
   },
   {
-    patient_id: User.find_by(email: 'max@example.com').id,
-    doctor_id: User.find_by(email: 'jane@example.com').id,
-    title: 'Please dont tell anyone',
-    body: 'Waistcoat copper mug grailed, hella farm-to-table tbh pitchfork four loko austin.',
+    patient_id: User.find_by(email: 'david@example.com').id,
+    doctor_id: User.find_by(email: 'jim@example.com').id,
+    title: 'Secrets of a Foodie',
+    body: 'As a foodie, I have some food-related secrets that I need to confess. Let\'s keep it confidential!',
     state: 'pending'
   },
   {
-    patient_id: User.find_by(email: 'jane@example.com').id,
-    doctor_id: User.find_by(email: 'michael-brown@example.com').id,
-    title: 'Confidential',
-    body: 'Gastropub ascot lyft banh mi gatekeep, sustainable retro listicle cloud bread.',
+    patient_id: User.find_by(email: 'janis@example.com').id,
+    doctor_id: User.find_by(email: 'jim@example.com').id,
+    title: 'Gatekeeper No More',
+    body: 'I\'ve had my fair share of gatekeeping incidents, but I want to put that behind me. Please keep this private.',
+    state: 'pending'
+  },
+  {
+    patient_id: User.find_by(email: 'elvis@example.com').id,
+    doctor_id: User.find_by(email: 'jim@example.com').id,
+    title: 'Elvis\'s Confession',
+    body: 'I\'ve been keeping a secret Elvis impersonation hobby for years. Let\'s keep this between us, doc!',
+    state: 'pending'
+  },
+  {
+    patient_id: User.find_by(email: 'prince@example.com').id,
+    doctor_id: User.find_by(email: 'jim@example.com').id,
+    title: 'Marilyn\'s Private Thoughts',
+    body: 'As Marilyn Monroe, I have some private thoughts to share. Please respect my privacy.',
+    state: 'pending'
+  },
+  {
+    patient_id: User.find_by(email: 'kurt@example.com').id,
+    doctor_id: User.find_by(email: 'freddie@example.com').id,
+    title: 'James\'s Hidden Talent',
+    body: 'I have a hidden talent that I don\'t want the world to know about. Let\'s keep it confidential.',
+    state: 'pending'
+  },
+  {
+    patient_id: User.find_by(email: 'elvis@example.com').id,
+    doctor_id: User.find_by(email: 'freddie@example.com').id,
+    title: 'Lucille\'s Secret Recipe',
+    body: 'I have a secret family recipe that I want to share, but only with you. Keep it safe, doctor!',
     state: 'pending'
   }
 ]
 
-Demo::Journal.delete_all
+Demo::Journal.destroy_all
 journals.each do |journal|
-  Demo::Journal.find_or_create_by!(journal)
+  Demo::Journal.create!(journal)
 end
+
 puts '------------------ Seeding data done -------------------'

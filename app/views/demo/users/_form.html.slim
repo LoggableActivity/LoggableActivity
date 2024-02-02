@@ -34,19 +34,33 @@
       = f.label :password_confirmation, class: 'col-sm-2 control-label'
       .col-sm-10
         = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Leave blank if you do not want to change'
-    
-  .form-group.mt-2
-    = f.label :demo_address_id, 'Address', class: 'form-label'
-    = f.collection_select :demo_address_id, @addresses, :id, :street, { include_blank: 'No Address selected' }, { class: 'form-control' }
-
 
   .form-group.mt-2
-    = f.label :demo_club_id, 'Club', class: 'form-label'
-    = f.collection_select :demo_club_id, @clubs, :id, :name, { include_blank: "No Club selectede" }, { class: 'form-control' }
+    = f.label :demo_address_id, 'Address', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.collection_select :demo_address_id, @addresses, :id, :street, { include_blank: 'No Address selected' }, { class: 'form-control' }
 
   .form-group.mt-2
-    = f.label :user_type, 'User type', class: 'form-label'
-    = f.select :user_type, User.user_types.keys.map { |user_type| [user_type.titleize, user_type] }, { include_blank: true }, { class: 'form-control'}
+    = f.label :demo_club_id, 'Club', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.collection_select :demo_club_id, @clubs, :id, :name, { include_blank: "No Club selectede" }, { class: 'form-control' }
+
+  .form-group.mt-2
+    = f.label :user_type, 'User type', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.select :user_type, User.user_types.keys.map { |user_type| [user_type.titleize, user_type] }, { include_blank: true }, { class: 'form-control' }
+
+  = f.fields_for :demo_user_profile, html: { class: 'form-horizontal' } do |profile_fields|
+    .form-group.mt-2
+      = profile_fields.label :sex, class: 'col-sm-2 control-label'
+      .col-sm-10
+        = profile_fields.text_field :sex, class: 'form-control'
+        / = profile_fields.select :sex, options_for_select(['Male', 'Female', 'Other'], @user.demo_user_profile&.sex), { class: 'form-control' }
+    .form-group.mt-2
+      = profile_fields.label :religion, class: 'col-sm-2 control-label'
+      .col-sm-10
+        / = profile_fields.select :religion, options_for_select(['Christianity', 'Hindu', 'Muslim', 'Buddhism'], @user.demo_user_profile&.religion), { class: 'form-control' }
+        = profile_fields.text_field :religion, class: 'form-control'
 
   .form-group.mt-2
     .col-sm-offset-2.col-sm-10

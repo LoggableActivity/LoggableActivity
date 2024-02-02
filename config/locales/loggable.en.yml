@@ -29,6 +29,7 @@ en:
         destroy: A user was deleted
       models:
         Demo::Address: Address
+        Demo::UserProfile: Profile
         Demo::Club: Club
         Demo::Journal: Journal
         Demo/Product: Product

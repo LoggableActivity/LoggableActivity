@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This it a factory for building payloads.
+# This is a factory for building payloads.
 
 module Loggable
   module PayloadsBuilder
@@ -36,13 +36,15 @@ module Loggable
       relation_config.each_key do |key|
         case key
         when 'belongs_to'
-          build_belongs_to_payload(relation_config)
+          build_payload(relation_config, 'belongs_to')
+        when 'has_one'
+          build_payload(relation_config, 'has_one')
         end
       end
     end
 
-    def build_belongs_to_payload(relation_config)
-      associated_record = send(relation_config['belongs_to'])
+    def build_payload(relation_config, ralation_type)
+      associated_record = send(relation_config[ralation_type])
       return nil if associated_record.nil?
 
       associated_loggable_attrs = relation_config['loggable_attrs']

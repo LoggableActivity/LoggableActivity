@@ -76,6 +76,8 @@ module Loggable
     end
 
     def create_activity(payloads)
+      return if nothing_to_log?(payloads)
+
       Loggable::Activity.create!(
         encrypted_actor_display_name: encrypted_actor_name,
         encrypted_record_display_name: encrypted_record_name,
@@ -84,6 +86,10 @@ module Loggable
         record: @record,
         payloads:
       )
+    end
+
+    def nothing_to_log?(payloads)
+      payloads.empty?
     end
 
     def log_custom_activity(activity); end
