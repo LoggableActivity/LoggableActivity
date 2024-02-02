@@ -1,8 +1,12 @@
 ## Loggable Activity - Work in progress 🌟
-Logging of who did what when while complying to the Genera Data Protection Regulation.
+Logging of who did what when while complying to the Genera Data Protection Regulation.<br>
+### Roadmap
+This is a demo project where everything is implemented directly in the project.<br/>
+Very next on the TODO list is to convert the Loggable::Activity into a gem.<br/>
+At the moment, it uses UUIDs as IDs on records and Postgres as the DB; this should be abstracted away.<br/>
+There is a need for a sponsor to provide a host for showcasing the project in the wild.<br>
 
-
-👉 Join here: [LoggableActivity Slack Workspace](https://join.slack.com/t/loggableactivity/shared_invite/zt-2a3tvgv37-mGwjHJTrBXBH2srXFRRSXQ)
+👉 Join the Slack channel here: [LoggableActivity Slack Workspace](https://join.slack.com/t/loggableactivity/shared_invite/zt-2a3tvgv37-mGwjHJTrBXBH2srXFRRSXQ)
 
 We value each contribution and believe in the power of community. Looking forward to seeing you there!
 
@@ -27,15 +31,14 @@ For example:
 - A paper trails system with rollback.
 
 ### What is a log entity?
-A log entry is a corelation between a timestamp, an actor and some data that belongs to one or more data owner 
+A log entry is a corelation between a timestamp, an actor and some records that belongs to one or more data owner 
 
 ### Basic features
-- Create a log entry when an actor (that would mostly be an user) performs an action.
+- Create a log entry when an actor (that would mostly be current_user) performs an action.
 - Categorize log entries based on actions
 - Store a copy of relevant data involved
 - Make log entries unavailable on the data owners request
 - Download the log in a portable format for a given actor in a portable format.
 - Anonymize the log for science projects if permission is granted by the data owner.
-<br/>
-<br/>
+- Configure logging from a config.yaml file
 <br/>
