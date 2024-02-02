@@ -8,12 +8,10 @@ class CreateLoggablePayloads < ActiveRecord::Migration[7.1]
       t.json :encrypted_attrs
       t.integer :payload_type, default: 0
       t.boolean :data_owner, default: false
-
-      # Manually create a UUID column for the foreign key
-      t.uuid :activity_id, null: false
+      t.references :activity, type: :uuid, foreign_key: { to_table: 'loggable_activities', class_name: 'Loggable::Activity' }
     end
 
     # Add foreign key constraint
-    add_foreign_key :loggable_payloads, :loggable_activities, column: :activity_id
+    # add_foreign_key :loggable_payloads, :loggable_activities, column: :activity_id
   end
 end

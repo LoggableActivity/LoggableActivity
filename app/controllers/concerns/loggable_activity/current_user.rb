@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Stores current user in a thread variable so that is can be accessed from the 'models/conserns/loggable/activities.rb' file.
 module LoggableActivity
   module CurrentUser
     extend ActiveSupport::Concern
@@ -12,6 +13,7 @@ module LoggableActivity
     private
 
     def set_current_user
+      # return if request.path == "/users/sign_out"
       return unless current_user
 
       Thread.current[:current_user] = current_user

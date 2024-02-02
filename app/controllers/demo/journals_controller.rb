@@ -70,11 +70,11 @@ module Demo
     end
 
     def set_patients
-      @patients = User.where(role: 'Patient')
+      @patients = User.where(user_type: 'Patient')
     end
 
     def set_doctors
-      @doctors = User.where(role: 'Doctor')
+      @doctors = User.where(user_type: 'Doctor')
     end
 
     # Only allow a list of trusted parameters through.

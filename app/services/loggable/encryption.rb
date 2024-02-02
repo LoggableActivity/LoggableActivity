@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This is a module for encryption and decryption of attributes
 require 'openssl'
 require 'base64'
 
@@ -13,7 +14,8 @@ module Loggable
       encrypted = cipher.update(data.to_s) + cipher.final
       Base64.encode64(encrypted)
     rescue OpenSSL::Cipher::CipherError => e
-      "*** Encryption failed: #{e.message} ***"
+      Rails.logger.debug "*** Encryption failed: #{e.message} ***"
+      nil
     end
 
     def self.decrypt(data, encryption_key)

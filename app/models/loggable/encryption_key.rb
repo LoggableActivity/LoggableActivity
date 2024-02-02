@@ -19,7 +19,7 @@ module Loggable
 
       return enctyption_key if enctyption_key
 
-      create_encryption_key(record_id:, record_type:, parrent_key:)
+      create_encryption_key(record_type, record_id, parrent_key)
     end
 
     def self.for_record(record, parrent_key = nil)
@@ -31,9 +31,9 @@ module Loggable
 
     def self.create_encryption_key(record_type, record_id, parrent_key = nil)
       if parrent_key
-        create(record_id:, record_type:, key: random_key, parrent_key_id: parrent_key.id)
+        create(record_type:, record_id:, key: random_key, parrent_key_id: parrent_key.id)
       else
-        create(record_id:, record_type:, key: random_key)
+        create(record_type:, record_id:, key: random_key)
       end
     end
 

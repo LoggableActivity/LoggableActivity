@@ -72,7 +72,8 @@ module Demo
         :bio,
         :demo_address_id,
         :demo_club_id,
-        :user_type
+        :user_type,
+        demo_user_profile_attributes: %i[sex religion id]
       )
     end
   end

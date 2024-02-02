@@ -11,6 +11,11 @@ User:
     - update
     - destroy
   relations:
+    - has_one: :demo_user_profile
+      model: Demo::UserProfile 
+      loggable_attrs:
+        - sex
+        - religion
     - belongs_to: :demo_address
       model: Demo::Address
       loggable_attrs:
