@@ -21,6 +21,9 @@ module Loggable
     }
 
     def attrs
+      ap '-------------------'
+      ap payload_type
+      ap '-------------------'
       return deleted_attrs if record.nil?
 
       case payload_type
@@ -40,7 +43,7 @@ module Loggable
     private
 
     def deleted_attrs
-      :deleted
+      encrypted_attrs.transform_values! { '*** DELETED ***' }
     end
 
     def decrypted_update_attrs

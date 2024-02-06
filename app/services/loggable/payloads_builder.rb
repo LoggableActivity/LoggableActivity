@@ -32,6 +32,17 @@ module Loggable
       # end
     end
 
+    def build_destroy_payload
+      encrypted_attrs = encrypt_attrs(attributes, self.class.loggable_attrs, primary_encryption_key)
+      encrypted_attrs.transform_values! { '*** DELETED ***' }
+      @payloads << Loggable::Payload.new(
+        record: @record,
+        payload_type: 'primary_payload',
+        encrypted_attrs:,
+        data_owner: true
+      )
+    end
+
     def build_relation_payload(relation_config)
       relation_config.each_key do |key|
         case key

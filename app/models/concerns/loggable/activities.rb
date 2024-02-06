@@ -59,20 +59,21 @@ module Loggable
     end
 
     def log_destroy
-      Loggable::Activity.create!(
-        encrypted_actor_display_name: encrypted_actor_name,
-        encrypted_record_display_name: '',
-        action: action_key,
-        actor: @actor,
-        record: @record,
-        payloads: [
-          Loggable::Payload.new(
-            record: @record,
-            payload_type: 'primary_payload',
-            encrypted_attrs: {}.to_json
-          )
-        ]
-      )
+      create_activity(build_destroy_payload)
+      # Loggable::Activity.create!(
+      #   encrypted_actor_display_name: encrypted_actor_name,
+      #   encrypted_record_display_name: '',
+      #   action: action_key,
+      #   actor: @actor,
+      #   record: @record,
+      #   payloads: [
+      #     Loggable::Payload.new(
+      #       record: @record,
+      #       payload_type: 'primary_payload',
+      #       encrypted_attrs: {}.to_json
+      #     )
+      #   ]
+      # )
     end
 
     def create_activity(payloads)
