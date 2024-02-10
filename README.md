@@ -1,44 +1,39 @@
-## Loggable Activity - Work in progress 🌟
-Logging of who did what when while complying to the Genera Data Protection Regulation.<br>
-### Roadmap
-This is a demo project where everything is implemented directly in the project.<br/>
-Very next on the TODO list is to convert the Loggable::Activity into a gem.<br/>
-At the moment, it uses UUIDs as IDs on records and Postgres as the DB; this should be abstracted away.<br/>
-There is a need for a sponsor to provide a host for showcasing the project in the wild.<br>
+# LoggableActivity
 
-👉 Join the Slack channel here: [LoggableActivity Slack Workspace](https://join.slack.com/t/loggableactivity/shared_invite/zt-2a3tvgv37-mGwjHJTrBXBH2srXFRRSXQ)
+TODO: Delete this and the text below, and describe your gem
 
-We value each contribution and believe in the power of community. Looking forward to seeing you there!
+Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/loggable_activity`. To experiment with that code, run `bin/console` for an interactive prompt.
 
+## Installation
 
-### What LoggableActivity does
-Given there is a web app with a backend with various features and personas with different roles and permissions, <br/>
-Then there might also be a need to log, showing who did what when.<br/>
-For example:
-- A doctor is looking at a patients journal, it might be confidential.
-- A user is sending a personal message to another user, the user might be spamming, phishing etc...
-- An administrator is granting an other user some permissions.
+TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
 
-### Who is it for?
-The logging system is intended for those who are in charge of monitoring how users interact with the system.<br/>
-For example:
-- Users with responsibility for security and traceability at a hospital.
-- Supporters who needs a log of what a customer did when.
-- System administrators who needs to know who updated an other users permissions.
+Install the gem and add to the application's Gemfile by executing:
 
-### What it is not
-- An error logging system
-- A paper trails system with rollback.
+    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
 
-### What is a log entity?
-A log entry is a corelation between a timestamp, an actor and some records that belongs to one or more data owner 
+If bundler is not being used to manage dependencies, install the gem by executing:
 
-### Basic features
-- Create a log entry when an actor (that would mostly be current_user) performs an action.
-- Categorize log entries based on actions
-- Store a copy of relevant data involved
-- Make log entries unavailable on the data owners request
-- Download the log in a portable format for a given actor in a portable format.
-- Anonymize the log for science projects if permission is granted by the data owner.
-- Configure logging from a config.yaml file
-<br/>
+    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+
+## Usage
+
+TODO: Write usage instructions here
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/loggable_activity. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/loggable_activity/blob/main/CODE_OF_CONDUCT.md).
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Code of Conduct
+
+Everyone interacting in the LoggableActivity project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/loggable_activity/blob/main/CODE_OF_CONDUCT.md).
