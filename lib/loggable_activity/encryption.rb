@@ -12,7 +12,6 @@ module LoggableActivity
     def self.encrypt(data, encryption_key)
       return nil if data.nil?
       return nil if encryption_key.nil?
-      raise EncryptionError, 'Encryption key can not be nil' if encryption_key.nil?
       raise EncryptionError, 'Encryption failed: Invalid encryption key length' unless encryption_key.bytesize == 32
 
       cipher = OpenSSL::Cipher.new('AES-128-CBC').encrypt

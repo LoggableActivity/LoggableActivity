@@ -17,9 +17,9 @@ Gem::Specification.new do |spec|
     sensitive information in your logs, making it a perfect solution for applications that require
     robust audit trails while adhering to strict data protection regulations.
   DESC
-  spec.homepage = 'https://github.com/maxgronlund/loggable_activity/home'
+  spec.homepage = 'https://github.com/maxgronlund/loggable_activity/'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.6.0'
+  spec.required_ruby_version = '>= 3.2'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata['homepage_uri'] = spec.homepage
@@ -38,18 +38,19 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  # spec.add_development_dependency "rspec", "~> 3.2"
-  # spec.add_development_dependency "rspec-rails", "~> 6.1"
-  # spec.add_development_dependency "sqlite3", "~> 1.7.2"
-  # spec.add_development_dependency "generator_spec", "~> 0.10.0"
   spec.add_dependency 'activerecord', '~> 7.1.3'
-  spec.add_dependency 'rails', '~> 7.1.2'
+  # spec.add_dependency "rails"
+  # spec.add_dependency "rspec-rails"
 
-  spec.add_dependency 'awesome_print', '~> 1.9.2'
+
+  # spec.add_development_dependency "sqlite3"
+  # spec.add_development_dependency "generator_spec"
+
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

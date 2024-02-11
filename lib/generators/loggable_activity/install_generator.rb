@@ -22,16 +22,8 @@ module LoggableActivity
       end
 
       def create_model_file
-        # FILE_NAMES.each do |file_name|
-        #   template "#{file_name}.rb", "app/models/loggable_activity/#{file_name}.rb"
-        # end
-        # template "encryptor.rb", 'app/services/loggable_activity/encryptor.rb'
-        # template "configuration.rb", 'app/services/loggable_activity/configuration.rb'
-        # template "hooks.rb", 'app/models/concerns/loggable_activity/hooks.rb'
-        # template "payloads_builder.rb", 'app/services/loggable_activity/payloads_builder.rb'
-        # template "update_payloads_builder.rb", 'app/services/loggable_activity/update_payloads_builder.rb'
         template 'loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
-        # template "current_user.rb", 'app/controllers/concerns/loggable_activity/current_user.rb'
+        template "current_user.rb", 'app/controllers/concerns/loggable_activity/current_user.rb'
       end
     end
   end
