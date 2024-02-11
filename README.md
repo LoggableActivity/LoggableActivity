@@ -1,5 +1,20 @@
-## Loggable Activity - Work in progress 🌟
+# Loggable Activity - Work in progress 🌟
+- We Protect and secure the privacy of data stored in an Activity Log
+- You are dealing with confidential or personal data protected by the General Data Protection Regulation (GDPR)
+- You want to protect users (data owners) by keeping a log of how data are used.
+- You are in a danger zone, the log itself holds protected data!!!
+
+
+
+
+### Examples
+Healthcare
+Keep a log of a users Journal, when it is created, read, updated, deleted or used in any other way.
+Who are reading it, are they nosy, is it there buiseness. What should happen to the Log when the users journal is deleted.
+this is 
+
 Logging of who did what when while complying to the Genera Data Protection Regulation.<br>
+
 ### Roadmap
 This is a demo project where everything is implemented directly in the project.<br/>
 Very next on the TODO list is to convert the Loggable::Activity into a gem.<br/>
