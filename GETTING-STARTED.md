@@ -5,28 +5,58 @@ This document should you getting started with `LoggableActivity`
 1 A running Rails Application<br/>
 2 An authorization system where there is a current available.
 
+## Demo Application
+You can download a demo application from<br/>
+[https://github.com/maxgronlund/LoggableActivityDemoApp](https://github.com/maxgronlund/LoggableActivityDemoApp)
+
 ## Configuration
 First you have to create a configuration file named `loggable_activity.yml` and locate it in the config folder.<br/>
-Then you can specify fields in the user table you want to log and what data base actions to log.<br/>
-Note there is no hook for `Show` in Rails so you would have to log that manually, more about that later.
-*Example logging the user model*
+It has the following tags
+- record_display_name: <br>
+You CAN define a method on the **User** model called full name, this will be a part of the json payload related to the **User** model
+
+- loggable_attrs:<br/>
+This are the fields in the database you HAS to define
+
+- auto_log:<br/>
+This are the actions that will be logged automatically, although you can log manually at any time.
+Note there is no hook for `Show` in Rails so you would have to log that manually like this `log(:how)`, more about that later.
+
+- relations:<br/>
+If a model has `belongs_to` and `has_one` relations you can log them as well<br>
+<br/>
+*Example confuguration for logging of the user model*
 ```
 User: 
+  record_display_name: full_name
   loggable_attrs: 
     - first_name
     - last_name 
-    - bio
-    - email
   auto_log:
     - create
     - update
     - destroy
+  relations:
+    - belongs_to: :demo_address
+      model: Demo::Address
+      loggable_attrs:
+        - street
+        - city
+Demo::Address: 
+  record_display_name: full_address
+  actor_display_name: email
+  loggable_attrs:
+    - street
+    - city
+    - country
+    - postal_code
 ```
-Then you have to add `LogggableActivity` to the `User Model` like this
+Then you HAVE TO to add `LogggableActivity::Hooks` to the `User Model` like this
 
 ```
 class User < ApplicationRecord
-  include Loggable::Activities
+  include LoggableActivity::Hooks
+  ...
 ```
 
 And finally you have to add this to the `ApplicationController`
@@ -37,44 +67,14 @@ class ApplicationController < ActionController::Base
 
 Now when you create a model like this:
 ```
-$ current_user = User.create(first_name: 'Admin', last_name: 'Amin', bio: 'Admin is a administrator', email: 'admin@example.com', password: "password")
-$ user = User.create(first_name: 'John', last_name: 'Doe', bio: 'John is a great guy', email: 'john@example.com', password: "password")
-$ user.log(create, actor: user)
+$ rails c
+$ User.create(first_name: 'John', last_name: 'Doe')
 ```
 
-Then an `Logggable::Activity` is created. You can inspect it from the terminal like this.
+Then an `LoggableActivity::Activity` is created. You can inspect it from the terminal like this.
 ```
-puts activity = Loggable::Activity.all.order(created_at: :asc).last
+puts activity = Loggable::Activity.all.latest.first
 puts activity.activity_type
 puts activity.payloads
 puts activity.payload_attrs
-
-
-```
-
-###Payloads
-A `Loggable::Activity` can have multiple payloads, each payload can have it's own data owner<br/>
-Imagine this scenario, a user belongs to an address, and there can be multiple users on that address.<br/> 
-Then it could be configured like this.
-```
-User: 
-  loggable_attrs: 
-    - first_name
-    - last_name 
-    - bio
-    - email
-  auto_log:
-    - create
-    - update
-    - destroy
-  relations:
-    belongs_to:
-      - model: Demo::Address
-        delete: :nullify
-        loggable_attrs:
-          - street
-          - city
-          - country
-          - postal_code
-
 ```
