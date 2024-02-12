@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module LoggableActivity
-  VERSION = '0.1.38'
+  VERSION = '0.1.38b'
 end
