@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
     sensitive information in your logs, making it a perfect solution for applications that require
     robust audit trails while adhering to strict data protection regulations.
   DESC
-  spec.homepage = 'https://github.com/maxgronlund/LoggableActivity/'
+  spec.homepage = 'https://loggableactivity-efe7b931c886.herokuapp.com/'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.2'
 
