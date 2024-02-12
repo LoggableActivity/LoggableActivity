@@ -83,8 +83,6 @@ module LoggableActivity
       encryption_key = LoggableActivity::EncryptionKey.for_record(record)&.key
       encrypted_attrs = relation_encrypted_attrs(record.attributes, loggable_attrs, encryption_key)
 
-      ap "building relation update payload for #{record.id} with encryption_key: #{encryption_key}"
-
       @update_payloads << LoggableActivity::Payload.new(
         record:,
         encrypted_attrs:,
