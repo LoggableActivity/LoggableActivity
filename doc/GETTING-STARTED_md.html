@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>GETTING-STARTED - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/navigation.js" defer></script>
+<script src="./js/search.js" defer></script>
+<script src="./js/search_index.js" defer></script>
+<script src="./js/searcher.js" defer></script>
+<script src="./js/darkfish.js" defer></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+
+
+  <ul class="link-list" role="directory">
+              <li>
+            <details open>
+              <summary>      <a href="#label-Getting+started">Getting started</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-Prerequisite">Prerequisite</a>
+          <li>      <a href="#label-Demo+Application">Demo Application</a>
+          <li>      <a href="#label-Configuration">Configuration</a>
+
+              </ul>
+            </details>
+          </li>
+
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    
+<div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+    <li><a href="./CHANGELOG_md.html">CHANGELOG</a>
+    <li><a href="./CODE_OF_CONDUCT_md.html">CODE_OF_CONDUCT</a>
+    <li><a href="./CONSIDERTIONS_md.html">CONSIDERTIONS</a>
+    <li><a href="./GETTING-STARTED_md.html">GETTING-STARTED</a>
+    <li><a href="./Gemfile.html">Gemfile</a>
+    <li><a href="./Gemfile_lock.html">Gemfile.lock</a>
+    <li><a href="./LICENSE_txt.html">LICENSE</a>
+    <li><a href="./README_md.html">README</a>
+    <li><a href="./ROADMAP_md.html">ROADMAP</a>
+    <li><a href="./Rakefile.html">Rakefile</a>
+    <li><a href="./bin/setup.html">setup</a>
+    <li><a href="./notes/CHEAT_SHEET_md.html">CHEAT_SHEET</a>
+    <li><a href="./sig/loggable_activity_rbs.html">loggable_activity.rbs</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page GETTING-STARTED.md">
+
+<h1 id="label-Getting+started">Getting started<span><a href="#label-Getting+started">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>This document should you getting started with <code>LoggableActivity</code></p>
+
+<h2 id="label-Prerequisite">Prerequisite<span><a href="#label-Prerequisite">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>1 A running Rails Application&lt;br/&gt; 2 An authorization system where there is a current user available.</p>
+
+<h2 id="label-Demo+Application">Demo Application<span><a href="#label-Demo+Application">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>You can download a demo application from&lt;br/&gt; <a href="https://github.com/maxgronlund/LoggableActivityDemoApp">github.com/maxgronlund/LoggableActivityDemoApp</a></p>
+
+<h2 id="label-Configuration">Configuration<span><a href="#label-Configuration">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>First you have to create a configuration file named <code>loggable_activity.yml</code> and locate it in the config folder.&lt;br/&gt; It has the following tags - <code>User</code> (example)<br> This is the name of the model you are configuring, as you can see there is alos a <code>Demo::Address</code> in the configuration file below, So if you have a model named <code>Demo::Club</code> you have to create at tag for that and fill in the other tags under that. - record_display_name: <br> Used to display something human to identify a given log entry, in this example the <strong>User</strong> model has a method named <code>full_name</code></p>
+<ul><li>
+<p>loggable_attrs:&lt;br/&gt; This are the attributes on a model and reflect the fields in the database you HAS to define, what fields to log.</p>
+</li><li>
+<p>auto_log:&lt;br/&gt; This are the actions that will be logged automatically, although you can log manually at any time. Note there is no hook for <code>Show</code> in Rails so you would have to log that manually like this <code>log(:show)</code>, more about that later.</p>
+</li><li>
+<p>relations:&lt;br/&gt; If a model has <code>belongs_to</code> and <code>has_one</code> relations you can log them automatically as well<br> &lt;br/&gt; <em>Example confuguration for logging of the user model</em></p>
+
+<pre>User: 
+  record_display_name: full_name
+  loggable_attrs: 
+
+- first_name
+- last_name 
+  auto_log:
+- create
+- update
+- destroy
+  relations:
+- belongs_to: :demo_address
+  model: Demo::Address
+  loggable_attrs:
+    - street
+    - city
+Demo::Address: 
+  record_display_name: full_address
+  actor_display_name: email
+  loggable_attrs:
+- street
+- city
+- country
+- postal_code</pre>
+
+<p>Then you HAVE TO to add <code>LogggableActivity::Hooks</code> to the <code>User Model</code> like this</p>
+</li></ul>
+
+<pre>class User &lt; ApplicationRecord
+  include LoggableActivity::Hooks
+  ...</pre>
+
+<p>And finally you have to add this to the <code>ApplicationController</code></p>
+
+<pre>class ApplicationController &lt; ActionController::Base
+  include LoggableActivity::CurrentUser</pre>
+
+<p>Now if you create a model like this:</p>
+
+<pre>$ rails c
+$ User.create(first_name: &#39;John&#39;, last_name: &#39;Doe&#39;)</pre>
+
+<p>Then an <code>LoggableActivity::Activity</code> is created. You can inspect it from the terminal like this.</p>
+
+<pre class="ruby"><span class="ruby-identifier">puts</span> <span class="ruby-identifier">activity</span> = <span class="ruby-constant">Loggable</span><span class="ruby-operator">::</span><span class="ruby-constant">Activity</span>.<span class="ruby-identifier">last</span>
+<span class="ruby-identifier">puts</span> <span class="ruby-identifier">activity</span>.<span class="ruby-identifier">attrs</span>
+</pre>
+
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.2.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
