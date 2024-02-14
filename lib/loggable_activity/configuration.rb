@@ -8,7 +8,7 @@ module LoggableActivity
     end
 
     # Returns the configuration data for the given class
-    # 
+    #
     # Example:
     #   LoggableActivity::Configuration.for_class('User')
     # Returns:

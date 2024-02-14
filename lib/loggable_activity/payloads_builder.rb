@@ -7,7 +7,7 @@ module LoggableActivity
     #
     #  Example:
     #    build_payloads
-    # 
+    #
     #  Returns:
     #   #<LoggableActivity::Payload:0x0000000109658718> {
     #                    :id => 129,
@@ -22,7 +22,7 @@ module LoggableActivity
     #            :created_at => Wed, 14 Feb 2024 13:21:13.964339000 UTC +00:00,
     #            :updated_at => Wed, 14 Feb 2024 13:21:13.964339000 UTC +00:00
     #   }
-    #   
+    #
     def build_payloads
       build_primary_payload
       self.class.relations.each do |relation_config|

@@ -33,7 +33,7 @@ module LoggableActivity
     end
 
     # Decrypts the given data using the given encryption key
-    # 
+    #
     # Example:
     #   LoggableActivity::Encryption.decrypt('SOME_ENCRYPTED_STRING', 'SECRET_KEY')
     #

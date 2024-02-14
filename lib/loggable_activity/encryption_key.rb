@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 module LoggableActivity
   # This class represents the encryption key used to unlock the data for one payload.
   # When deleted, only the encryption_key field is deleted.
@@ -27,7 +26,7 @@ module LoggableActivity
     #
     # Example:
     #  LoggableActivity::EncryptionKey.for_record_by_type_and_id('User', 1)
-    # 
+    #
     # Returns:
     #  {
     #    :id => 39,
@@ -38,7 +37,7 @@ module LoggableActivity
     #  }
     #
     def self.for_record_by_type_and_id(record_type, record_id, parent_key = nil)
-      encryption_key = find_by(record_type: record_type, record_id: record_id)
+      encryption_key = find_by(record_type:, record_id:)
       return encryption_key if encryption_key
 
       create_encryption_key(record_type, record_id, parent_key)
@@ -64,7 +63,7 @@ module LoggableActivity
     #  }
     #
     def self.for_record(record, parent_key = nil)
-      encryption_key = find_by(record: record)
+      encryption_key = find_by(record:)
       return encryption_key if encryption_key
 
       create_encryption_key(record.class.name, record.id, parent_key)
@@ -91,9 +90,9 @@ module LoggableActivity
     #
     def self.create_encryption_key(record_type, record_id, parent_key = nil)
       if parent_key
-        create(record_type: record_type, record_id: record_id, key: random_key, parent_key_id: parent_key.id)
+        create(record_type:, record_id:, key: random_key, parent_key_id: parent_key.id)
       else
-        create(record_type: record_type, record_id: record_id, key: random_key)
+        create(record_type:, record_id:, key: random_key)
       end
     end
 

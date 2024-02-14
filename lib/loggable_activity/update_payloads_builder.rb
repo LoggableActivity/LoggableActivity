@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-
 module LoggableActivity
   # This module is responsible for building update payloads used in loggable activities.
   module UpdatePayloadsBuilder
-
     # Builds payloads for an activity update event.
     #
     #  Example:

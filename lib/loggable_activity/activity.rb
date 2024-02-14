@@ -126,7 +126,7 @@ module LoggableActivity
     #       }
     #     ]
     #   }
-    #   
+    #
     def update_activity_attrs
       {
         update_attrs:,
@@ -213,7 +213,7 @@ module LoggableActivity
       LoggableActivity::Activity.latest(limit, params).where(actor:)
     end
 
-    # Returns a list of activities ordered by creation date. 
+    # Returns a list of activities ordered by creation date.
     def self.latest(limit = 20, params = { offset: 0 })
       offset = params[:offset] || 0
       LoggableActivity::Activity

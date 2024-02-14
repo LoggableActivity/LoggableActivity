@@ -15,7 +15,7 @@ module LoggableActivity
     # The included hook sets up configuration and callback hooks for the model.
     included do
       config = LoggableActivity::Configuration.for_class(name)
-      
+
       raise "Loggable::Configuration not found for #{name}, Please add it to 'config/loggable_activity.yaml'" if config.nil?
 
       # Initializes attributes based on configuration.
@@ -29,7 +29,6 @@ module LoggableActivity
       after_update :log_update_activity
       before_destroy :log_destroy_activity
     end
-
 
     # Logs an activity with the specified action, actor, and params.
     #

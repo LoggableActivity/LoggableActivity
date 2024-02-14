@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LoggableActivity
   # This class represents a payload in the log, containing encrypted data of one record in the database.
   # When the record is deleted, the encryption key for the payload is also deleted.
