@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Stores current user in a thread variable so that is can be accessed from the 'models/conserns/loggable/activities.rb' file.
 module LoggableActivity
+  # Stores current user in a thread variable so is can be accessed from the LoggableActivity::Hook model
   module CurrentUser
     extend ActiveSupport::Concern
 
