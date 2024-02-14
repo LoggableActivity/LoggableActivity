@@ -6,17 +6,19 @@ require 'loggable_activity/payloads_builder'
 require 'loggable_activity/update_payloads_builder'
 
 module LoggableActivity
+  # This module provides hooks for creating activities when included in a model.
   module Hooks
     extend ActiveSupport::Concern
     include LoggableActivity::PayloadsBuilder
     include LoggableActivity::UpdatePayloadsBuilder
 
+    # The included hook sets up configuration and callback hooks for the model.
     included do
       config = LoggableActivity::Configuration.for_class(name)
-      if config.nil?
-        raise "Loggable::Configuration not found for #{name}, Please add it to 'config/loggable_activity.yaml'"
-      end
 
+      raise "Loggable::Configuration not found for #{name}, Please add it to 'config/loggable_activity.yaml'" if config.nil?
+
+      # Initializes attributes based on configuration.
       self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
       self.relations = config&.fetch('relations', []) || []
       self.auto_log = config&.fetch('auto_log', []) || []
@@ -26,12 +28,13 @@ module LoggableActivity
       after_create :log_create_activity
       after_update :log_update_activity
       before_destroy :log_destroy_activity
-
-      # has_one: encryption_key, as: :encryption_key, class_name: 'LoggableActivity::EncryptionKey'
     end
 
-    # This is the main method for logging activities.
-    # It is never called from the directly from the controller.
+    # Logs an activity with the specified action, actor, and params.
+    #
+    #   @param action [Symbol] The action to log (:create, :update, :destroy, or custom).
+    #   @param actor [Object] The actor performing the action.
+    #   @param params [Hash] Additional parameters for the activity.
     def log(action, actor: nil, params: {})
       @action = action
       @actor = actor || Thread.current[:current_user]

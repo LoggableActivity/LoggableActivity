@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module LoggableActivity::Encryption - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-c-blank-3F">::blank?</a>
+    <li ><a href="#method-c-decrypt">::decrypt</a>
+    <li ><a href="#method-c-encrypt">::encrypt</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-LoggableActivity::Encryption">
+  <h1 id="module-LoggableActivity::Encryption" class="module">
+    module LoggableActivity::Encryption
+  </h1>
+
+  <section class="description">
+    
+<p>This module is used to encrypt and decrypt attributes</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-blank-3F" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">blank?</span><span
+              class="method-args">(value)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="blank-3F-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">blank?</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:empty?</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">:</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-decrypt" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">decrypt</span><span
+              class="method-args">(data, encryption_key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Decrypts the given data using the given encryption key</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">decrypt</span>(<span class="ruby-string">&#39;SOME_ENCRYPTED_STRING&#39;</span>, <span class="ruby-string">&#39;SECRET_KEY&#39;</span>)
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby"><span class="ruby-string">&quot;my secret data&quot;</span>
+</pre>
+
+          <div class="method-source-code" id="decrypt-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">decrypt</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;loggable.activity.deleted&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-128-CBC&#39;</span>).<span class="ruby-identifier">decrypt</span>
+  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">encryption_key</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">15</span>]
+  <span class="ruby-identifier">decrypted_data</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">decrypted_output</span> = <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">decrypted_data</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">final</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Decryption failed: Invalid UTF-8 output&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">decrypted_output</span>.<span class="ruby-identifier">valid_encoding?</span>
+
+  <span class="ruby-identifier">decrypted_output</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&#39;UTF-8&#39;</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span><span class="ruby-operator">::</span><span class="ruby-constant">CipherError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-encrypt" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">encrypt</span><span
+              class="method-args">(data, encryption_key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Encrypts the given data using the given encryption key</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">encrypt</span>(<span class="ruby-string">&#39;my secret data&#39;</span>, <span class="ruby-string">&#39;my secret key&#39;</span>)
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby"><span class="ruby-string">&quot;SOME_ENCRYPTED_STRING&quot;</span>
+</pre>
+
+          <div class="method-source-code" id="encrypt-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">encrypt</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-string">&#39;Encryption failed: Invalid encryption key length&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
+
+  <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-128-CBC&#39;</span>).<span class="ruby-identifier">encrypt</span>
+  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">encryption_key</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">15</span>]
+  <span class="ruby-identifier">encrypted</span> = <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">final</span>
+  <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-identifier">encrypted</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span><span class="ruby-operator">::</span><span class="ruby-constant">CipherError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Encryption failed: #{e.message} ***&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.2.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

@@ -1,19 +1,20 @@
 # frozen_string_literal: true
 
-# This is the payload of the log. It contains the encrypted data of one record in the DB.
-# When the record is deleted, the encryption_key for the payload is deleted.
-# Payloads comes in different flavors.
-# The primary_payload is the payload that contains the parrent record.
-# When fecthing the attrs, they are packed differently depending on the payload_type.
-
 module LoggableActivity
+  # This class represents a payload in the log, containing encrypted data of one record in the database.
+  # When the record is deleted, the encryption key for the payload is also deleted.
+  # Payloads come in different types, each serving a specific purpose.
   class Payload < ActiveRecord::Base
     self.table_name = 'loggable_payloads'
-    belongs_to :record, polymorphic: true, optional: true
 
+    # Associations
     belongs_to :activity
     belongs_to :record, polymorphic: true, optional: true
+
+    # Validations
     validates :encrypted_attrs, presence: true
+
+    # Enumeration for different payload types
     enum payload_type: {
       primary_payload: 0,
       update_payload: 1,
@@ -21,6 +22,21 @@ module LoggableActivity
       previous_association: 3
     }
 
+    # Returns the decrypted attributes of the payload based on its type.
+    #
+    # @return [Hash] The decrypted attributes.
+    #
+    # Example:
+    #  payload.attrs
+    #
+    #  Returns:
+    #  {
+    #           "street" => "Machu Picchu",
+    #             "city" => "Aguas Calientes",
+    #          "country" => "Peru",
+    #      "postal_code" => "08680"
+    #  }
+    #
     def attrs
       return deleted_attrs if record.nil?
 
@@ -29,27 +45,38 @@ module LoggableActivity
         decrypted_attrs
       when 'update_payload'
         decrypted_update_attrs
-        # when 'destroy_payload'
-        #   destroy_payload_attrs
       end
-    end
-
-    def payload_encryption_key
-      @payload_encryption_key ||= LoggableActivity::EncryptionKey.for_record(record)&.key
     end
 
     private
 
+    # Retrieves the encryption key for the payload.
+    #
+    # @return [String, nil] The encryption key.
+    def payload_encryption_key
+      @payload_encryption_key ||= LoggableActivity::EncryptionKey.for_record(record)&.key
+    end
+
+    # Helper method to handle deleted attributes.
+    #
+    # @return [Hash] The hash with deleted attributes.
     def deleted_attrs
       encrypted_attrs.transform_values! { I18n.t('loggable.activity.deleted') }
     end
 
+    # Decrypts the 'from' and 'to' attributes in the update payload.
+    #
+    # @return [Array<Hash>] The array of decrypted changes.
     def decrypted_update_attrs
       encrypted_attrs['changes'].map do |change|
         decrypted_from_to_attr(change)
       end
     end
 
+    # Decrypts 'from' and 'to' attributes.
+    #
+    # @param change [Hash] The change hash containing 'from' and 'to' values.
+    # @return [Hash] The decrypted 'from' and 'to' values.
     def decrypted_from_to_attr(change)
       change.to_h do |key, value|
         from = decrypt_attr(value['from'])
@@ -58,12 +85,19 @@ module LoggableActivity
       end
     end
 
+    # Decrypts all attributes.
+    #
+    # @return [Hash] The decrypted attributes.
     def decrypted_attrs
       encrypted_attrs.each do |key, value|
         encrypted_attrs[key] = decrypt_attr(value)
       end
     end
 
+    # Decrypts a single attribute.
+    #
+    # @param value [String] The encrypted value to decrypt.
+    # @return [String] The decrypted value.
     def decrypt_attr(value)
       LoggableActivity::Encryption.decrypt(value, payload_encryption_key)
     end

@@ -23,7 +23,8 @@ module LoggableActivity
 
       def create_model_file
         template 'loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
-        template "current_user.rb", 'app/controllers/concerns/loggable_activity/current_user.rb'
+        template 'loggable_activity.yml', 'config/loggable_activity.yml'
+        template 'current_user.rb', 'app/controllers/concerns/loggable_activity/current_user.rb'
       end
     end
   end

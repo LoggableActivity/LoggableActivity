@@ -1,0 +1,29 @@
+# User: 
+#   record_display_name: full_name
+#   loggable_attrs: 
+#     - first_name
+#     - last_name 
+#     - age 
+#     - email
+#     - user_type 
+#   auto_log:
+#     - create
+#     - update
+#     - destroy
+#   relations:
+#     - has_one: :demo_user_profile
+#       model: Demo::UserProfile 
+#       loggable_attrs:
+#         - sex
+#         - religion
+#     - belongs_to: :demo_address
+#       model: Demo::Address
+#       loggable_attrs:
+#         - street
+#         - city
+#         - country
+#         - postal_code
+#     - belongs_to: :demo_club
+#       model: Demo::Club
+#       loggable_attrs:
+#         - name

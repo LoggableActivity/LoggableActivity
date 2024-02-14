@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class LoggableActivity::Payload - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link">ActiveRecord::Base
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-i-attrs">#attrs</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-LoggableActivity::Payload">
+  <h1 id="class-LoggableActivity::Payload" class="class">
+    class LoggableActivity::Payload
+  </h1>
+
+  <section class="description">
+    
+<p>This class represents a payload in the log, containing encrypted data of one record in the database. When the record is deleted, the encryption key for the payload is also deleted. Payloads come in different types, each serving a specific purpose.</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the decrypted attributes of the payload based on its type.</p>
+
+<p>@return [Hash] The decrypted attributes.</p>
+
+<p>Example:</p>
+
+<pre>payload.attrs
+
+Returns:
+{
+         &quot;street&quot; =&gt; &quot;Machu Picchu&quot;,
+           &quot;city&quot; =&gt; &quot;Aguas Calientes&quot;,
+        &quot;country&quot; =&gt; &quot;Peru&quot;,
+    &quot;postal_code&quot; =&gt; &quot;08680&quot;
+}</pre>
+
+          <div class="method-source-code" id="attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attrs</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">deleted_attrs</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">payload_type</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;current_association&#39;</span>, <span class="ruby-string">&#39;primary_payload&#39;</span>, <span class="ruby-string">&#39;previous_association&#39;</span>
+    <span class="ruby-identifier">decrypted_attrs</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;update_payload&#39;</span>
+    <span class="ruby-identifier">decrypted_update_attrs</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.2.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

@@ -28,7 +28,7 @@ Metrics/PerceivedComplexity:
 
 Metrics/ModuleLength:
   Exclude:
-    # - lib/loggable_activity/hooks.rb
+    - lib/loggable_activity/hooks.rb
 Metrics/AbcSize:
   Exclude:
     - lib/loggable_activity/encryption.rb
