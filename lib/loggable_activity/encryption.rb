@@ -23,7 +23,8 @@ module LoggableActivity
     end
 
     def self.decrypt(data, encryption_key)
-      return I18n.t('loggable.activity.deleted') if blank?(data) || blank?(encryption_key)
+      return nil if data.nil?
+      return I18n.t('loggable.activity.deleted') if encryption_key.nil?
 
       cipher = OpenSSL::Cipher.new('AES-128-CBC').decrypt
       cipher.key = Digest::SHA1.hexdigest(encryption_key)[0..15]
