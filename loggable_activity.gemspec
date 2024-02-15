@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Max \nGroenlund"]
   spec.email = ['max@synthmax.dk']
 
-  spec.summary = 'Activity Logger with GDPR Compliance and Relation Support.'
+  spec.summary = 'Activity Logger with relations, prepared for GDPR Compliance and .'
   spec.description = <<-DESC
     LoggableActivity is a powerful gem for Ruby on Rails that provides seamless user activity logging
     prepared for GDPR compliance and supporting record relations. It allows you to effortlessly
@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.metadata['changelog_uri'] = 'https://github.com/maxgronlund/LoggableActivity/CHANGELOG.md'
   # Set the documentation URL
   spec.metadata = { "documentation_uri" => "https://maxgronlund.github.io/LoggableActivity/" }
-  spec.metadata = { "demo_uri" => "https://loggableactivity-efe7b931c886.herokuapp.com/" }
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
