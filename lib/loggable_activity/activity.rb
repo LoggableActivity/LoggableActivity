@@ -259,10 +259,12 @@ module LoggableActivity
     end
 
     def record_key
+      return nil if record.nil?
       LoggableActivity::EncryptionKey.for_record(record)&.key
     end
 
     def actor_key
+      return nil if actor.nil?
       LoggableActivity::EncryptionKey.for_record(actor)&.key
     end
 
