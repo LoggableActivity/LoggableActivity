@@ -19,17 +19,21 @@ module LoggableActivity
     # Returns:
     #   "SOME_ENCRYPTED_STRING"
     #
-    def self.encrypt(data, encryption_key)
-      return nil if data.nil?
-      return nil if encryption_key.nil?
-      raise EncryptionError, 'Encryption failed: Invalid encryption key length' unless encryption_key.bytesize == 32
+    def self.encrypt(data, encoded_key)
+      return nil if data.nil? || encoded_key.nil?
 
-      cipher = OpenSSL::Cipher.new('AES-128-CBC').encrypt
-      cipher.key = Digest::SHA1.hexdigest(encryption_key)[0..15]
+      encryption_key = Base64.decode64(encoded_key)
+      raise EncryptionError, "Encryption failed: Invalid encryption key length #{encryption_key.bytesize}" unless encryption_key.bytesize == 32
+
+      cipher = OpenSSL::Cipher.new('AES-256-CBC').encrypt
+      cipher.key = encryption_key
+      cipher.iv = iv = cipher.random_iv
+
       encrypted = cipher.update(data.to_s) + cipher.final
-      Base64.encode64(encrypted)
+      # Combine IV with encrypted data, encode with Base64 for storage/transmission
+      Base64.encode64(iv + encrypted)
     rescue OpenSSL::Cipher::CipherError => e
-      raise EncryptionError, "Encryption failed: #{e.message} ***"
+      raise EncryptionError, "Encryption failed: #{e.message}"
     end
 
     # Decrypts the given data using the given encryption key
@@ -40,19 +44,22 @@ module LoggableActivity
     # Returns:
     #   "my secret data"
     #
-    def self.decrypt(data, encryption_key)
-      return '' if data.nil?
-      return I18n.t('loggable.activity.deleted') if encryption_key.nil?
+    def self.decrypt(data, encoded_key)
+      return '' if data.nil? || encoded_key.nil?
 
-      cipher = OpenSSL::Cipher.new('AES-128-CBC').decrypt
-      cipher.key = Digest::SHA1.hexdigest(encryption_key)[0..15]
-      decrypted_data = Base64.decode64(data)
-      decrypted_output = cipher.update(decrypted_data) + cipher.final
-      raise 'Decryption failed: Invalid UTF-8 output' unless decrypted_output.valid_encoding?
+      encryption_key = Base64.decode64(encoded_key)
+      raise EncryptionError, 'Decryption failed: Invalid encryption key length' unless encryption_key.bytesize == 32
 
-      decrypted_output.force_encoding('UTF-8')
+      cipher = OpenSSL::Cipher.new('AES-256-CBC').decrypt
+      cipher.key = encryption_key
+
+      raw_data = Base64.decode64(data)
+      cipher.iv = raw_data[0...cipher.iv_len] # Extract IV from the beginning of raw_data
+      decrypted_data = cipher.update(raw_data[cipher.iv_len..]) + cipher.final
+
+      decrypted_data.force_encoding('UTF-8')
     rescue OpenSSL::Cipher::CipherError => e
-      raise EncryptionError, e.message
+      raise EncryptionError, "Decryption failed: #{e.message}"
     end
 
     def self.blank?(value)

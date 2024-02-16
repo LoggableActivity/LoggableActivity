@@ -78,3 +78,9 @@ Then an `LoggableActivity::Activity` is created. You can inspect it from the ter
 puts activity = Loggable::Activity.last
 puts activity.attrs
 ```
+
+## For developers
+If you want to contribute to the development and try it out in the process
+- 1 Down the demo project from [demo project on github](https://github.com/maxgronlund/LoggableActivityDemoApp)
+- 2 Update the Gemfile in the demo project so it points to your localhost.
+- 3 you can now build and test you version of the gem `$ gem build loggable_activity.gemspec`

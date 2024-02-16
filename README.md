@@ -5,6 +5,8 @@ Secure protect data and log how it is handled
 - Prepare for General Data Protection Regulation (GDPR) compliance.
 - Handles activities that involves more than one table in the DB.
 
+### Important!
+This project is under development and not ready for production. There might be breaking changes, so please consult the CHANGELOG.md
 ### What it is not
 - An error logging system
 - A paper trails system with rollback.
