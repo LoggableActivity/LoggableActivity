@@ -107,7 +107,7 @@ module LoggableActivity
     #  "a8f4774e7f42eb253045a4db7de7b79e"
     #
     def self.random_key
-      SecureRandom.hex(32)
+      SecureRandom.hex(16)
     end
   end
 end
