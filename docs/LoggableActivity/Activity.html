@@ -75,11 +75,19 @@
     <li ><a href="#method-c-activities_for_actor">::activities_for_actor</a>
     <li ><a href="#method-c-latest">::latest</a>
     <li ><a href="#method-i-actor_display_name">#actor_display_name</a>
+    <li ><a href="#method-i-actor_key">#actor_key</a>
     <li ><a href="#method-i-attrs">#attrs</a>
+    <li ><a href="#method-i-must_have_at_least_one_payload">#must_have_at_least_one_payload</a>
+    <li ><a href="#method-i-ordered_payloads">#ordered_payloads</a>
+    <li ><a href="#method-i-previous_associations_attrs">#previous_associations_attrs</a>
+    <li ><a href="#method-i-primary_payload">#primary_payload</a>
     <li ><a href="#method-i-primary_payload_attrs">#primary_payload_attrs</a>
     <li ><a href="#method-i-record_display_name">#record_display_name</a>
+    <li ><a href="#method-i-record_key">#record_key</a>
     <li ><a href="#method-i-relations_attrs">#relations_attrs</a>
     <li ><a href="#method-i-update_activity_attrs">#update_activity_attrs</a>
+    <li ><a href="#method-i-update_attrs">#update_attrs</a>
+    <li ><a href="#method-i-updated_relations_attrs">#updated_relations_attrs</a>
   </ul>
 </div>
 
@@ -473,6 +481,211 @@
     <span class="ruby-value">update_attrs:</span>,
     <span class="ruby-value">updated_relations_attrs:</span>
   }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+      <div id="method-i-actor_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">actor_key</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="actor_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 266</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_key</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">actor</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">actor</span>)&amp;.<span class="ruby-identifier">key</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-must_have_at_least_one_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">must_have_at_least_one_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="must_have_at_least_one_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 271</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">must_have_at_least_one_payload</span>
+  <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:payloads</span>, <span class="ruby-string">&#39;must have at least one payload&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-ordered_payloads" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">ordered_payloads</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="ordered_payloads-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 257</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ordered_payloads</span>
+  <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:payload_type</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-previous_associations_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">previous_associations_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="previous_associations_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 253</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">previous_associations_attrs</span>
+  <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:payload_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;previous_association&#39;</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-primary_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">primary_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="primary_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 237</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">primary_payload</span>
+  <span class="ruby-identifier">ordered_payloads</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">payload_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;primary_payload&#39;</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-record_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">record_key</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="record_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 261</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">record_key</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">record</span>)&amp;.<span class="ruby-identifier">key</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-update_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">update_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="update_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 229</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update_attrs</span>
+  <span class="ruby-identifier">update_payload_attrs</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:payload_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;update_payload&#39;</span> }
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">update_payload_attrs</span>
+
+  <span class="ruby-identifier">update_payload_attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:payload_type</span>)
+  <span class="ruby-identifier">update_payload_attrs</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-updated_relations_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">updated_relations_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="updated_relations_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 241</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">updated_relations_attrs</span>
+  <span class="ruby-identifier">grouped_associations</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:record_class</span>] }
+
+  <span class="ruby-identifier">grouped_associations</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record_class</span>, <span class="ruby-identifier">payloads</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">previous_attrs</span> = <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:payload_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;previous_association&#39;</span> }
+    <span class="ruby-identifier">current_attrs</span> = <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:payload_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;current_association&#39;</span> }
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">previous_attrs</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_attrs</span>.<span class="ruby-identifier">nil?</span>
+
+    { <span class="ruby-value">record_class:</span>, <span class="ruby-value">previous_attrs:</span>, <span class="ruby-value">current_attrs:</span> }
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">compact</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

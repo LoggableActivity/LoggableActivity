@@ -131,7 +131,7 @@
 
 <pre class="ruby">{
   <span class="ruby-value">:id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">39</span>,
-  <span class="ruby-value">:parrent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
+  <span class="ruby-value">:parent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
   <span class="ruby-value">:key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>,
   <span class="ruby-value">:record_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;User&quot;</span>,
   <span class="ruby-value">:record_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">1</span>
@@ -139,12 +139,12 @@
 </pre>
 
           <div class="method-source-code" id="create_encryption_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 92</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_encryption_key</span>(<span class="ruby-identifier">record_type</span>, <span class="ruby-identifier">record_id</span>, <span class="ruby-identifier">parent_key</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">parent_key</span>
-    <span class="ruby-identifier">create</span>(<span class="ruby-value">record_type:</span> <span class="ruby-identifier">record_type</span>, <span class="ruby-value">record_id:</span> <span class="ruby-identifier">record_id</span>, <span class="ruby-value">key:</span> <span class="ruby-identifier">random_key</span>, <span class="ruby-value">parent_key_id:</span> <span class="ruby-identifier">parent_key</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">create</span>(<span class="ruby-value">record_type:</span>, <span class="ruby-value">record_id:</span>, <span class="ruby-value">key:</span> <span class="ruby-identifier">random_key</span>, <span class="ruby-value">parent_key:</span> )
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">create</span>(<span class="ruby-value">record_type:</span> <span class="ruby-identifier">record_type</span>, <span class="ruby-value">record_id:</span> <span class="ruby-identifier">record_id</span>, <span class="ruby-value">key:</span> <span class="ruby-identifier">random_key</span>)
+    <span class="ruby-identifier">create</span>(<span class="ruby-value">record_type:</span>, <span class="ruby-value">record_id:</span>, <span class="ruby-value">key:</span> <span class="ruby-identifier">random_key</span>)
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -179,7 +179,7 @@
 
 <pre class="ruby">{
   <span class="ruby-value">:id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">39</span>,
-  <span class="ruby-value">:parrent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
+  <span class="ruby-value">:parent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
   <span class="ruby-value">:key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>,
   <span class="ruby-value">:record_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;User&quot;</span>,
   <span class="ruby-value">:record_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">1</span>
@@ -187,9 +187,9 @@
 </pre>
 
           <div class="method-source-code" id="for_record-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 66</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">for_record</span>(<span class="ruby-identifier">record</span>, <span class="ruby-identifier">parent_key</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-value">record:</span> <span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-value">record:</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">encryption_key</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>
 
   <span class="ruby-identifier">create_encryption_key</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">record</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">parent_key</span>)
@@ -226,7 +226,7 @@
 
 <pre class="ruby">{
   <span class="ruby-value">:id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">39</span>,
-  <span class="ruby-value">:parrent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
+  <span class="ruby-value">:parent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
   <span class="ruby-value">:key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>,
   <span class="ruby-value">:record_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;User&quot;</span>,
   <span class="ruby-value">:record_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">1</span>
@@ -234,9 +234,9 @@
 </pre>
 
           <div class="method-source-code" id="for_record_by_type_and_id-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 40</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">for_record_by_type_and_id</span>(<span class="ruby-identifier">record_type</span>, <span class="ruby-identifier">record_id</span>, <span class="ruby-identifier">parent_key</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-value">record_type:</span> <span class="ruby-identifier">record_type</span>, <span class="ruby-value">record_id:</span> <span class="ruby-identifier">record_id</span>)
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-value">record_type:</span>, <span class="ruby-value">record_id:</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">encryption_key</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>
 
   <span class="ruby-identifier">create_encryption_key</span>(<span class="ruby-identifier">record_type</span>, <span class="ruby-identifier">record_id</span>, <span class="ruby-identifier">parent_key</span>)
@@ -272,7 +272,7 @@
 </pre>
 
           <div class="method-source-code" id="random_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 110</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">random_key</span>
   <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">hex</span>(<span class="ruby-value">16</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -302,10 +302,10 @@
           <p>Marks the encryption key as deleted by updating the key to nil.</p>
 
           <div class="method-source-code" id="mark_as_deleted-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 16</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mark_as_deleted</span>
   <span class="ruby-identifier">update</span>(<span class="ruby-value">key:</span> <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">parrent_key</span>.<span class="ruby-identifier">mark_as_deleted</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">parrent_key</span>.<span class="ruby-identifier">present?</span>
+  <span class="ruby-identifier">parent_key</span>.<span class="ruby-identifier">mark_as_deleted</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">parent_key</span>.<span class="ruby-identifier">present?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

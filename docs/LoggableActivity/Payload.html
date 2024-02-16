@@ -73,6 +73,12 @@
 
   <ul class="link-list" role="directory">
     <li ><a href="#method-i-attrs">#attrs</a>
+    <li ><a href="#method-i-decrypt_attr">#decrypt_attr</a>
+    <li ><a href="#method-i-decrypted_attrs">#decrypted_attrs</a>
+    <li ><a href="#method-i-decrypted_from_to_attr">#decrypted_from_to_attr</a>
+    <li ><a href="#method-i-decrypted_update_attrs">#decrypted_update_attrs</a>
+    <li ><a href="#method-i-deleted_attrs">#deleted_attrs</a>
+    <li ><a href="#method-i-payload_encryption_key">#payload_encryption_key</a>
   </ul>
 </div>
 
@@ -128,7 +134,7 @@ Returns:
 }</pre>
 
           <div class="method-source-code" id="attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 38</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attrs</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">deleted_attrs</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
 
@@ -138,6 +144,171 @@ Returns:
   <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;update_payload&#39;</span>
     <span class="ruby-identifier">decrypted_update_attrs</span>
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+      <div id="method-i-decrypt_attr" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">decrypt_attr</span><span
+              class="method-args">(value)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Decrypts a single attribute.</p>
+
+<p>@param value [String] The encrypted value to decrypt. @return [String] The decrypted value.</p>
+
+          <div class="method-source-code" id="decrypt_attr-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 101</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypt_attr</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">decrypt</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">payload_encryption_key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-decrypted_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">decrypted_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Decrypts all attributes.</p>
+
+<p>@return [Hash] The decrypted attributes.</p>
+
+          <div class="method-source-code" id="decrypted_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypted_attrs</span>
+  <span class="ruby-identifier">encrypted_attrs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">encrypted_attrs</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">decrypt_attr</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-decrypted_from_to_attr" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">decrypted_from_to_attr</span><span
+              class="method-args">(change)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Decrypts ‘from’ and ‘to’ attributes.</p>
+
+<p>@param change [Hash] The change hash containing ‘from’ and ‘to’ values. @return [Hash] The decrypted ‘from’ and ‘to’ values.</p>
+
+          <div class="method-source-code" id="decrypted_from_to_attr-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypted_from_to_attr</span>(<span class="ruby-identifier">change</span>)
+  <span class="ruby-identifier">change</span>.<span class="ruby-identifier">to_h</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">from</span> = <span class="ruby-identifier">decrypt_attr</span>(<span class="ruby-identifier">value</span>[<span class="ruby-string">&#39;from&#39;</span>])
+    <span class="ruby-identifier">to</span> = <span class="ruby-identifier">decrypt_attr</span>(<span class="ruby-identifier">value</span>[<span class="ruby-string">&#39;to&#39;</span>])
+    [<span class="ruby-identifier">key</span>, { <span class="ruby-value">from:</span>, <span class="ruby-value">to:</span> }]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-decrypted_update_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">decrypted_update_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Decrypts the ‘from’ and ‘to’ attributes in the update payload.</p>
+
+<p>@return [Array&lt;Hash&gt;] The array of decrypted changes.</p>
+
+          <div class="method-source-code" id="decrypted_update_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypted_update_attrs</span>
+  <span class="ruby-identifier">encrypted_attrs</span>[<span class="ruby-string">&#39;changes&#39;</span>].<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">change</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">decrypted_from_to_attr</span>(<span class="ruby-identifier">change</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-deleted_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">deleted_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Helper method to handle deleted attributes.</p>
+
+<p>@return [Hash] The hash with deleted attributes.</p>
+
+          <div class="method-source-code" id="deleted_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 63</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">deleted_attrs</span>
+  <span class="ruby-identifier">encrypted_attrs</span>.<span class="ruby-identifier">transform_values!</span> { <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;loggable.activity.deleted&#39;</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-payload_encryption_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">payload_encryption_key</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Retrieves the encryption key for the payload.</p>
+
+<p>@return [String, nil] The encryption key.</p>
+
+          <div class="method-source-code" id="payload_encryption_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_encryption_key</span>
+  <span class="ruby-ivar">@payload_encryption_key</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">record</span>)&amp;.<span class="ruby-identifier">key</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

@@ -66,7 +66,14 @@
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
+    <li ><a href="#method-i-associated_record_encryption_key">#associated_record_encryption_key</a>
+    <li ><a href="#method-i-build_destroy_payload">#build_destroy_payload</a>
+    <li ><a href="#method-i-build_payload">#build_payload</a>
     <li ><a href="#method-i-build_payloads">#build_payloads</a>
+    <li ><a href="#method-i-build_primary_payload">#build_primary_payload</a>
+    <li ><a href="#method-i-build_relation_payload">#build_relation_payload</a>
+    <li ><a href="#method-i-encrypt_attr">#encrypt_attr</a>
+    <li ><a href="#method-i-encrypt_attrs">#encrypt_attrs</a>
   </ul>
 </div>
 
@@ -133,6 +140,230 @@ Returns:
     <span class="ruby-identifier">build_relation_payload</span>(<span class="ruby-identifier">relation_config</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-ivar">@payloads</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+      <div id="method-i-associated_record_encryption_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">associated_record_encryption_key</span><span
+              class="method-args">(associated_record, data_owner)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Retrieves the encryption key for the associated record.</p>
+
+<p>@param associated_record [ActiveRecord::Base] The associated record. @param data_owner [Boolean] Whether the associated record is the owner of the data. @return [LoggableActivity::EncryptionKey] The encryption key for the associated record.</p>
+
+          <div class="method-source-code" id="associated_record_encryption_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">associated_record_encryption_key</span>(<span class="ruby-identifier">associated_record</span>, <span class="ruby-identifier">data_owner</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data_owner</span>
+    <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">associated_record</span>, <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-keyword">self</span>))
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">associated_record</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_destroy_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_destroy_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the payload for destroyed records.</p>
+
+          <div class="method-source-code" id="build_destroy_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_destroy_payload</span>
+  <span class="ruby-identifier">encrypted_attrs</span> = <span class="ruby-identifier">encrypt_attrs</span>(<span class="ruby-identifier">attributes</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">primary_encryption_key</span>)
+  <span class="ruby-identifier">encrypted_attrs</span>.<span class="ruby-identifier">transform_values!</span> { <span class="ruby-string">&#39;*** DELETED ***&#39;</span> }
+  <span class="ruby-ivar">@payloads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Payload</span>.<span class="ruby-identifier">new</span>(
+    <span class="ruby-value">record:</span> <span class="ruby-ivar">@record</span>,
+    <span class="ruby-value">payload_type:</span> <span class="ruby-string">&#39;primary_payload&#39;</span>,
+    <span class="ruby-value">encrypted_attrs:</span>,
+    <span class="ruby-value">data_owner:</span> <span class="ruby-keyword">true</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_payload</span><span
+              class="method-args">(relation_config, relation_type)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the payload for a specific relation.</p>
+
+<p>@param relation_config [Hash] The configuration of the relation. @param relation_type [String] The type of the relation.</p>
+
+          <div class="method-source-code" id="build_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-identifier">relation_type</span>)
+  <span class="ruby-identifier">associated_record</span> = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">relation_config</span>[<span class="ruby-identifier">relation_type</span>])
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">associated_record</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">associated_loggable_attrs</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;loggable_attrs&#39;</span>]
+
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">associated_record_encryption_key</span>(<span class="ruby-identifier">associated_record</span>, <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;data_owner&#39;</span>])
+
+  <span class="ruby-identifier">encrypted_attrs</span> =
+    <span class="ruby-identifier">encrypt_attrs</span>(
+      <span class="ruby-identifier">associated_record</span>.<span class="ruby-identifier">attributes</span>,
+      <span class="ruby-identifier">associated_loggable_attrs</span>,
+      <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">key</span>
+    )
+
+  <span class="ruby-ivar">@payloads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Payload</span>.<span class="ruby-identifier">new</span>(
+    <span class="ruby-value">record:</span> <span class="ruby-identifier">associated_record</span>,
+    <span class="ruby-value">encrypted_attrs:</span>,
+    <span class="ruby-value">payload_type:</span> <span class="ruby-string">&#39;current_association&#39;</span>,
+    <span class="ruby-value">data_owner:</span> <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;data_owner&#39;</span>]
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_primary_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_primary_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the primary payload.</p>
+
+          <div class="method-source-code" id="build_primary_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_primary_payload</span>
+  <span class="ruby-identifier">encrypted_attrs</span> = <span class="ruby-identifier">encrypt_attrs</span>(<span class="ruby-identifier">attributes</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">primary_encryption_key</span>)
+  <span class="ruby-ivar">@payloads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Payload</span>.<span class="ruby-identifier">new</span>(
+    <span class="ruby-value">record:</span> <span class="ruby-ivar">@record</span>,
+    <span class="ruby-value">payload_type:</span> <span class="ruby-string">&#39;primary_payload&#39;</span>,
+    <span class="ruby-value">encrypted_attrs:</span>,
+    <span class="ruby-value">data_owner:</span> <span class="ruby-keyword">true</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_relation_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_relation_payload</span><span
+              class="method-args">(relation_config)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds payloads for related records.</p>
+
+<p>@param relation_config [Hash] The configuration of the relation.</p>
+
+          <div class="method-source-code" id="build_relation_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_payload</span>(<span class="ruby-identifier">relation_config</span>)
+  <span class="ruby-identifier">relation_config</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">key</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;belongs_to&#39;</span>
+      <span class="ruby-identifier">build_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-string">&#39;belongs_to&#39;</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;has_one&#39;</span>
+      <span class="ruby-identifier">build_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-string">&#39;has_one&#39;</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-encrypt_attr" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">encrypt_attr</span><span
+              class="method-args">(attrs, encryption_key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Encrypts a single attribute.</p>
+
+<p>@param attrs [Hash] The attributes to be encrypted. @param encryption_key [String] The encryption key. @return [Hash] The encrypted attributes.</p>
+
+          <div class="method-source-code" id="encrypt_attr-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 129</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">encrypt_attr</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-encrypt_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">encrypt_attrs</span><span
+              class="method-args">(attrs, loggable_attrs, encryption_key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Encrypts attributes.</p>
+
+<p>@param attrs [Hash] The attributes to be encrypted. @param loggable_attrs [Array&lt;String&gt;] The loggable attributes. @param encryption_key [String] The encryption key. @return [Hash] The encrypted attributes.</p>
+
+          <div class="method-source-code" id="encrypt_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payloads_builder.rb, line 119</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">encrypt_attrs</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-identifier">attrs</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">loggable_attrs</span>)
+  <span class="ruby-identifier">encrypt_attr</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">encryption_key</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

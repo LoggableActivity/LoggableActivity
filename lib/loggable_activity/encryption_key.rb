@@ -8,13 +8,13 @@ module LoggableActivity
 
     # Associations
     belongs_to :record, polymorphic: true, optional: true
-    belongs_to :parrent_key, class_name: 'LoggableActivity::EncryptionKey', optional: true,
-                             foreign_key: 'parrent_key_id'
+    belongs_to :parent_key, class_name: 'LoggableActivity::EncryptionKey', optional: true,
+                             foreign_key: 'parent_key_id'
 
     # Marks the encryption key as deleted by updating the key to nil.
     def mark_as_deleted
       update(key: nil)
-      parrent_key.mark_as_deleted if parrent_key.present?
+      parent_key.mark_as_deleted if parent_key.present?
     end
 
     # Returns an encryption key for a record by its type and ID, optionally using a parent key.
@@ -30,7 +30,7 @@ module LoggableActivity
     # Returns:
     #  {
     #    :id => 39,
-    #    :parrent_key_id => 38,
+    #    :parent_key_id => 38,
     #    :key => "a8f4774e7f42eb253045a4db7de7b79e",
     #    :record_type => "User",
     #    :record_id => 1
@@ -56,7 +56,7 @@ module LoggableActivity
     # Returns:
     #  {
     #    :id => 39,
-    #    :parrent_key_id => 38,
+    #    :parent_key_id => 38,
     #    :key => "a8f4774e7f42eb253045a4db7de7b79e",
     #    :record_type => "User",
     #    :record_id => 1
@@ -82,7 +82,7 @@ module LoggableActivity
     # Returns:
     #  {
     #    :id => 39,
-    #    :parrent_key_id => 38,
+    #    :parent_key_id => 38,
     #    :key => "a8f4774e7f42eb253045a4db7de7b79e",
     #    :record_type => "User",
     #    :record_id => 1
@@ -90,7 +90,7 @@ module LoggableActivity
     #
     def self.create_encryption_key(record_type, record_id, parent_key = nil)
       if parent_key
-        create(record_type:, record_id:, key: random_key, parent_key_id: parent_key.id)
+        create(record_type:, record_id:, key: random_key, parent_key: )
       else
         create(record_type:, record_id:, key: random_key)
       end
