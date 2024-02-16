@@ -1,7 +1,7 @@
 ## [Unreleased]
 - nothing so far
 
-## [0.1.47] - 2024-02-16
+## [0.1.48] - 2024-02-16
 ### Breaking change
 - Updated encryption_key to be 32 bytes
 - Updated README.md

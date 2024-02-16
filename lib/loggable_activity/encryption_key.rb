@@ -107,7 +107,10 @@ module LoggableActivity
     #  "a8f4774e7f42eb253045a4db7de7b79e"
     #
     def self.random_key
-      SecureRandom.hex(16)
+      # Generate 32 random bytes (256 bits) directly
+      encryption_key = SecureRandom.random_bytes(32)
+      # Encode the key in Base64 to ensure it's in a transferable format
+      Base64.encode64(encryption_key).strip
     end
   end
 end
