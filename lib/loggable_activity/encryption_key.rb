@@ -9,7 +9,7 @@ module LoggableActivity
     # Associations
     belongs_to :record, polymorphic: true, optional: true
     belongs_to :parent_key, class_name: 'LoggableActivity::EncryptionKey', optional: true,
-                             foreign_key: 'parent_key_id'
+                            foreign_key: 'parent_key_id'
 
     # Marks the encryption key as deleted by updating the key to nil.
     def mark_as_deleted
@@ -90,7 +90,7 @@ module LoggableActivity
     #
     def self.create_encryption_key(record_type, record_id, parent_key = nil)
       if parent_key
-        create(record_type:, record_id:, key: random_key, parent_key: )
+        create(record_type:, record_id:, key: random_key, parent_key:)
       else
         create(record_type:, record_id:, key: random_key)
       end

@@ -41,7 +41,7 @@ module LoggableActivity
     #   "my secret data"
     #
     def self.decrypt(data, encryption_key)
-      return "" if data.nil?
+      return '' if data.nil?
       return I18n.t('loggable.activity.deleted') if encryption_key.nil?
 
       cipher = OpenSSL::Cipher.new('AES-128-CBC').decrypt
