@@ -8,26 +8,77 @@ This document should you getting started with `LoggableActivity`
 ## Demo Application
 You can download a demo application from<br/>
 [https://github.com/maxgronlund/LoggableActivityDemoApp](https://github.com/maxgronlund/LoggableActivityDemoApp)
+<br/>
+You can try a demo here<br/>
+[https://loggableactivity-efe7b931c886.herokuapp.com/](https://loggableactivity-efe7b931c886.herokuapp.com/)
+
+## Getting started
+First we add the loggable_activity gem to the Gemfile `gem 'loggable_activity', '~> x.x.xx'` and then `$ bundle install`<br/>
+Then we have to generate some migrations and additionals files<br/>
+`rails generate loggable_activity:install Activity`<br/>
 
 ## Configuration
-First you have to create a configuration file named `loggable_activity.yml` and locate it in the config folder.<br/>
-It has the following tags
-- `User` (example)<br>
-This is the name of the model you are configuring, as you can see there is alos a `Demo::Address` in the configuration file below, So if you have a model named `Demo::Club` you have to create at tag for that and fill in the other tags under that.
-- record_display_name: <br>
-Used to display something human to identify a given log entry, in this example the  **User** model has a method named `full_name`
+You need a configuration file inside the `config/loggable_activity.yaml`
+This file defines:
+- What tables to log
+- What fields in a table to log
+- How data is aggregated.
+- What should happen to the aggregation if a record is deleted.
+- What actions to log.
 
-- loggable_attrs:<br/>
-This are the attributes on a model and reflect the fields in  the database you HAS to define, what fields to log.
+*Here is an example*
+```
+Demo::Club: 
+  record_display_name: name 
+  loggable_attrs: 
+    - name
+  auto_log:
+    - create
+    - update
+    - destroy
+  relations:
+    - belongs_to: :address
+      model: Demo::Address
+      loggable_attrs:
+        - street
+        - city
+```
 
-- auto_log:<br/>
-This are the actions that will be logged automatically, although you can log manually at any time.
-Note there is no hook for `Show` in Rails so you would have to log that manually like this `log(:show)`, more about that later.
+Lets break this down.
+- First we can se that we are logging a model named Demo::Club.
+- `record_display_name:` is the field/method on the on the model we want to display as a headline in the log
+- Then we can se that we are logging the **name** of the club, in this example that's all there is to log.
+- Then we can se that we are **logging create, update, and destroy** automatically.
+- Then there are some relations: that we want to collect and add to the log, in this example we are logging the address as well.
 
-- relations:<br/>
-If a model has `belongs_to` and `has_one` relations you can log them automatically as well<br>
-<br/>
-*Example confuguration for logging of the user model*
+Next we have to include some hooks to the model we want to log.
+
+```
+class User < ApplicationRecord
+  include LoggableActivity::Hooks
+```
+
+And then we have to add a this to the application_controller.rb
+```
+class ApplicationController < ActionController::Base
+  include LoggableActivity::CurrentUser
+```
+This will give us access to the current_user.
+
+And then we have to add this to 'config/application.rb'
+```
+  config.loggable_activity = ActiveSupport::OrderedOptions.new
+  config.loggable_activity.actor_display_name = :full_name
+  config.loggable_activity.current_user_model_name = 'User'
+  LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
+```
+actor_display_name: this is a method on the User model we want to use when presenting the actor.
+current_user_model: This is the name of the model we use for current_user
+load_config_file: this is the configuration file from above.
+
+
+## Configuration
+
 ```
 User: 
   record_display_name: full_name

@@ -25,6 +25,7 @@ module LoggableActivity
         template 'loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
         template 'loggable_activity.yml', 'config/loggable_activity.yml'
         template 'current_user.rb', 'app/controllers/concerns/loggable_activity/current_user.rb'
+        # template 'loggable_activity_helper.rb', 'app/helpers/loggable_activity_helper.rb'
       end
     end
   end
