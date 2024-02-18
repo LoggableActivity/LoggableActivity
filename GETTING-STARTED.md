@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
 ```
 This will give us access to the current_user.
 
-And then we have to add this to 'config/application.rb'
+And then we have to add this to `config/application.rb`
 ```
   config.loggable_activity = ActiveSupport::OrderedOptions.new
   config.loggable_activity.actor_display_name = :full_name
@@ -77,58 +77,25 @@ current_user_model: This is the name of the model we use for current_user
 load_config_file: this is the configuration file from above.
 
 
-## Configuration
-
-```
-User: 
-  record_display_name: full_name
-  loggable_attrs: 
-    - first_name
-    - last_name 
-  auto_log:
-    - create
-    - update
-    - destroy
-  relations:
-    - belongs_to: :demo_address
-      model: Demo::Address
-      loggable_attrs:
-        - street
-        - city
-Demo::Address: 
-  record_display_name: full_address
-  actor_display_name: email
-  loggable_attrs:
-    - street
-    - city
-    - country
-    - postal_code
-```
 Then you HAVE TO to add `LogggableActivity::Hooks` to the `User Model` like this
 
 ```
 class User < ApplicationRecord
   include LoggableActivity::Hooks
   ...
+  resto of your code here.
+
 ```
 
-And finally you have to add this to the `ApplicationController`
+
+### Log the show action
+If you want to log the show action you can add this to your controllers show method
 ```
-class ApplicationController < ActionController::Base
-  include LoggableActivity::CurrentUser
+def show
+  @user.log(:show)
 ```
 
-Now if you create a model like this:
-```
-$ rails c
-$ User.create(first_name: 'John', last_name: 'Doe')
-```
 
-Then an `LoggableActivity::Activity` is created. You can inspect it from the terminal like this.
-```
-puts activity = Loggable::Activity.last
-puts activity.attrs
-```
 
 ## For developers
 If you want to contribute to the development and try it out in the process
