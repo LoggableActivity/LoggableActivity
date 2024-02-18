@@ -23,11 +23,15 @@ Gem::Specification.new do |spec|
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/maxgronlund/LoggableActivity'
-  spec.metadata['changelog_uri'] = 'https://github.com/maxgronlund/LoggableActivity/CHANGELOG.md'
-  # Set the documentation URL
-  spec.metadata = { 'documentation_uri' => 'https://maxgronlund.github.io/LoggableActivity/',
-                    'rubygems_mfa_required' => 'true' }
+
+  spec.metadata = {
+    'homepage_uri' => 'https://loggableactivity-efe7b931c886.herokuapp.com/',
+    'source_code_uri' => 'https://github.com/maxgronlund/LoggableActivity',
+    'changelog_uri' => 'https://github.com/maxgronlund/LoggableActivity/CHANGELOG.md',
+    'documentation_uri' => 'https://maxgronlund.github.io/LoggableActivity/',
+    'rubygems_mfa_required' => 'true'
+}
+
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
