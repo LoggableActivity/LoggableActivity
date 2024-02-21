@@ -87,7 +87,6 @@ class User < ApplicationRecord
 
 ```
 
-
 ### Log the show action
 If you want to log the show action you can add this to your controllers show method
 ```
@@ -97,8 +96,14 @@ def show
 
 
 
-## For developers
+### For developers
 If you want to contribute to the development and try it out in the process
 - 1 Down the demo project from [demo project on github](https://github.com/maxgronlund/LoggableActivityDemoApp)
 - 2 Update the Gemfile in the demo project so it points to your localhost.
 - 3 you can now build and test you version of the gem `$ gem build loggable_activity.gemspec`
+
+### Relations
+Supported relations at the moment is 
+- belongs_to
+- has_one
+- has_many

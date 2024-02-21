@@ -1,3 +1,6 @@
+## [0.1.52] - 2024-02-18
+- Support for has_many relations 
+
 ## [0.1.51] - 2024-02-18
 - Added RSpec test
 - Added rubocop

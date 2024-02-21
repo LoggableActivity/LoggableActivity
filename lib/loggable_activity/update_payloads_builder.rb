@@ -4,66 +4,6 @@ module LoggableActivity
   # This module is responsible for building update payloads used in loggable activities.
   module UpdatePayloadsBuilder
     # Builds payloads for an activity update event.
-    #
-    #  Example:
-    #    build_update_payloads
-    #
-    #   Returns:
-    #   [
-    #     [0] #<LoggableActivity::Payload:0x00000001047d31d8> {
-    #       :id => nil,
-    #       :record_type => "Demo::Club",
-    #       :record_id => 7,
-    #       :encrypted_attrs => {
-    #         "changes" => [
-    #           [0] {
-    #             "name" => {
-    #               "from" => "+aQznZK64KLQ8wsyZlSOGQbqm+J8gDX93rNFeF+wY68=\n",
-    #               "to" => "OdS834ZDS06+AYxmz4cUjhtgk7Jc8NoOVAAqR81Is7w=\n"
-    #             }
-    #           }
-    #         ]
-    #       },
-    #       :payload_type => "update_payload",
-    #       :data_owner => false,
-    #       :activity_id => nil,
-    #       :created_at => nil,
-    #       :updated_at => nil
-    #     },
-    #     [1] #<LoggableActivity::Payload:0x0000000107847f80> {
-    #       :id => nil,
-    #       :record_type => "Demo::Address",
-    #       :record_id => 7,
-    #       :encrypted_attrs => {
-    #         "street" => "W7cmT22Bb5TKVmtxTYJt1w==\n",
-    #         "city" => "AAwdTI7Xo86cMbFBAMsMIw==\n",
-    #         "country" => "7gu5wdu6O9tD7Q7+EDOqAg==\n",
-    #         "postal_code" => "ljjfT6MXGNK33/PUyi6Nmw==\n"
-    #       },
-    #       :payload_type => "previous_association",
-    #       :data_owner => false,
-    #       :activity_id => nil,
-    #       :created_at => nil,
-    #       :updated_at => nil
-    #     },
-    #     [2] #<LoggableActivity::Payload:0x0000000107802a98> {
-    #       :id => nil,
-    #       :record_type => "Demo::Address",
-    #       :record_id => 8,
-    #       :encrypted_attrs => {
-    #         "street" => "CuULVgIEgrOcWBxegKEvSg==\n",
-    #         "city" => "QbvodOYMvNFpkvsCprqGqg==\n",
-    #         "country" => "/N03d1OL3TY+aaiPUQ5N1A==\n",
-    #         "postal_code" => "ZZu3S5tnaTeq+wBu0dPKBw==\n"
-    #       },
-    #       :payload_type => "current_association",
-    #       :data_owner => false,
-    #       :activity_id => nil,
-    #       :created_at => nil,
-    #       :updated_at => nil
-    #     }
-    #   ]
-    #
     def build_update_payloads
       @update_payloads = []
 
@@ -113,8 +53,26 @@ module LoggableActivity
         case key
         when 'belongs_to'
           build_relation_update_for_belongs_to(relation_config)
+        when 'has_one'
+          build_relation_update_for_has_one(relation_config)
+        when 'has_many'
+          build_relation_update_for_has_many(relation_config)
         end
       end
+    end
+
+    def build_relation_update_for_has_many(relation_config)
+      # Note: This method is not implemented yet.
+      # It requires that there is a form where it is possible to change 
+      # the related records. This is not implemented yet. in the Demo app
+      # puts relation_config['has_many']
+    end
+
+    def build_relation_update_for_has_one(relation_config)
+      # Note: This method is not implemented yet.
+      # It requires that there is a form where it is possible to change 
+      # the related records. This is not implemented yet. in the Demo app
+      # puts relation_config['has_many']
     end
 
     def build_relation_update_for_belongs_to(relation_config)

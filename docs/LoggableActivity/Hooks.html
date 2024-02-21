@@ -147,7 +147,7 @@
 @param params [Hash] Additional parameters for the activity.</pre>
 
           <div class="method-source-code" id="log-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 38</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log</span>(<span class="ruby-identifier">action</span>, <span class="ruby-value">actor:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">params:</span> {})
   <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">action</span>
   <span class="ruby-ivar">@actor</span> = <span class="ruby-identifier">actor</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>[<span class="ruby-value">:current_user</span>]
@@ -196,7 +196,7 @@
           
 
           <div class="method-source-code" id="action_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 122</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 124</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">action_key</span>
   <span class="ruby-ivar">@action_key</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">base_action</span> <span class="ruby-operator">+</span> <span class="ruby-node">&quot;.#{@action}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -219,7 +219,7 @@
           
 
           <div class="method-source-code" id="actor_display_name_field-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 139</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 141</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_display_name_field</span>
   <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">loggable_activity</span>.<span class="ruby-identifier">actor_display_name</span> <span class="ruby-operator">||</span> <span class="ruby-node">&quot;id: #{@actor.id}, class: #{@actor.class.name}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -242,7 +242,7 @@
           
 
           <div class="method-source-code" id="actor_encryption_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 137</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_encryption_key</span>
   <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-ivar">@actor</span>)&amp;.<span class="ruby-identifier">key</span>
 <span class="ruby-keyword">end</span></pre>
@@ -265,7 +265,7 @@
           
 
           <div class="method-source-code" id="base_action-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 150</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">base_action</span>
   <span class="ruby-identifier">name</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;::&#39;</span>, <span class="ruby-string">&#39;/&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -288,7 +288,7 @@
           
 
           <div class="method-source-code" id="create_activity-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_activity</span>(<span class="ruby-identifier">payloads</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">nothing_to_log?</span>(<span class="ruby-identifier">payloads</span>)
 
@@ -320,7 +320,7 @@
           
 
           <div class="method-source-code" id="current_user_model-3F-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 143</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 145</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">current_user_model?</span>
   <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">loggable_activity</span>.<span class="ruby-identifier">current_user_model_name</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -343,7 +343,7 @@
           
 
           <div class="method-source-code" id="encrypted_actor_name-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 107</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">encrypted_actor_name</span>
   <span class="ruby-identifier">actor_display_name</span> = <span class="ruby-ivar">@actor</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">actor_display_name_field</span>)
   <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">actor_display_name</span>, <span class="ruby-identifier">actor_encryption_key</span>)
@@ -367,7 +367,7 @@
           
 
           <div class="method-source-code" id="encrypted_record_name-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 112</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 114</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">encrypted_record_name</span>
   <span class="ruby-identifier">display_name</span> =
     <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">record_display_name</span>.<span class="ruby-identifier">nil?</span>
@@ -396,7 +396,7 @@
           
 
           <div class="method-source-code" id="log_activity-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 63</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_activity</span>
   <span class="ruby-identifier">create_activity</span>(<span class="ruby-identifier">build_payloads</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -419,7 +419,7 @@
           
 
           <div class="method-source-code" id="log_create_activity-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 98</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_create_activity</span>
   <span class="ruby-identifier">log</span>(<span class="ruby-value">:create</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">auto_log</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;create&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -442,7 +442,7 @@
           
 
           <div class="method-source-code" id="log_custom_activity-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 92</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_custom_activity</span>(<span class="ruby-identifier">activity</span>); <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -463,7 +463,7 @@
           
 
           <div class="method-source-code" id="log_destroy-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_destroy</span>
   <span class="ruby-identifier">create_activity</span>(<span class="ruby-identifier">build_destroy_payload</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -486,7 +486,7 @@
           
 
           <div class="method-source-code" id="log_destroy_activity-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 102</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_destroy_activity</span>
   <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-keyword">self</span>)&amp;.<span class="ruby-identifier">mark_as_deleted</span>
   <span class="ruby-identifier">log</span>(<span class="ruby-value">:destroy</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">auto_log</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;destroy&#39;</span>)
@@ -510,7 +510,7 @@
           
 
           <div class="method-source-code" id="log_update-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 67</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 69</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_update</span>
   <span class="ruby-identifier">create_activity</span>(<span class="ruby-identifier">build_update_payloads</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -533,7 +533,7 @@
           
 
           <div class="method-source-code" id="log_update_activity-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 94</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">log_update_activity</span>
   <span class="ruby-identifier">log</span>(<span class="ruby-value">:update</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">auto_log</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;update&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -556,7 +556,7 @@
           
 
           <div class="method-source-code" id="nothing_to_log-3F-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 88</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 90</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">nothing_to_log?</span>(<span class="ruby-identifier">payloads</span>)
   <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -579,7 +579,7 @@
           
 
           <div class="method-source-code" id="primary_encryption_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 126</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 128</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">primary_encryption_key</span>
   <span class="ruby-ivar">@primary_encryption_key</span> <span class="ruby-operator">||=</span>
     <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-keyword">self</span>)&amp;.<span class="ruby-identifier">key</span>
@@ -603,7 +603,7 @@
           
 
           <div class="method-source-code" id="primary_encryption_key_deleted-3F-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/hooks.rb, line 133</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">primary_encryption_key_deleted?</span>
   <span class="ruby-identifier">primary_encryption_key</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>

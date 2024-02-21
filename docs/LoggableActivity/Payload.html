@@ -134,7 +134,7 @@ Returns:
 }</pre>
 
           <div class="method-source-code" id="attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 40</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attrs</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">deleted_attrs</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
 
@@ -173,7 +173,7 @@ Returns:
 <p>@param value [String] The encrypted value to decrypt. @return [String] The decrypted value.</p>
 
           <div class="method-source-code" id="decrypt_attr-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 101</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypt_attr</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">decrypt</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">payload_encryption_key</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -198,7 +198,7 @@ Returns:
 <p>@return [Hash] The decrypted attributes.</p>
 
           <div class="method-source-code" id="decrypted_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 91</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypted_attrs</span>
   <span class="ruby-identifier">encrypted_attrs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">encrypted_attrs</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">decrypt_attr</span>(<span class="ruby-identifier">value</span>)
@@ -225,7 +225,7 @@ Returns:
 <p>@param change [Hash] The change hash containing ‘from’ and ‘to’ values. @return [Hash] The decrypted ‘from’ and ‘to’ values.</p>
 
           <div class="method-source-code" id="decrypted_from_to_attr-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 80</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypted_from_to_attr</span>(<span class="ruby-identifier">change</span>)
   <span class="ruby-identifier">change</span>.<span class="ruby-identifier">to_h</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">from</span> = <span class="ruby-identifier">decrypt_attr</span>(<span class="ruby-identifier">value</span>[<span class="ruby-string">&#39;from&#39;</span>])
@@ -254,7 +254,7 @@ Returns:
 <p>@return [Array&lt;Hash&gt;] The array of decrypted changes.</p>
 
           <div class="method-source-code" id="decrypted_update_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 70</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">decrypted_update_attrs</span>
   <span class="ruby-identifier">encrypted_attrs</span>[<span class="ruby-string">&#39;changes&#39;</span>].<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">change</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">decrypted_from_to_attr</span>(<span class="ruby-identifier">change</span>)
@@ -281,7 +281,7 @@ Returns:
 <p>@return [Hash] The hash with deleted attributes.</p>
 
           <div class="method-source-code" id="deleted_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 63</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">deleted_attrs</span>
   <span class="ruby-identifier">encrypted_attrs</span>.<span class="ruby-identifier">transform_values!</span> { <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;loggable.activity.deleted&#39;</span>) }
 <span class="ruby-keyword">end</span></pre>
@@ -306,7 +306,7 @@ Returns:
 <p>@return [String, nil] The encryption key.</p>
 
           <div class="method-source-code" id="payload_encryption_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/payload.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_encryption_key</span>
   <span class="ruby-ivar">@payload_encryption_key</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">record</span>)&amp;.<span class="ruby-identifier">key</span>
 <span class="ruby-keyword">end</span></pre>

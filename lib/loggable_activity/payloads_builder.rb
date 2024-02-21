@@ -56,7 +56,7 @@ module LoggableActivity
       )
     end
 
-    # Builds payloads for related records.
+    # Builds payloads for relations 
     #
     # @param relation_config [Hash] The configuration of the relation.
     def build_relation_payload(relation_config)
@@ -81,26 +81,9 @@ module LoggableActivity
       return nil if associated_record.nil?
 
       build_associated_payload(associated_record, relation_config)
-
-      # associated_loggable_attrs = relation_config['loggable_attrs']
-
-      # encryption_key = associated_record_encryption_key(associated_record, relation_config['data_owner'])
-
-      # encrypted_attrs =
-      #   encrypt_attrs(
-      #     associated_record.attributes,
-      #     associated_loggable_attrs,
-      #     encryption_key.key
-      #   )
-
-      # @payloads << LoggableActivity::Payload.new(
-      #   record: associated_record,
-      #   encrypted_attrs:,
-      #   payload_type: 'current_association',
-      #   data_owner: relation_config['data_owner']
-      # )
     end
 
+    # Builds payloads for has_many relations.
     def build_has_many_payloads(relation_config, relation_type)
       associated_records = send(relation_config[relation_type])
       return nil if associated_records.empty?
@@ -110,6 +93,7 @@ module LoggableActivity
       end
     end
 
+    # Builds the payload for an associated record.
     def build_associated_payload(associated_record, relation_config)
       associated_loggable_attrs = relation_config['loggable_attrs']
       encryption_key = associated_record_encryption_key(associated_record, relation_config['data_owner'])

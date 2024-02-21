@@ -110,7 +110,7 @@
           
 
           <div class="method-source-code" id="blank-3F-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 58</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">blank?</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:empty?</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">:</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -124,7 +124,7 @@
         <div class="method-header">
           <div class="method-heading">
             <span class="method-name">decrypt</span><span
-              class="method-args">(data, encryption_key)</span>
+              class="method-args">(data, encoded_key)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
         </div>
@@ -143,20 +143,23 @@
 </pre>
 
           <div class="method-source-code" id="decrypt-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 43</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">decrypt</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">encryption_key</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-string">&quot;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;loggable.activity.deleted&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">nil?</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">decrypt</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">encoded_key</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">encoded_key</span>.<span class="ruby-identifier">nil?</span>
 
-  <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-128-CBC&#39;</span>).<span class="ruby-identifier">decrypt</span>
-  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">encryption_key</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">15</span>]
-  <span class="ruby-identifier">decrypted_data</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">data</span>)
-  <span class="ruby-identifier">decrypted_output</span> = <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">decrypted_data</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">final</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Decryption failed: Invalid UTF-8 output&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">decrypted_output</span>.<span class="ruby-identifier">valid_encoding?</span>
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">encoded_key</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-string">&#39;Decryption failed: Invalid encryption key length&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
 
-  <span class="ruby-identifier">decrypted_output</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&#39;UTF-8&#39;</span>)
+  <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-256-CBC&#39;</span>).<span class="ruby-identifier">decrypt</span>
+  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-identifier">encryption_key</span>
+
+  <span class="ruby-identifier">raw_data</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">iv</span> = <span class="ruby-identifier">raw_data</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">iv_len</span>] <span class="ruby-comment"># Extract IV from the beginning of raw_data</span>
+  <span class="ruby-identifier">decrypted_data</span> = <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">raw_data</span>[<span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">iv_len</span><span class="ruby-operator">..</span>]) <span class="ruby-operator">+</span> <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">final</span>
+
+  <span class="ruby-identifier">decrypted_data</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&#39;UTF-8&#39;</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span><span class="ruby-operator">::</span><span class="ruby-constant">CipherError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Decryption failed: #{e.message}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -168,7 +171,7 @@
         <div class="method-header">
           <div class="method-heading">
             <span class="method-name">encrypt</span><span
-              class="method-args">(data, encryption_key)</span>
+              class="method-args">(data, encoded_key)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
         </div>
@@ -188,17 +191,21 @@
 
           <div class="method-source-code" id="encrypt-source">
             <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 22</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">encrypt</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">encryption_key</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-string">&#39;Encryption failed: Invalid encryption key length&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">encrypt</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">encoded_key</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">encoded_key</span>.<span class="ruby-identifier">nil?</span>
 
-  <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-128-CBC&#39;</span>).<span class="ruby-identifier">encrypt</span>
-  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">encryption_key</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">15</span>]
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">encoded_key</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Encryption failed: Invalid encryption key length #{encryption_key.bytesize}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
+
+  <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-256-CBC&#39;</span>).<span class="ruby-identifier">encrypt</span>
+  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-identifier">encryption_key</span>
+  <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">iv</span> = <span class="ruby-identifier">iv</span> = <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">random_iv</span>
+
   <span class="ruby-identifier">encrypted</span> = <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">final</span>
-  <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-identifier">encrypted</span>)
+  <span class="ruby-comment"># Combine IV with encrypted data, encode with Base64 for storage/transmission</span>
+  <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-identifier">iv</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">encrypted</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span><span class="ruby-operator">::</span><span class="ruby-constant">CipherError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Encryption failed: #{e.message} ***&quot;</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Encryption failed: #{e.message}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
