@@ -66,6 +66,8 @@ module LoggableActivity
           build_payload(relation_config, 'belongs_to')
         when 'has_one'
           build_payload(relation_config, 'has_one')
+        when 'has_many'
+          build_has_many_payloads(relation_config, 'has_many')
         end
       end
     end
@@ -78,10 +80,39 @@ module LoggableActivity
       associated_record = send(relation_config[relation_type])
       return nil if associated_record.nil?
 
+      build_associated_payload(associated_record, relation_config)
+
+      # associated_loggable_attrs = relation_config['loggable_attrs']
+
+      # encryption_key = associated_record_encryption_key(associated_record, relation_config['data_owner'])
+
+      # encrypted_attrs =
+      #   encrypt_attrs(
+      #     associated_record.attributes,
+      #     associated_loggable_attrs,
+      #     encryption_key.key
+      #   )
+
+      # @payloads << LoggableActivity::Payload.new(
+      #   record: associated_record,
+      #   encrypted_attrs:,
+      #   payload_type: 'current_association',
+      #   data_owner: relation_config['data_owner']
+      # )
+    end
+
+    def build_has_many_payloads(relation_config, relation_type)
+      associated_records = send(relation_config[relation_type])
+      return nil if associated_records.empty?
+
+      associated_records.each do |associated_record|
+        build_associated_payload(associated_record, relation_config)
+      end
+    end
+
+    def build_associated_payload(associated_record, relation_config)
       associated_loggable_attrs = relation_config['loggable_attrs']
-
       encryption_key = associated_record_encryption_key(associated_record, relation_config['data_owner'])
-
       encrypted_attrs =
         encrypt_attrs(
           associated_record.attributes,
