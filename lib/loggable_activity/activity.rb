@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_record'
+
 module LoggableActivity
   # Represents one action in the activity log.
   class Activity < ActiveRecord::Base
@@ -222,6 +224,13 @@ module LoggableActivity
         .includes(:payloads)
         .offset(offset)
         .limit(limit)
+    end
+
+    # Returns the last activity.
+    def self.last(limit = 1)
+      return latest(1).first if limit == 1
+
+      latest(limit)
     end
 
     private

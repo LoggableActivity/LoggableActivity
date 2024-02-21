@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_record'
+
 module LoggableActivity
   # This class represents the encryption key used to unlock the data for one payload.
   # When deleted, only the encryption_key field is deleted.

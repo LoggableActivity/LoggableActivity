@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/concern'
+
 # This is the main module for loggable.
 # When included to a model, it provides the features for creating the activities.
 require 'loggable_activity/payloads_builder'
