@@ -2,8 +2,10 @@ AllCops:
   TargetRubyVersion: '3.2.0'
   NewCops: enable
   Exclude:
-    - 'db/schema.rb'
     # - 'vendor/**/*'
+    
+Style/OpenStructUse:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
