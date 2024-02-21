@@ -1,7 +1,9 @@
-## [Unreleased]
-- nothing so far
+## [0.1.51] - 2024-02-18
+- Added RSpec test
+- Added rubocop
+
 ## [0.1.49] - 2024-02-18
-- Metadata, pointing to hompage 
+- Metadata, pointing to homepage 
 
 ## [0.1.48] - 2024-02-16
 ### Breaking change
