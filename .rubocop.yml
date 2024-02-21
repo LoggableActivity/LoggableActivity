@@ -1,11 +1,14 @@
 AllCops:
-  # TargetRubyVersion: '3.0.1'
+  TargetRubyVersion: '3.2.0'
   NewCops: enable
   Exclude:
     - 'db/schema.rb'
-    - 'vendor/**/*'
+    # - 'vendor/**/*'
 
 Style/Documentation:
+  Enabled: false
+  
+Gemspec/DevelopmentDependencies:
   Enabled: false
 
 Layout/LineLength:

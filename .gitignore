@@ -11,3 +11,5 @@
 /notes/
 *.gem
 .DS_Store
+.tool-versions
+*.DS_Store
