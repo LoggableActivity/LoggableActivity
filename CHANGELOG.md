@@ -1,7 +1,10 @@
-## [0.1.52] - 2024-02-18
+## [0.1.53] - 2024-02-22
+- Generator for templates 
+
+## [0.1.52] - 2024-02-20
 - Support for has_many relations 
 
-## [0.1.51] - 2024-02-18
+## [0.1.51] - 2024-02-19
 - Added RSpec test
 - Added rubocop
 

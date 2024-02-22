@@ -107,3 +107,28 @@ Supported relations at the moment is
 - belongs_to
 - has_one
 - has_many
+
+### Render templates
+run this cmd to create templates
+rails g loggable_activity:install_views erb
+or 
+rails g loggable_activity:install_views slim for slim templates
+
+Then add this to a view
+<div class="container">
+  <h1>Activities</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Info</th>
+        <th>Attributes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @loggable_activities.each do |activity| %>
+        <%= render_activity(activity) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
