@@ -15,17 +15,17 @@ module LoggableActivity
         template 'helpers/loggable_activity_helper.rb', 'helpers/loggable_activity_helper.rb'
       end
 
-      # def create_views
-      #   template 'views/loggable_activity/default/_create.html.erb', 'views/loggable_activity/default/_create.html.erb'
-      #   template 'views/loggable_activity/default/_destroy.html.erb', 'views/loggable_activity/default/_destroy.html.erb'
-      #   template 'views/loggable_activity/default/_show.html.erb', 'views/loggable_activity/default/_show.html.erb'
-      #   template 'views/loggable_activity/default/_update.html.erb', 'views/loggable_activity/default/_update.html.erb'
+      def create_views
+        template 'views/loggable_activity/templates/default/_create.html.erb', 'views/loggable_activity/templates/default/_create.html.erb'
+        template 'views/loggable_activity/templates/default/_destroy.html.erb', 'views/loggable_activity/templates/default/_destroy.html.erb'
+        template 'views/loggable_activity/templates/default/_show.html.erb', 'views/loggable_activity/templates/default/_show.html.erb'
+        template 'views/loggable_activity/templates/default/_update.html.erb', 'views/loggable_activity/default/_update.html.erb'
 
-      #   template 'views/loggable_activity/shared/_activity_info.html.erb', 'views/loggable_activity/shared/_activity_info.html.erb'
-      #   template 'views/loggable_activity/shared/_list_attrs.html.erb', 'views/loggable_activity/shared/_list_attrs.html.erb'
-      #   template 'views/loggable_activity/shared/_update_attrs.html.erb', 'views/loggable_activity/shared/_update_attrs.html.erb'
-      #   template 'views/loggable_activity/shared/_updated_relations.html.erb', 'views/loggable_activity/shared/_updated_relations.html.erb'
-      # end
+        # template 'views/loggable_activity/templates/shared/_activity_info.html.erb', 'views/loggable_activity/templates/shared/_activity_info.html.erb'
+        # template 'views/loggable_activity/templates/shared/_list_attrs.html.erb', 'views/loggable_activity/tempates/shared/_list_attrs.html.erb'
+        # template 'views/loggable_activity/templates/shared/_update_attrs.html.erb', 'views/loggable_activity/templates/shared/_update_attrs.html.erb'
+        # template 'views/loggable_activity/templates/shared/_updated_relations.html.erb', 'views/loggable_activity/templates/shared/_updated_relations.html.erb'
+      end
 
     end
   end
