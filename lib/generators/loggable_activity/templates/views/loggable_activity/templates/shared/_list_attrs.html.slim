@@ -1,0 +1,6 @@
+- if attrs == :deleted
+  = t('loggable.activity.deleted')
+- elsif attrs.is_a?(Hash)
+  - attrs.each do |k, v|
+    = "<i>#{k}:</i> #{v.blank? ? t('loggable.activity.deleted') : v}".html_safe
+    br/

@@ -1,0 +1,18 @@
+tr
+  td
+    = render partial: 'loggable_activity/templates/shared/activity_info', locals: { activity: activity }
+  td 
+    b.text-secondary  = primary_type(activity)
+    br
+    - activity.primary_payload_attrs.each do |k, v|
+      = "<i>#{k}:</i> #{v.blank? ? t('loggable.activity.deleted') : v}".html_safe
+      br/
+    br
+    - activity.relations_attrs.each do |relation_attrs|
+      b.text-secondary = relation_type(relation_attrs)
+      br/
+      = 
+      = render partial: 'loggable_activity/templates/shared/list_attrs', locals: { attrs: relation_attrs[:attrs] }
+      br/
+  td 
+    =< link_to 'Delete', demo_activity_log_path(activity), data: {  turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'

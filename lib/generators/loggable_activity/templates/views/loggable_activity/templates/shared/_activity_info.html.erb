@@ -1,0 +1,12 @@
+<div class="px-4">
+  <h5><%= t("loggable.activity.#{activity.action}", name: "") %></h5>
+  <b><%= activity.record_display_name %></b>
+  <br>
+  <i>Actor:&nbsp;</i>
+  <br>
+  <%= activity.actor_display_name %>
+  <br>
+  <i>When:&nbsp;</i>
+  <br>
+  <%= I18n.l(activity.created_at, format: :long) %>
+</div>
