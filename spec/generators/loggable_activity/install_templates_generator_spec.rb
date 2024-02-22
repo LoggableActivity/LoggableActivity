@@ -32,6 +32,13 @@ RSpec.describe LoggableActivity::Generators::InstallTemplatesGenerator, type: :g
     expect(template_files).to include(/_updated_relations.html/)
   end
 
+  it 'creates loggable_activity_helper' do
+    helpers_path = File.join(destination_root, 'app/helpers')
+    expect(File.exist?(helpers_path)).to be true
+    helper_files = Dir.entries(helpers_path)
+    expect(helper_files).to include(/loggable_activity_helper/)
+  end
+
   after(:all) do
     FileUtils.rm_rf(destination_root)
   end

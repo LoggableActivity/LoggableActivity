@@ -1,5 +1,6 @@
 ## [0.1.53] - 2024-02-22
-- Generator for templates 
+- Generator for presentation layer
+- GETTING-STARTED.md guide 
 
 ## [0.1.52] - 2024-02-20
 - Support for has_many relations 

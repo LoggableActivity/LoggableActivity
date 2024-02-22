@@ -22,15 +22,15 @@ module LoggableActivity
       end
 
       def create_translation_file
-        template 'loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
+        copy_file 'config/locales/loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
       end
 
       def create_config_file
-        template 'loggable_activity.yml', 'config/loggable_activity.yml'
+        copy_file 'config/loggable_activity.yml', 'config/loggable_activity.yml'
       end
 
-      def create_initializer_file
-        template 'current_user.rb', 'app/controllers/concerns/loggable_activity/current_user.rb'
+      def create_current_user_concern
+        copy_file 'current_user.rb', 'app/controllers/concerns/loggable_activity/current_user.rb'
       end
     end
   end
