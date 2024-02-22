@@ -13,20 +13,58 @@ You can try a demo here<br/>
 [https://loggableactivity-efe7b931c886.herokuapp.com/](https://loggableactivity-efe7b931c886.herokuapp.com/)
 
 ## Getting started
-First we add the loggable_activity gem to the Gemfile `gem 'loggable_activity', '~> x.x.xx'` and then `$ bundle install`<br/>
+First we add the loggable_activity gem to the Gemfile `gem 'loggable_activity', '~> x.x.xx'` and then<br/>
+```
+$ bundle install
+```
 Then we have to generate some migrations and additionals files<br/>
-`rails generate loggable_activity:install Activity`<br/>
+```
+$ rails generate loggable_activity:install
+```
+This will install the following files
+- app/controllers/concerns/loggable_activity/current_user.rb
+- config/loggable_activity.yml
+- config/locales/loggable_activity.en.yml
+- db/migrate/xxxxxxxxxxxxxx_create_loggable_activities
+- db/migrate/xxxxxxxxxxxxxx_create_loggable_payloads
+- db/migrate/xxxxxxxxxxxxxx_create_loggable_encryption_keys
+
+Then we have to run
+```
+$ bundle install
+```
+
+## Add hoks to models you want to be logged
+Include hooks to the model we want to log.
+
+```
+class User < ApplicationRecord
+  include LoggableActivity::Hooks
+```
 
 ## Configuration
-You need a configuration file inside the `config/loggable_activity.yaml`
-This file defines:
-- What tables to log
-- What fields in a table to log
-- How data is aggregated.
-- What should happen to the aggregation if a record is deleted.
-- What actions to log.
+Update `config/application.rb`, you might do it differently in production
+```
+  config.loggable_activity = ActiveSupport::OrderedOptions.new
+  config.loggable_activity.actor_display_name = :full_name
+  config.loggable_activity.current_user_model_name = 'User'
+  LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
+```
+- actor_display_name: this is a method on the User model we want to use when presenting the actor.
+- current_user_model: This is the name of the model we use for current_user
+- load_config_file: this is the configuration we will look at next.
 
-*Here is an example*
+## loggable_activity.yaml
+You have to update the configuration file installed inside the `config/loggable_activity.yaml`
+This file defines:
+- What fields in a table to log
+- What relations to include in a logged activity 
+- What should happen to the aggregation if a record is deleted.
+- What actions to log automatically
+
+**!Catch**<br/>
+`show` can not `auto_log` so it has to be handled manually, more about that later.<br/>
+*Here is an example of content for the config/loggable_activity.yaml file*
 ```
 Demo::Club: 
   record_display_name: name 
@@ -49,61 +87,79 @@ Lets break this down.
 - `record_display_name:` is the field/method on the on the model we want to display as a headline in the log
 - Then we can se that we are logging the **name** of the club, in this example that's all there is to log.
 - Then we can se that we are **logging create, update, and destroy** automatically.
-- Then there are some relations: that we want to collect and add to the log, in this example we are logging the address as well.
+- Then there are some relations: that we want to collect and add to the log.<br/> 
+In this example the club belongs to an addres so we add the street and city from the address to the log.
 
-Next we have to include some hooks to the model we want to log.
 
-```
-class User < ApplicationRecord
-  include LoggableActivity::Hooks
-```
-
-And then we have to add a this to the application_controller.rb
+## Set current user
+Add a this to the application_controller.rb
 ```
 class ApplicationController < ActionController::Base
   include LoggableActivity::CurrentUser
 ```
-This will give us access to the current_user.
+If there is not current_user nothing will be logged. <br/>
+You can look inside `app/controllers/concerns/current_user.rb` and alter it with a default `current_user` if needed. 
 
-And then we have to add this to `config/application.rb`
-```
-  config.loggable_activity = ActiveSupport::OrderedOptions.new
-  config.loggable_activity.actor_display_name = :full_name
-  config.loggable_activity.current_user_model_name = 'User'
-  LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
-```
-actor_display_name: this is a method on the User model we want to use when presenting the actor.
-current_user_model: This is the name of the model we use for current_user
-load_config_file: this is the configuration file from above.
-
-
-Then you HAVE TO to add `LogggableActivity::Hooks` to the `User Model` like this
-
-```
-class User < ApplicationRecord
-  include LoggableActivity::Hooks
-  ...
-  resto of your code here.
-
-```
-
-### Log the show action
+## Log the show action
+As mentioned earlier, show can not be logged automatically<br/>
 If you want to log the show action you can add this to your controllers show method
 ```
 def show
   @user.log(:show)
 ```
 
-
-
-### For developers
-If you want to contribute to the development and try it out in the process
-- 1 Down the demo project from [demo project on github](https://github.com/maxgronlund/LoggableActivityDemoApp)
-- 2 Update the Gemfile in the demo project so it points to your localhost.
-- 3 you can now build and test you version of the gem `$ gem build loggable_activity.gemspec`
-
-### Relations
+## Relations
 Supported relations at the moment is 
 - belongs_to
 - has_one
 - has_many
+
+## Render templates
+*Optional*
+<br/>You can install all the files needed to render a list of activities<br/> 
+The following command will generate all the files need for showing the activity log
+```
+$ rails g loggable_activity:install_templates
+```
+or for the slim template language. (don't run both)
+```
+$ rails g loggable_activity:install_templates --template=erb
+```
+Now you got the `loggable_activity_helper.rb' installed.<br/>
+You can use the `render_activity` method from your view like this.
+```
+  <table>
+    <thead>
+      <tr>
+        <th>Info</th>
+        <th>Attributes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @loggable_activities.each do |activity| %>
+        <%= render_activity(activity) %>
+      <% end %>
+    </tbody>
+  </table>
+```
+Create a route and a controller and fetch the `@loggable_activities` like this
+```
+class ActivityLogsController < ApplicationController
+  def index
+    @loggable_activities = LoggableActivity::Activity.latest(50)
+  end
+end
+```
+Or you can fetch all activities for a given actor like this
+```
+def show
+  @loggable_activities = LoggableActivity::Activity.where(actor: @user)
+end
+```
+
+## For developers and contributors 
+If you can download and play around with a demo app
+- 1 Down the demo project from [demo project on github](https://github.com/maxgronlund/LoggableActivityDemoApp)
+- 2 Update the Gemfile in the demo project so it points to your localhost.
+- 3 you can now build and test you version of the gem `$ gem build loggable_activity.gemspec`

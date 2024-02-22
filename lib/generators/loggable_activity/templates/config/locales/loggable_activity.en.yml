@@ -1,0 +1,36 @@
+en:
+  loggable:
+    activity:
+      deleted: "***** DELETED *****"
+      demo/address:
+        update: An address was updated
+        create: An address was created
+        show: An address was shown
+        destroy: An address was deleted
+      demo/club:
+        update: A club was updated
+        create: A club was created
+        show: A club was shown
+        destroy: A club was deleted
+      demo/journal:
+        update: A journal was updated
+        create: A journal was created
+        show: A journal was shown
+        destroy: A journal was deleted
+      demo/product:
+        update: A product was updated
+        create: A product was created
+        show: A product was shown
+        destroy: A product was deleted
+      user:
+        update: A user was updated
+        create: A user was created
+        show: "A user was shown"
+        destroy: A user was deleted
+      models:
+        Demo::Address: Address
+        Demo::UserProfile: Profile
+        Demo::Club: Club
+        Demo::Journal: Journal
+        Demo/Product: Product
+        User: User

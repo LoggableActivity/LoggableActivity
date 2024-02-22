@@ -1,0 +1,14 @@
+b.text-secondary = update_relation_class(update_attrs)
+br/
+- if update_attrs[:attrs] == :deleted
+  = t('loggable.activity.deleted') 
+- else
+  - update_attrs[:attrs].each do |attr|
+    - attr.each do |key, from_to|
+      - next if from_to.nil?
+      i = key
+      br/
+      = "from: #{from_to[:from].nil? ? "Empty" : from_to[:from]}"
+      br/
+      = "to: #{from_to[:to].nil? ? "Empty" : from_to[:to]}"
+      br/

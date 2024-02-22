@@ -62,15 +62,15 @@ module LoggableActivity
     end
 
     def build_relation_update_for_has_many(relation_config)
-      # Note: This method is not implemented yet.
-      # It requires that there is a form where it is possible to change 
+      # NOTE: This method is not implemented yet.
+      # It requires that there is a form where it is possible to change
       # the related records. This is not implemented yet. in the Demo app
       # puts relation_config['has_many']
     end
 
     def build_relation_update_for_has_one(relation_config)
-      # Note: This method is not implemented yet.
-      # It requires that there is a form where it is possible to change 
+      # NOTE: This method is not implemented yet.
+      # It requires that there is a form where it is possible to change
       # the related records. This is not implemented yet. in the Demo app
       # puts relation_config['has_many']
     end

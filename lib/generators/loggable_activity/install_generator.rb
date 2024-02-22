@@ -5,7 +5,7 @@ require 'rails/generators/named_base'
 
 module LoggableActivity
   module Generators
-    class InstallGenerator < Rails::Generators::NamedBase
+    class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path('templates', __dir__)
 
       FILE_NAMES = %w[activity payload encryption_key].freeze
@@ -21,11 +21,16 @@ module LoggableActivity
         end
       end
 
-      def create_model_file
-        template 'loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
-        template 'loggable_activity.yml', 'config/loggable_activity.yml'
-        template 'current_user.rb', 'app/controllers/concerns/loggable_activity/current_user.rb'
-        # template 'loggable_activity_helper.rb', 'app/helpers/loggable_activity_helper.rb'
+      def create_translation_file
+        copy_file 'config/locales/loggable_activity.en.yml', 'config/locales/loggable_activity.en.yml'
+      end
+
+      def create_config_file
+        copy_file 'config/loggable_activity.yml', 'config/loggable_activity.yml'
+      end
+
+      def create_current_user_concern
+        copy_file 'current_user.rb', 'app/controllers/concerns/loggable_activity/current_user.rb'
       end
     end
   end

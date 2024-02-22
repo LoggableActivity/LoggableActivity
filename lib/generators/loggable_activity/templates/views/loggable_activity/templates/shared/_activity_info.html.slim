@@ -1,0 +1,11 @@
+.px-4
+  .h5 = t("loggable.activity.#{activity.action}", name: "")
+  b = activity.record_display_name
+  br
+  i Actor:&nbsp;
+  br
+  = activity.actor_display_name
+  br
+  i When:&nbsp;
+  br
+  = I18n.l(activity.created_at, format: :long)

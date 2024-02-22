@@ -56,7 +56,7 @@ module LoggableActivity
       )
     end
 
-    # Builds payloads for relations 
+    # Builds payloads for relations
     #
     # @param relation_config [Hash] The configuration of the relation.
     def build_relation_payload(relation_config)
