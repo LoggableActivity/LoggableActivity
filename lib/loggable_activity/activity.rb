@@ -235,6 +235,7 @@ module LoggableActivity
 
     private
 
+    # Returns the attributes for the update+payload.
     def update_attrs
       update_payload_attrs = attrs.find { |p| p[:payload_type] == 'update_payload' }
       return nil unless update_payload_attrs
@@ -243,10 +244,12 @@ module LoggableActivity
       update_payload_attrs
     end
 
+    # Returns the primary payload.
     def primary_payload
       ordered_payloads.find { |p| p.payload_type == 'primary_payload' }
     end
 
+    # Returns the attributes for the updated relations.
     def updated_relations_attrs
       grouped_associations = attrs.group_by { |p| p[:record_class] }
 
@@ -259,26 +262,31 @@ module LoggableActivity
       end.compact
     end
 
+    # Returns the previous association attributes.
     def previous_associations_attrs
       attrs.select { |p| p[:payload_type] == 'previous_association' }
     end
 
+    # Returns payloads sorted by :payload_type.
     def ordered_payloads
       payloads.order(:payload_type)
     end
 
+    # Returns the key for the logged record.
     def record_key
       return nil if record.nil?
 
       LoggableActivity::EncryptionKey.for_record(record)&.key
     end
 
+    # Returns the key for the actor.
     def actor_key
       return nil if actor.nil?
 
       LoggableActivity::EncryptionKey.for_record(actor)&.key
     end
 
+    # Validates that the activity has at least one payload.
     def must_have_at_least_one_payload
       errors.add(:payloads, 'must have at least one payload') if payloads.empty?
     end

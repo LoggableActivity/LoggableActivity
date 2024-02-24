@@ -107,10 +107,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns true if the given value is blank</p>
 
           <div class="method-source-code" id="blank-3F-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 65</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">blank?</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:empty?</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">:</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -148,7 +148,7 @@
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">encoded_key</span>.<span class="ruby-identifier">nil?</span>
 
   <span class="ruby-identifier">encryption_key</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">encoded_key</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-string">&#39;Decryption failed: Invalid encryption key length&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Decryption failed: Invalid encoded_key length: #{encryption_key.bytesize}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
 
   <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-256-CBC&#39;</span>).<span class="ruby-identifier">decrypt</span>
   <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-identifier">encryption_key</span>
@@ -160,6 +160,10 @@
   <span class="ruby-identifier">decrypted_data</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&#39;UTF-8&#39;</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span><span class="ruby-operator">::</span><span class="ruby-constant">CipherError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Decryption failed: #{e.message}&quot;</span>
+  <span class="ruby-identifier">data</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">EncryptionError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+  <span class="ruby-string">&#39;*** DECRYPTION FAILED ***&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -195,7 +199,7 @@
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">encoded_key</span>.<span class="ruby-identifier">nil?</span>
 
   <span class="ruby-identifier">encryption_key</span> = <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">encoded_key</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Encryption failed: Invalid encryption key length #{encryption_key.bytesize}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">EncryptionError</span>, <span class="ruby-node">&quot;Encryption failed: Invalid encoded_key length #{encryption_key.bytesize}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">32</span>
 
   <span class="ruby-identifier">cipher</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cipher</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;AES-256-CBC&#39;</span>).<span class="ruby-identifier">encrypt</span>
   <span class="ruby-identifier">cipher</span>.<span class="ruby-identifier">key</span> = <span class="ruby-identifier">encryption_key</span>

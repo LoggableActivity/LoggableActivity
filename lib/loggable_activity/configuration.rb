@@ -3,6 +3,7 @@
 module LoggableActivity
   # This class is used to load the configuration file located at config/loggable_activity.yml
   class Configuration
+    # Loads the configuration file
     def self.load_config_file(config_file_path)
       @config_data = YAML.load_file(config_file_path)
     end

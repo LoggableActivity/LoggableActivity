@@ -23,7 +23,7 @@ module LoggableActivity
       return nil if data.nil? || encoded_key.nil?
 
       encryption_key = Base64.decode64(encoded_key)
-      raise EncryptionError, "Encryption failed: Invalid encryption key length #{encryption_key.bytesize}" unless encryption_key.bytesize == 32
+      raise EncryptionError, "Encryption failed: Invalid encoded_key length #{encryption_key.bytesize}" unless encryption_key.bytesize == 32
 
       cipher = OpenSSL::Cipher.new('AES-256-CBC').encrypt
       cipher.key = encryption_key
@@ -48,7 +48,7 @@ module LoggableActivity
       return '' if data.nil? || encoded_key.nil?
 
       encryption_key = Base64.decode64(encoded_key)
-      raise EncryptionError, 'Decryption failed: Invalid encryption key length' unless encryption_key.bytesize == 32
+      raise EncryptionError, "Decryption failed: Invalid encoded_key length: #{encryption_key.bytesize}" unless encryption_key.bytesize == 32
 
       cipher = OpenSSL::Cipher.new('AES-256-CBC').decrypt
       cipher.key = encryption_key
@@ -60,8 +60,12 @@ module LoggableActivity
       decrypted_data.force_encoding('UTF-8')
     rescue OpenSSL::Cipher::CipherError => e
       raise EncryptionError, "Decryption failed: #{e.message}"
+    rescue EncryptionError => e
+      puts e.message
+      '*** DECRYPTION FAILED ***'
     end
 
+    # Returns true if the given value is blank
     def self.blank?(value)
       value.respond_to?(:empty?) ? value.empty? : !value
     end
