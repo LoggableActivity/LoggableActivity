@@ -1,0 +1,19 @@
+Loggable Activity Generator Help
+--------------------------------
+
+Description:
+  This generator creates files and configurations for integrating the Loggable Activity gem into your Rails application.
+
+Usage:
+  rails generate loggable_activity [options]
+
+Options:
+  -h, [--help], [--no-help]           # Display usage instructions (this message)
+  -m, [--uuid]                        # Use uuids for primary_keys
+
+Examples:
+  rails generate loggable_activity  --uuid  # Generate loggable activity migration files with uuids for primary_keys 
+
+Note:
+  - This generator assumes that you have already installed the Loggable Activity gem.
+  - Ensure that your database schema supports UUIDs if using them as primary keys.

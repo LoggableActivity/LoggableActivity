@@ -4,6 +4,8 @@ Secure protect data and log how it is handled
 - Protect and secure the privacy of data stored in Activity Logs
 - Prepare for General Data Protection Regulation (GDPR) compliance.
 - Handles activities that involves more than one table in the DB.
+- Encrypt data stored in the activity log
+- Support binary_ids
 
 ### Important!
 This project is under development and not ready for production. There might be breaking changes, so please consult the CHANGELOG.md

@@ -26,17 +26,9 @@ This will install the following files
 - config/loggable_activity.yml
 - config/locales/loggable_activity.en.yml
 - db/migrate/xxxxxxxxxxxxxx_create_loggable_activities
-- db/migrate/xxxxxxxxxxxxxx_create_loggable_payloads
-- db/migrate/xxxxxxxxxxxxxx_create_loggable_encryption_keys
 
-Then we have to run
-```
-$ bundle install
-```
 
-## Add hoks to models you want to be logged
-Include hooks to the model we want to log.
-
+## Add hoks to models to be logged
 ```
 class User < ApplicationRecord
   include LoggableActivity::Hooks
@@ -67,8 +59,9 @@ This file defines:
 *Here is an example of content for the config/loggable_activity.yaml file*
 ```
 Demo::Club: 
-  record_display_name: name 
+  record_display_name: email 
   loggable_attrs: 
+    - email
     - name
   auto_log:
     - create

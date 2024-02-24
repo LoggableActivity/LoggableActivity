@@ -11,5 +11,21 @@ class CreateLoggableActivities < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    create_table :loggable_payloads do |t|
+      t.references :record, polymorphic: true, null: true
+      t.json :encrypted_attrs
+      t.integer :payload_type, default: 0
+      t.boolean :data_owner, default: false
+      t.references :activity, foreign_key: { to_table: 'loggable_activities', class_name: 'LoggableActivity::Activity' }
+
+      t.timestamps
+    end
+
+    create_table :loggable_encryption_keys do |t|
+      t.references :parent_key, foreign_key: { to_table: 'loggable_encryption_keys', on_delete: :nullify }
+      t.string :key
+      t.references :record, polymorphic: true, on_delete: :nullify
+    end
   end
 end
