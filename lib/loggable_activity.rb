@@ -12,5 +12,4 @@ require_relative 'loggable_activity/update_payloads_builder'
 
 module LoggableActivity
   class Error < StandardError; end
-  # Your code goes here...
 end

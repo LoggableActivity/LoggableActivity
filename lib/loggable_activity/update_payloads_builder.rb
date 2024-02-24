@@ -18,6 +18,7 @@ module LoggableActivity
 
     private
 
+    # Fetch the previous and current values of the primary record.
     def primary_update_attrs
       previous_values = saved_changes.transform_values(&:first)
       current_values = saved_changes.transform_values(&:last)
@@ -25,6 +26,7 @@ module LoggableActivity
       [previous_values, current_values]
     end
 
+    # Builds the primary update payload.
     def build_primary_update_payload(previous_values, current_values)
       return if previous_values == current_values
 
@@ -36,6 +38,7 @@ module LoggableActivity
       )
     end
 
+    # Returns the encrypted attributes for the update payload.
     def encrypted_update_attrs(previous_values, current_values)
       changes = []
       changed_attrs = previous_values.slice(*self.class.loggable_attrs)
@@ -48,6 +51,7 @@ module LoggableActivity
       { changes: }
     end
 
+    # Builds update payloads for relations.
     def build_update_relation_payloads(relation_config)
       relation_config.each_key do |key|
         case key
@@ -61,6 +65,7 @@ module LoggableActivity
       end
     end
 
+    # Builds the update payload for a has_many relation.
     def build_relation_update_for_has_many(relation_config)
       # NOTE: This method is not implemented yet.
       # It requires that there is a form where it is possible to change
@@ -68,6 +73,7 @@ module LoggableActivity
       # puts relation_config['has_many']
     end
 
+    # Builds the update payload for a has_one relation.
     def build_relation_update_for_has_one(relation_config)
       # NOTE: This method is not implemented yet.
       # It requires that there is a form where it is possible to change
@@ -75,6 +81,7 @@ module LoggableActivity
       # puts relation_config['has_many']
     end
 
+    # Builds the update payload for a belongs_to relation.
     def build_relation_update_for_belongs_to(relation_config)
       relation_id = "#{relation_config['belongs_to']}_id"
       model_class_name = relation_config['model']
@@ -99,6 +106,7 @@ module LoggableActivity
       end
     end
 
+    # Builds the update payload for a relation.
     def build_relation_update_payload(_attrs, loggable_attrs, record, payload_type)
       encryption_key = LoggableActivity::EncryptionKey.for_record(record)&.key
       encrypted_attrs = relation_encrypted_attrs(record.attributes, loggable_attrs, encryption_key)
@@ -110,6 +118,7 @@ module LoggableActivity
       )
     end
 
+    # Returns the encrypted attributes for a relation.
     def relation_encrypted_attrs(attrs, loggable_attrs, encryption_key)
       encrypt_attrs(attrs, loggable_attrs, encryption_key)
     end

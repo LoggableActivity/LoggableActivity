@@ -136,7 +136,7 @@
 </pre>
 
           <div class="method-source-code" id="for_class-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 27</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">for_class</span>(<span class="ruby-identifier">class_name</span>)
   <span class="ruby-ivar">@config_data</span>[<span class="ruby-identifier">class_name</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -156,10 +156,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Loads the configuration file</p>
 
           <div class="method-source-code" id="load_config_file-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 6</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_config_file</span>(<span class="ruby-identifier">config_file_path</span>)
   <span class="ruby-ivar">@config_data</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">config_file_path</span>)
 <span class="ruby-keyword">end</span></pre>

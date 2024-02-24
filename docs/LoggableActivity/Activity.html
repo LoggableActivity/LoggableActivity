@@ -531,10 +531,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns the key for the actor.</p>
 
           <div class="method-source-code" id="actor_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 276</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 283</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_key</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">actor</span>.<span class="ruby-identifier">nil?</span>
 
@@ -556,10 +556,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Validates that the activity has at least one payload.</p>
 
           <div class="method-source-code" id="must_have_at_least_one_payload-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 282</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 290</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">must_have_at_least_one_payload</span>
   <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:payloads</span>, <span class="ruby-string">&#39;must have at least one payload&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -579,10 +579,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns payloads sorted by :payload_type.</p>
 
           <div class="method-source-code" id="ordered_payloads-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 266</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 271</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ordered_payloads</span>
   <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:payload_type</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -602,10 +602,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns the previous association attributes.</p>
 
           <div class="method-source-code" id="previous_associations_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 262</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 266</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">previous_associations_attrs</span>
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:payload_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;previous_association&#39;</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -625,10 +625,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns the primary payload.</p>
 
           <div class="method-source-code" id="primary_payload-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 246</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 248</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">primary_payload</span>
   <span class="ruby-identifier">ordered_payloads</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">payload_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;primary_payload&#39;</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -648,10 +648,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns the key for the logged record.</p>
 
           <div class="method-source-code" id="record_key-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 270</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 276</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">record_key</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
 
@@ -673,10 +673,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns the attributes for the update+payload.</p>
 
           <div class="method-source-code" id="update_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 238</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 239</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update_attrs</span>
   <span class="ruby-identifier">update_payload_attrs</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:payload_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;update_payload&#39;</span> }
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">update_payload_attrs</span>
@@ -700,10 +700,10 @@
         </div>
 
         <div class="method-description">
-          
+          <p>Returns the attributes for the updated relations.</p>
 
           <div class="method-source-code" id="updated_relations_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 250</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 253</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">updated_relations_attrs</span>
   <span class="ruby-identifier">grouped_associations</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>[<span class="ruby-value">:record_class</span>] }
 
