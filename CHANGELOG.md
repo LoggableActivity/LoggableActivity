@@ -1,5 +1,8 @@
 ## [0.1.54] - 2024-02-24
 - Support for BinaryID's 
+- Updated README.md
+- Quick start guid in terminal after installations
+- Support for slim
 
 ## [0.1.53] - 2024-02-22
 - Generator for presentation layer
