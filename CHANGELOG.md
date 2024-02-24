@@ -1,3 +1,6 @@
+## [0.1.54] - 2024-02-24
+- Support for BinaryID's 
+
 ## [0.1.53] - 2024-02-22
 - Generator for presentation layer
 - GETTING-STARTED.md guide 
