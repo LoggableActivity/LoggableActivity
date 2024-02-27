@@ -116,7 +116,7 @@ $ rails g loggable_activity:install_templates
 ```
 or for the slim template language. (don't run both)
 ```
-$ rails g loggable_activity:install_templates --template=erb
+$ rails g loggable_activity:install_templates --template=slim
 ```
 Now you got the `loggable_activity_helper.rb' installed.<br/>
 You can use the `render_activity` method from your view like this.
