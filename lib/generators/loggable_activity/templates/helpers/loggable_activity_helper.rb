@@ -12,11 +12,11 @@ module LoggableActivityHelper
   end
 
   def relation_type(relation_attrs)
-    I18n.t("loggable.activity.models.#{relation_attrs[:record_class]}")
+    I18n.t("loggable.activity.models.#{relation_attrs[:record_type]}")
   end
 
   def update_relation_class(update_attrs)
-    I18n.t("loggable.activity.models.#{update_attrs[:record_class]}")
+    I18n.t("loggable.activity.models.#{update_attrs[:record_type]}")
   end
 
   private

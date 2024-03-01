@@ -50,6 +50,13 @@ module LoggableActivity
       end
     end
 
+    # Returns the route for the payload.
+    def payload_route
+      return nil if payload_encryption_key.nil?
+
+      route
+    end
+
     private
 
     # Retrieves the encryption key for the payload.

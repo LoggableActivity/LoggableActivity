@@ -37,6 +37,7 @@ ActiveRecord::Schema.define do
     t.integer :payload_type, default: 0
     t.boolean :data_owner, default: false
     t.references :activity, foreign_key: { to_table: 'loggable_activities', class_name: 'LoggableActivity::Activity' }
+    t.string :route, default: ''
 
     t.timestamps
   end

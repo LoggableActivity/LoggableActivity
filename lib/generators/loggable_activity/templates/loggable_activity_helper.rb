@@ -2,22 +2,31 @@
 
 module LoggableActivityHelper
   include ApplicationHelper
+  # include Rails.application.routes.url_helpers
 
   def render_activity(activity)
     render partial: template_path(activity), locals: { activity: }
   end
 
   def primary_type(activity)
-    I18n.t("loggable.activity.models.#{activity.record_type}")
+    title = I18n.t("loggable.activity.models.#{activity.record_type}")
+    if (path = activity.path)
+      link_to title, send(path, activity.record_id.to_s)
+    else
+      title
+    end
   end
 
   def relation_type(relation_attrs)
-    I18n.t("loggable.activity.models.#{relation_attrs[:record_class]}")
+    title = I18n.t("loggable.activity.models.#{relation_attrs[:record_type]}")
+    if (path = relation_attrs[:path])
+      link_to title, send(path, relation_attrs[:record_id])
+    else
+      title
+    end
   end
 
-  def update_relation_class(update_attrs)
-    I18n.t("loggable.activity.models.#{update_attrs[:record_class]}")
-  end
+  def link_to_payload; end
 
   private
 

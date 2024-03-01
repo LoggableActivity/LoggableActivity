@@ -34,7 +34,8 @@ module LoggableActivity
       @update_payloads << LoggableActivity::Payload.new(
         record: @record,
         payload_type: 'update_payload',
-        encrypted_attrs: encrypted_update_attrs
+        encrypted_attrs: encrypted_update_attrs,
+        route: self.class.route
       )
     end
 
@@ -78,7 +79,7 @@ module LoggableActivity
       # NOTE: This method is not implemented yet.
       # It requires that there is a form where it is possible to change
       # the related records. This is not implemented yet. in the Demo app
-      # puts relation_config['has_many']
+      # puts relation_config['has_one']
     end
 
     # Builds the update payload for a belongs_to relation.
@@ -98,8 +99,7 @@ module LoggableActivity
 
         payload_type = index.zero? ? 'previous_association' : 'current_association'
         build_relation_update_payload(
-          relation_record.attributes,
-          relation_config['loggable_attrs'],
+          relation_config,
           relation_record,
           payload_type
         )
@@ -107,14 +107,15 @@ module LoggableActivity
     end
 
     # Builds the update payload for a relation.
-    def build_relation_update_payload(_attrs, loggable_attrs, record, payload_type)
+    def build_relation_update_payload(relation_config, record, payload_type)
       encryption_key = LoggableActivity::EncryptionKey.for_record(record)&.key
-      encrypted_attrs = relation_encrypted_attrs(record.attributes, loggable_attrs, encryption_key)
+      encrypted_attrs = relation_encrypted_attrs(record.attributes, relation_config['loggable_attrs'], encryption_key)
 
       @update_payloads << LoggableActivity::Payload.new(
         record:,
         encrypted_attrs:,
-        payload_type:
+        payload_type:,
+        route: relation_config['route']
       )
     end
 

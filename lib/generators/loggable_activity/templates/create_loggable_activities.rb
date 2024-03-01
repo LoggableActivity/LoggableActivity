@@ -17,6 +17,7 @@ class CreateLoggableActivities < ActiveRecord::Migration[6.1]
       t.json :encrypted_attrs
       t.integer :payload_type, default: 0
       t.boolean :data_owner, default: false
+      t.string :route, default: nil
       t.references :activity, foreign_key: { to_table: 'loggable_activities', class_name: 'LoggableActivity::Activity' }
 
       t.timestamps

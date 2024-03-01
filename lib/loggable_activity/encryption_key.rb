@@ -65,6 +65,8 @@ module LoggableActivity
     #  }
     #
     def self.for_record(record, parent_key = nil)
+      return nil if record.nil?
+
       encryption_key = find_by(record:)
       return encryption_key if encryption_key
 
