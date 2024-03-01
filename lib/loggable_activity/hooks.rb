@@ -26,6 +26,7 @@ module LoggableActivity
       self.auto_log = config&.fetch('auto_log', []) || []
       self.actor_display_name = config&.fetch('actor_display_name', nil)
       self.record_display_name = config&.fetch('record_display_name', nil)
+      self.route = config&.fetch('route', nil)
 
       after_create :log_create_activity
       after_update :log_update_activity
@@ -164,7 +165,7 @@ module LoggableActivity
     end
 
     class_methods do
-      attr_accessor :loggable_attrs, :relations, :auto_log, :actor_display_name, :record_display_name
+      attr_accessor :loggable_attrs, :relations, :auto_log, :actor_display_name, :record_display_name, :route
 
       # Convert the model name and name space in to 'base_action'.
       def base_action

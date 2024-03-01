@@ -40,7 +40,8 @@ module LoggableActivity
         record: @record,
         payload_type: 'primary_payload',
         encrypted_attrs:,
-        data_owner: true
+        data_owner: true,
+        route: self.class.route
       )
     end
 
@@ -52,7 +53,8 @@ module LoggableActivity
         record: @record,
         payload_type: 'primary_payload',
         encrypted_attrs:,
-        data_owner: true
+        data_owner: true,
+        route: nil
       )
     end
 
@@ -108,7 +110,8 @@ module LoggableActivity
         record: associated_record,
         encrypted_attrs:,
         payload_type: 'current_association',
-        data_owner: relation_config['data_owner']
+        data_owner: relation_config['data_owner'],
+        route: relation_config['route']
       )
     end
 

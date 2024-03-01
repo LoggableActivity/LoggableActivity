@@ -163,7 +163,8 @@
   <span class="ruby-ivar">@update_payloads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Payload</span>.<span class="ruby-identifier">new</span>(
     <span class="ruby-value">record:</span> <span class="ruby-ivar">@record</span>,
     <span class="ruby-value">payload_type:</span> <span class="ruby-string">&#39;update_payload&#39;</span>,
-    <span class="ruby-value">encrypted_attrs:</span> <span class="ruby-identifier">encrypted_update_attrs</span>
+    <span class="ruby-value">encrypted_attrs:</span> <span class="ruby-identifier">encrypted_update_attrs</span>,
+    <span class="ruby-value">route:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">route</span>
   )
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -185,7 +186,7 @@
           <p>Builds the update payload for a belongs_to relation.</p>
 
           <div class="method-source-code" id="build_relation_update_for_belongs_to-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 85</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_update_for_belongs_to</span>(<span class="ruby-identifier">relation_config</span>)
   <span class="ruby-identifier">relation_id</span> = <span class="ruby-node">&quot;#{relation_config[&#39;belongs_to&#39;]}_id&quot;</span>
   <span class="ruby-identifier">model_class_name</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;model&#39;</span>]
@@ -202,8 +203,7 @@
 
     <span class="ruby-identifier">payload_type</span> = <span class="ruby-identifier">index</span>.<span class="ruby-identifier">zero?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;previous_association&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;current_association&#39;</span>
     <span class="ruby-identifier">build_relation_update_payload</span>(
-      <span class="ruby-identifier">relation_record</span>.<span class="ruby-identifier">attributes</span>,
-      <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;loggable_attrs&#39;</span>],
+      <span class="ruby-identifier">relation_config</span>,
       <span class="ruby-identifier">relation_record</span>,
       <span class="ruby-identifier">payload_type</span>
     )
@@ -228,7 +228,7 @@
           <p>Builds the update payload for a has_many relation.</p>
 
           <div class="method-source-code" id="build_relation_update_for_has_many-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 69</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_update_for_has_many</span>(<span class="ruby-identifier">relation_config</span>)
   <span class="ruby-comment"># NOTE: This method is not implemented yet.</span>
   <span class="ruby-comment"># It requires that there is a form where it is possible to change</span>
@@ -254,12 +254,12 @@
           <p>Builds the update payload for a has_one relation.</p>
 
           <div class="method-source-code" id="build_relation_update_for_has_one-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 77</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_update_for_has_one</span>(<span class="ruby-identifier">relation_config</span>)
   <span class="ruby-comment"># NOTE: This method is not implemented yet.</span>
   <span class="ruby-comment"># It requires that there is a form where it is possible to change</span>
   <span class="ruby-comment"># the related records. This is not implemented yet. in the Demo app</span>
-  <span class="ruby-comment"># puts relation_config[&#39;has_many&#39;]</span>
+  <span class="ruby-comment"># puts relation_config[&#39;has_one&#39;]</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -271,7 +271,7 @@
         <div class="method-header">
           <div class="method-heading">
             <span class="method-name">build_relation_update_payload</span><span
-              class="method-args">(_attrs, loggable_attrs, record, payload_type)</span>
+              class="method-args">(relation_config, record, payload_type)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
         </div>
@@ -281,14 +281,15 @@
 
           <div class="method-source-code" id="build_relation_update_payload-source">
             <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 110</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_update_payload</span>(<span class="ruby-identifier">_attrs</span>, <span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">record</span>, <span class="ruby-identifier">payload_type</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_update_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-identifier">record</span>, <span class="ruby-identifier">payload_type</span>)
   <span class="ruby-identifier">encryption_key</span> = <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">record</span>)&amp;.<span class="ruby-identifier">key</span>
-  <span class="ruby-identifier">encrypted_attrs</span> = <span class="ruby-identifier">relation_encrypted_attrs</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">attributes</span>, <span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-identifier">encrypted_attrs</span> = <span class="ruby-identifier">relation_encrypted_attrs</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">attributes</span>, <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;loggable_attrs&#39;</span>], <span class="ruby-identifier">encryption_key</span>)
 
   <span class="ruby-ivar">@update_payloads</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Payload</span>.<span class="ruby-identifier">new</span>(
     <span class="ruby-value">record:</span>,
     <span class="ruby-value">encrypted_attrs:</span>,
-    <span class="ruby-value">payload_type:</span>
+    <span class="ruby-value">payload_type:</span>,
+    <span class="ruby-value">route:</span> <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;route&#39;</span>]
   )
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -310,7 +311,7 @@
           <p>Builds update payloads for relations.</p>
 
           <div class="method-source-code" id="build_update_relation_payloads-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 55</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_update_relation_payloads</span>(<span class="ruby-identifier">relation_config</span>)
   <span class="ruby-identifier">relation_config</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">case</span> <span class="ruby-identifier">key</span>
@@ -342,7 +343,7 @@
           <p>Returns the encrypted attributes for the update payload.</p>
 
           <div class="method-source-code" id="encrypted_update_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">encrypted_update_attrs</span>(<span class="ruby-identifier">previous_values</span>, <span class="ruby-identifier">current_values</span>)
   <span class="ruby-identifier">changes</span> = []
   <span class="ruby-identifier">changed_attrs</span> = <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">loggable_attrs</span>)
@@ -399,7 +400,7 @@
           <p>Returns the encrypted attributes for a relation.</p>
 
           <div class="method-source-code" id="relation_encrypted_attrs-source">
-            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 122</span>
+            <pre><span class="ruby-comment"># File lib/loggable_activity/update_payloads_builder.rb, line 123</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">relation_encrypted_attrs</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">encryption_key</span>)
   <span class="ruby-identifier">encrypt_attrs</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">loggable_attrs</span>, <span class="ruby-identifier">encryption_key</span>)
 <span class="ruby-keyword">end</span></pre>

@@ -18,117 +18,57 @@ module LoggableActivity
     validates :action, presence: true
     validate :must_have_at_least_one_payload
 
-    # Returns a list of attributes of the activity includig the indliced relations.
-    # The included relations are devined in the 'config/loggable_activity.yaml' file.
-    # The attributes are packed in a way that they can be used to display the activity in the UI.
+    # Returns an array of hashes, each representing an activity's attributes and its associated relations. The structure and relations to include are specified in 'config/loggable_activity.yaml'. This format is designed for UI display purposes.
     #
-    # Example:
+    # Each hash in the array contains:
+    # - :record_type: The class name of the record.
+    # - :payload_type: A descriptor of the payload's role (e.g., 'primary_payload' or 'current_association').
+    # - :attrs: A hash of the record's attributes.
+    #
+    # Example usage:
     #   @activity.attrs
     #
-    # Returns:
+    # Sample return value:
     #   [
-    #     {
-    #       record_class: "User",
-    #       payload_type: "primary_payload",
-    #       attrs: {
-    #         "first_name" => "David",
-    #         "last_name" => "Bowie",
-    #         "age" => "69",
-    #         "email" => "david@example.com",
-    #         "user_type" => "Patient"
-    #       }
-    #     },
-    #     {
-    #       record_class: "Demo::UserProfile",
-    #       payload_type: "current_association",
-    #       attrs: {
-    #         "sex" => "Male",
-    #         "religion" => "Agnostic"
-    #       }
-    #     },
-    #     {
-    #       record_class: "Demo::Address",
-    #       payload_type: "current_association",
-    #       attrs: {
-    #         "street" => "Eiffel Tower",
-    #         "city" => "Paris",
-    #         "country" => "France",
-    #         "postal_code" => "75007"
-    #       }
-    #     },
-    #     {
-    #       record_class: "Demo::Club",
-    #       payload_type: "current_association",
-    #       attrs: {
-    #         "name" => "Mystic Fusion Lounge"
-    #       }
-    #     }
-    #  ]
-    #
+    #     { record_type: MODEL_NAME, payload_type: "primary_payload", attrs: { "KEY" => "VALUE", ... } },
+    #     { record_type: MODEL_NAME, payload_type: "current_association", attrs: { "KEY" => "VALUE", ... } },
+    #     ...
+    #   ]
     def attrs
       ordered_payloads.map do |payload|
         {
-          record_class: payload.record_type,
+          record_type: payload.record_type,
+          record_id: payload.record_id,
           payload_type: payload.payload_type,
-          attrs: payload.attrs
+          attrs: payload.attrs,
+          path: payload.payload_route
         }
       end
     end
 
-    # Returns the attributes of an upddate activity.
+    # Returns a hash describing the attributes of an update activity, including updated attributes for a record and any updated related attributes.
     #
     # Example:
     #   @activity.update_activity_attrs
     #
-    # Returns:
+    # The return value is structured as follows:
+    # - :update_attrs contains the attributes of the record being updated, detailing changes from previous to new values.
+    # - :updated_relations_attrs is an array of hashes, each representing an updated related record. Each hash details the previous and current attributes of the relation.
+    #
+    # Example Return Structure:
     #   {
-    #     # Update attributes for Demo::Club
     #     update_attrs: {
-    #       record_class: "Demo::Club",
-    #       attrs: [
-    #         {
-    #           "name" => {
-    #             # Previous name
-    #             from: "Electric Oasis Club",
-    #             # New name
-    #             to: "Electric Oasis Club nr 5"
-    #           }
-    #         }
-    #       ]
+    #       record_class: "CLASS.NAME",
+    #       attrs: [{ "KEY" => { from: "OLD_VALUE", to: "NEW_VALUE" } }]
     #     },
-    #     # Updated relations attributes
     #     updated_relations_attrs: [
     #       {
-    #         record_class: "Demo::Address",
-    #         previous_attrs: {
-    #           # Record class
-    #           record_class: "Demo::Address",
-    #           # Previous association payload type
-    #           payload_type: "previous_association",
-    #           # Previous attributes for Demo::Address
-    #           attrs: {
-    #             "street" => "Ice Hotel, Marknadsvägen 63",
-    #             "city" => "Jukkasjärvi",
-    #             "country" => "Sweden",
-    #             "postal_code" => "981 91"
-    #           }
-    #         },
-    #         current_attrs: {
-    #           record_class: "Demo::Address",
-    #           # Current association payload type
-    #           payload_type: "current_association",
-    #           # Current attributes for Demo::Address
-    #           attrs: {
-    #             "street" => "The Palace of Versailles",
-    #             "city" => "Versailles",
-    #             "country" => "France",
-    #             "postal_code" => "78000"
-    #           }
-    #         }
+    #         record_class: "CLASS.NAME",
+    #         previous_attrs: { attrs: { "KEY" => "VALUE", ... } },
+    #         current_attrs: { attrs: { "KEY" => "VALUE", ... } }
     #       }
     #     ]
     #   }
-    #
     def update_activity_attrs
       {
         update_attrs:,
@@ -143,13 +83,7 @@ module LoggableActivity
     #   @activity.primary_payload_attrs
     #
     # Returns:
-    #   {
-    #       "first_name" => "David",
-    #       "last_name" => "Bowie",
-    #             "age" => "69",
-    #           "email" => "david@example.com",
-    #       "user_type" => "Patient"
-    #   }
+    #   { "KEY_A" => "VALUE_A", "KEY_B" => "VALUE_B", ... }
     #
     def primary_payload_attrs
       primary_payload ? primary_payload.attrs : {}
@@ -164,16 +98,10 @@ module LoggableActivity
     # Returns:
     #   [
     #     {
-    #       record_class: "Demo::Address",
-    #       # Current association payload type
-    #       payload_type: "current_association",
-    #       # Current attributes for Demo::Address
-    #       attrs: {
-    #         "street" => "The Palace of Versailles",
-    #         "city" => "Versailles",
-    #         "country" => "France",
-    #         "postal_code" => "78000"
-    #       }
+    #       record_type: CLASS.NAME,
+    #       record_id: INTEGER,
+    #       payload_type: ENUM 
+    #       attrs: { "KEY_A" => "VALUE_A", "KEY_B" => "VALUE_B", ... }
     #     }
     #   ]
     def relations_attrs
@@ -193,6 +121,19 @@ module LoggableActivity
       return I18n.t('loggable.activity.deleted') if encrypted_record_display_name.nil?
 
       LoggableActivity::Encryption.decrypt(encrypted_record_display_name, record_key)
+    end
+
+    # Returns the path for the activity.
+    #
+    # Example:
+    #
+    #   @activity.path
+    #
+    # Returns:
+    #   "/path/to/activity"
+    #
+    def path
+      primary_payload&.route
     end
 
     # Returns the display name for a actor. what method to use if defined in '/config/loggable_activity.yaml'
@@ -251,14 +192,14 @@ module LoggableActivity
 
     # Returns the attributes for the updated relations.
     def updated_relations_attrs
-      grouped_associations = attrs.group_by { |p| p[:record_class] }
+      grouped_associations = attrs.group_by { |p| p[:record_type] }
 
-      grouped_associations.map do |record_class, payloads|
+      grouped_associations.map do |record_type, payloads|
         previous_attrs = payloads.find { |p| p[:payload_type] == 'previous_association' }
         current_attrs = payloads.find { |p| p[:payload_type] == 'current_association' }
         next if previous_attrs.nil? && current_attrs.nil?
 
-        { record_class:, previous_attrs:, current_attrs: }
+        { record_type:, previous_attrs:, current_attrs: }
       end.compact
     end
 
