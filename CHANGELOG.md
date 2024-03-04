@@ -1,3 +1,8 @@
+
+## [0.1.56] - 2024-03-04
+### Breaking change
+- Generate links in helpers
+
 ## [0.1.54] - 2024-02-24
 - Support for BinaryID's 
 - Updated README.md

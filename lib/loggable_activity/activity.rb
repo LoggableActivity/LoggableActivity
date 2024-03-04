@@ -41,7 +41,7 @@ module LoggableActivity
           record_id: payload.record_id,
           payload_type: payload.payload_type,
           attrs: payload.attrs,
-          path: payload.payload_route
+          route: payload.payload_route
         }
       end
     end
@@ -75,7 +75,7 @@ module LoggableActivity
         updated_relations_attrs:
       }
     end
-
+    
     # Returns the attributes for the primary payload, without the relations.
     #
     # Example:
@@ -132,8 +132,8 @@ module LoggableActivity
     # Returns:
     #   "/path/to/activity"
     #
-    def path
-      primary_payload&.route
+    def primary_route 
+      primary_payload&.payload_route
     end
 
     # Returns the display name for a actor. what method to use if defined in '/config/loggable_activity.yaml'
@@ -176,6 +176,16 @@ module LoggableActivity
 
     private
 
+    # Returns the primary payload associated with the activity.
+    #
+    # Example usage:
+    #   payload = @activity.primary_payload
+    #   puts payload.record_type  # => 'SOMD_MODEL_NAME'
+    #
+    def primary_payload
+      ordered_payloads.find { |p| p.payload_type == 'primary_payload' }
+    end
+
     # Returns the attributes for the update+payload.
     def update_attrs
       update_payload_attrs = attrs.find { |p| p[:payload_type] == 'update_payload' }
@@ -185,10 +195,6 @@ module LoggableActivity
       update_payload_attrs
     end
 
-    # Returns the primary payload.
-    def primary_payload
-      ordered_payloads.find { |p| p.payload_type == 'primary_payload' }
-    end
 
     # Returns the attributes for the updated relations.
     def updated_relations_attrs
