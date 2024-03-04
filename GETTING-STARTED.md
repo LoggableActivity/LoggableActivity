@@ -60,6 +60,7 @@ This file defines:
 ```
 Demo::Club: 
   record_display_name: email 
+  route: show_demo_club
   loggable_attrs: 
     - email
     - name
@@ -70,6 +71,7 @@ Demo::Club:
   relations:
     - belongs_to: :address
       model: Demo::Address
+      route: show_address
       loggable_attrs:
         - street
         - city
@@ -78,10 +80,11 @@ Demo::Club:
 Lets break this down.
 - First we can se that we are logging a model named Demo::Club.
 - `record_display_name:` is the field/method on the on the model we want to display as a headline in the log
-- Then we can se that we are logging the **name** of the club, in this example that's all there is to log.
-- Then we can se that we are **logging create, update, and destroy** automatically.
+- `route` is a flag used to generate a link to the model logged, more on that later.
+- Then we can se that we are logging the `email` and `name`.
+- Then we can se that we are logging `create`, `update`, and `destroy` automatically.
 - Then there are some relations: that we want to collect and add to the log.<br/> 
-In this example the club belongs to an addres so we add the street and city from the address to the log.
+In this example the club belongs to an address so we add the street and city from the address to the log.
 
 
 ## Set current user

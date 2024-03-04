@@ -10,7 +10,9 @@ module LoggableActivity
       class_option :template, type: :string, default: 'erb'
 
       def create_helper
-        copy_file 'helpers/loggable_activity_helper.rb', 'app/helpers/loggable_activity_helper.rb'
+        copy_file 'helpers/activity_helper.rb', 'app/helpers/loggable_activity/activity_helper.rb'
+        copy_file 'helpers/routes_helper.rb', 'app/helpers/loggable_activity/routes_helper.rb'
+        copy_file 'helpers/router.rb', 'app/helpers/loggable_activity/router.rb'
       end
 
       def create_views
