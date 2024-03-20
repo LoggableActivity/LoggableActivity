@@ -2,11 +2,10 @@
 
 # spec/factories/loggable_payloads.rb
 FactoryBot.define do
-  factory :payload, class: 'LoggableActivity::Payload' do
+  factory :payload, class: '::LoggableActivity::Payload' do
     association :record, factory: :user # Replace with an appropriate record factory
     encrypted_attrs { { some_key: 'Some Encrypted Value' }.to_json }
     payload_type { 0 }
-    data_owner { false }
     # association :activity, factory: :activity
 
     # trait :with_different_payload_type do

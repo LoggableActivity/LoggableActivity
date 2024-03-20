@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe LoggableActivity::Encryption do
+RSpec.describe ::LoggableActivity::Encryption do
   let(:key) { Base64.encode64(SecureRandom.random_bytes(32)) }
   let(:data) { 'my secret data' }
 
@@ -34,7 +34,7 @@ RSpec.describe LoggableActivity::Encryption do
     context 'when encrypted data or key is nil' do
       it 'returns empty string' do
         expect(described_class.decrypt(nil, key)).to eq('')
-        expect(described_class.decrypt(data, nil)).to eq('')
+        expect(described_class.decrypt(data, nil)).to eq(I18n.t('loggable.activity.deleted'))
       end
     end
   end

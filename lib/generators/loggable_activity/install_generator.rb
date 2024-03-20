@@ -15,7 +15,7 @@ module LoggableActivity
       source_root File.expand_path('templates', __dir__)
       class_option :uuid, type: :boolean, desc: 'use UUID for primary keys'
 
-      FILE_NAMES = %w[activity payload encryption_key].freeze
+      FILE_NAMES = %w[activity payload encryption_key data_owner].freeze
       TIME = Time.now
 
       def install
@@ -68,9 +68,7 @@ module LoggableActivity
 
           2. Update `config/application.rb
             config.loggable_activity = ActiveSupport::OrderedOptions.new
-            config.loggable_activity.actor_display_name = :email
-            config.loggable_activity.current_user_model_name = 'User'
-            LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
+            ::LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
 
           3. Include current_user ApplicationController
             class ApplicationController < ActionController::Base
@@ -111,15 +109,6 @@ module LoggableActivity
           template migration_file_name, destination
         end
       end
-
-      # def display_help
-      #   help_path = File.expand_path('../../../help/loggable_activity_help.txt', __dir__)
-      #   puts '-----------------------------'
-      #   puts help_path
-      #   puts File.read(help_path)
-      #   exit
-      # end
-      # Define a method to display a message after generation
     end
   end
 end

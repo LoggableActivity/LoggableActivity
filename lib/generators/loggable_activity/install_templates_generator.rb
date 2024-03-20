@@ -52,7 +52,7 @@ module LoggableActivity
 
           2 Add the following to the loggable_activities_controller.rb
             def index
-              @loggable_activities = LoggableActivity::Activity.latest(50)
+              @loggable_activities = ::LoggableActivity::Activity.latest(50)
             end
 
           3. Update routes.rb

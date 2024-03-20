@@ -31,12 +31,21 @@ Style/IfUnlessModifier:
 Metrics/PerceivedComplexity:
   Enabled: false
 
+Metrics/ClassLength:
+  Exclude:
+    - lib/loggable_activity/services/update_payloads_builder.rb
+
+Metrics/ParameterLists:
+  Exclude:
+    - lib/loggable_activity/services/base_payloads_builder.rb
+
 Metrics/ModuleLength:
   Exclude:
     - lib/loggable_activity/hooks.rb
+
 Metrics/AbcSize:
   Exclude:
     - lib/loggable_activity/encryption.rb
-    - lib/loggable_activity/update_payloads_builder.rb
+    # - lib/loggable_activity/update_payloads_builderx.rb
     - lib/generators/loggable_activity/templates/binary_ids/create_loggable_activities.rb
     - lib/generators/loggable_activity/templates/create_loggable_activities.rb

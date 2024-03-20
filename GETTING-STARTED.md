@@ -40,7 +40,7 @@ Update `config/application.rb`, you might do it differently in production
   config.loggable_activity = ActiveSupport::OrderedOptions.new
   config.loggable_activity.actor_display_name = :full_name
   config.loggable_activity.current_user_model_name = 'User'
-  LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
+  ::LoggableActivity::Configuration.load_config_file('config/loggable_activity.yaml')
 ```
 - actor_display_name: this is a method on the User model we want to use when presenting the actor.
 - current_user_model: This is the name of the model we use for current_user
@@ -143,14 +143,14 @@ Create a route and a controller and fetch the `@loggable_activities` like this
 ```
 class ActivityLogsController < ApplicationController
   def index
-    @loggable_activities = LoggableActivity::Activity.latest(50)
+    @loggable_activities = ::LoggableActivity::Activity.latest(50)
   end
 end
 ```
 Or you can fetch all activities for a given actor like this
 ```
 def show
-  @loggable_activities = LoggableActivity::Activity.where(actor: @user)
+  @loggable_activities = ::LoggableActivity::Activity.where(actor: @user)
 end
 ```
 
