@@ -2,7 +2,7 @@
 
 module LoggableActivity
   module Services
-    # This module is responsible for building payloads used in loggable activities.
+    # This class is responsible for building payloads used in loggable activities.
     class PayloadsBuilder < BasePayloadsBuilder
       # Builds payloads for the loggable activity and returns an array of payload objects.
       #

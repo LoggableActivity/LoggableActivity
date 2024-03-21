@@ -110,49 +110,7 @@ Supported relations at the moment is
 - has_one
 - has_many
 
-## Render templates
-*Optional*
-<br/>You can install all the files needed to render a list of activities<br/> 
-The following command will generate all the files need for showing the activity log
-```
-$ rails g loggable_activity:install_templates
-```
-or for the slim template language. (don't run both)
-```
-$ rails g loggable_activity:install_templates --template=slim
-```
-Now you got the `loggable_activity_helper.rb' installed.<br/>
-You can use the `render_activity` method from your view like this.
-```
-  <table>
-    <thead>
-      <tr>
-        <th>Info</th>
-        <th>Attributes</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @loggable_activities.each do |activity| %>
-        <%= render_activity(activity) %>
-      <% end %>
-    </tbody>
-  </table>
-```
-Create a route and a controller and fetch the `@loggable_activities` like this
-```
-class ActivityLogsController < ApplicationController
-  def index
-    @loggable_activities = ::LoggableActivity::Activity.latest(50)
-  end
-end
-```
-Or you can fetch all activities for a given actor like this
-```
-def show
-  @loggable_activities = ::LoggableActivity::Activity.where(actor: @user)
-end
-```
+
 
 ## For developers and contributors 
 If you can download and play around with a demo app

@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'json-schema'
 require 'json'
 
-RSpec.describe ::LoggableActivity::Activity do
+RSpec.describe LoggableActivity::Activity do
   let(:activity_schema) { JSON.parse(File.read('spec/support/schemas/create_activity_schema.json')) }
   describe 'create an activity' do
     before do
@@ -13,18 +13,18 @@ RSpec.describe ::LoggableActivity::Activity do
     end
 
     it 'with no relations' do
-      count = ::LoggableActivity::Payload.all.count
+      count = LoggableActivity::Payload.all.count
       MockModel.create(
         first_name: 'Eva',
         last_name: 'Peron',
         age: 55,
         model_type: 'MockModel'
       )
-      activity_json = ::LoggableActivity::Activity.last.attrs.to_json
+      activity_json = LoggableActivity::Activity.last.attrs.to_json
       expect(JSON::Validator.validate!(activity_schema, activity_json)).to be true
 
-      expect(::LoggableActivity::Payload.all.count).to eq(count + 1)
-      payload = ::LoggableActivity::Activity.last.payloads.last
+      expect(LoggableActivity::Payload.all.count).to eq(count + 1)
+      payload = LoggableActivity::Activity.last.payloads.last
       expect(payload.related_to_activity_as).to eq('primary_payload')
     end
 
@@ -32,7 +32,7 @@ RSpec.describe ::LoggableActivity::Activity do
       mock_parent = MockParent.create(name: 'John', age: 55)
       MockChild.create(name: 'Jane', age: 5, mock_parent:)
 
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
 
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(activity_schema, activity_json)).to be true
@@ -56,7 +56,7 @@ RSpec.describe ::LoggableActivity::Activity do
       ]
       MockParent.create(name: 'John the Parent', age: 55, mock_children:)
 
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(activity_schema, activity_json)).to be true
       payloads = attrs[:payloads]
@@ -83,21 +83,21 @@ RSpec.describe ::LoggableActivity::Activity do
         doctor:
       )
 
-      ::LoggableActivity::Activity.last.attrs
-      mock_journal_key = ::LoggableActivity::EncryptionKey.for_record(mock_journal)
-      ::LoggableActivity::EncryptionKey.for_record(patient)
+      LoggableActivity::Activity.last.attrs
+      mock_journal_key = LoggableActivity::EncryptionKey.for_record(mock_journal)
+      LoggableActivity::EncryptionKey.for_record(patient)
 
-      data_owner = ::LoggableActivity::DataOwner.find_by(record: patient)
+      data_owner = LoggableActivity::DataOwner.find_by(record: patient)
       expect(data_owner.encryption_key_id).to eq(mock_journal_key.id)
 
-      data_owner = ::LoggableActivity::DataOwner.find_by(record: doctor)
+      data_owner = LoggableActivity::DataOwner.find_by(record: doctor)
       expect(data_owner).to be_nil
     end
 
     it 'with has_one relations' do
       MockParent.create(name: 'John', age: 55, mock_job_attributes: { name: 'Driver', wage: 4000 })
 
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       expect(attrs[:action]).to eq('mockparent.create')
       expect(attrs[:payloads].count).to eq(2)
 

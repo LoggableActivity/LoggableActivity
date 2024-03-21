@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
-require 'awesome_print'
-
-# spec/models/loggable_activity/encryption_key_spec.rb
 require 'spec_helper'
 
-RSpec.describe ::LoggableActivity::EncryptionKey, type: :model do
+RSpec.describe LoggableActivity::EncryptionKey, type: :model do
   describe '.for_record_by_type_and_id' do
     let(:record_type) { 'User' }
     let(:record_id) { 1 }

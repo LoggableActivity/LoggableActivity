@@ -3,9 +3,8 @@
 require 'spec_helper'
 require 'json-schema'
 require 'json'
-require 'awesome_print'
 
-RSpec.describe ::LoggableActivity::Activity do
+RSpec.describe LoggableActivity::Activity do
   let(:activity_schema) { JSON.parse(File.read('spec/support/schemas/create_activity_schema.json')) }
   describe 'destroy an activity' do
     before do
@@ -14,7 +13,7 @@ RSpec.describe ::LoggableActivity::Activity do
     end
 
     it 'with no relations' do
-      ::LoggableActivity::Payload.all.count
+      LoggableActivity::Payload.all.count
       mock_model =
         MockModel.create(
           first_name: 'Eva',
@@ -24,7 +23,7 @@ RSpec.describe ::LoggableActivity::Activity do
         )
 
       mock_model.destroy
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       attrs_json = attrs.to_json
       expect(JSON::Validator.validate!(activity_schema, attrs_json)).to be true
 
@@ -41,7 +40,7 @@ RSpec.describe ::LoggableActivity::Activity do
       mock_child = MockChild.create(name: 'Jane', age: 5, mock_parent:)
       mock_child.destroy
 
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
 
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(1)
@@ -63,7 +62,7 @@ RSpec.describe ::LoggableActivity::Activity do
           )
         )
       mock_parent.destroy
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
 
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(2)
@@ -81,7 +80,7 @@ RSpec.describe ::LoggableActivity::Activity do
       ]
       mock_parent = MockParent.create(name: 'John the Parent', age: 55, mock_children:)
       mock_parent.destroy
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
 
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(3)
@@ -98,14 +97,14 @@ RSpec.describe ::LoggableActivity::Activity do
         doctor:
       )
 
-      ::LoggableActivity::Activity.last.attrs
-      mock_journal_key = ::LoggableActivity::EncryptionKey.for_record(mock_journal)
-      ::LoggableActivity::EncryptionKey.for_record(patient)
+      LoggableActivity::Activity.last.attrs
+      mock_journal_key = LoggableActivity::EncryptionKey.for_record(mock_journal)
+      LoggableActivity::EncryptionKey.for_record(patient)
 
-      data_owner = ::LoggableActivity::DataOwner.find_by(record: patient)
+      data_owner = LoggableActivity::DataOwner.find_by(record: patient)
       expect(data_owner.encryption_key_id).to eq(mock_journal_key.id)
 
-      data_owner = ::LoggableActivity::DataOwner.find_by(record: doctor)
+      data_owner = LoggableActivity::DataOwner.find_by(record: doctor)
       expect(data_owner).to be_nil
     end
 
@@ -122,7 +121,7 @@ RSpec.describe ::LoggableActivity::Activity do
 
       patient.destroy
 
-      encryption_key = ::LoggableActivity::EncryptionKey.for_record(mock_journal)
+      encryption_key = LoggableActivity::EncryptionKey.for_record(mock_journal)
       expect(encryption_key.secret_key).to be_nil
     end
 

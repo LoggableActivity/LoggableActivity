@@ -2,6 +2,8 @@
 
 module LoggableActivity
   module Services
+    # This service class provides the base payloads builder for the loggable activity.
+    # Other service modules related to the loggable activity will inherit from this module.
     class BasePayloadsBuilder
       # Initializes the PayloadsBuilder with a record and an initial collection of payloads,
       def initialize(record, payloads)

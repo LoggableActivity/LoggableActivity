@@ -5,10 +5,6 @@ require 'openssl'
 require 'base64'
 
 module LoggableActivity
-  # This error is raised when encryption or decryption fails
-  class EncryptionError < StandardError
-  end
-
   # This module is used to encrypt and decrypt attributes
   module Encryption
     # Encrypts the given data using the given encryption key

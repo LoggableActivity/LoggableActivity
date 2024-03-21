@@ -3,9 +3,8 @@
 require 'spec_helper'
 require 'json-schema'
 require 'json'
-require 'awesome_print'
 
-RSpec.describe ::LoggableActivity::Activity do
+RSpec.describe LoggableActivity::Activity do
   let(:update_activity_schema) { JSON.parse(File.read('spec/support/schemas/update_activity_schema.json')) }
   describe 'update activity' do
     before do
@@ -17,7 +16,7 @@ RSpec.describe ::LoggableActivity::Activity do
       mock_model = MockModel.create(first_name: 'John', last_name: 'Doe', age: 55, model_type: 'Doctor')
 
       mock_model.update(first_name: 'Jane', age: 25)
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       attrs_json = attrs.to_json
       expect(JSON::Validator.validate!(update_activity_schema, attrs_json)).to be true
       payloads = attrs[:payloads]
@@ -32,7 +31,7 @@ RSpec.describe ::LoggableActivity::Activity do
 
       mini_john.update(name: 'Mini Alice', mock_parent: alice)
 
-      activity = ::LoggableActivity::Activity.last
+      activity = LoggableActivity::Activity.last
       attrs = activity.attrs
 
       expect(attrs[:action]).to eq('mockchild.update')
@@ -55,7 +54,7 @@ RSpec.describe ::LoggableActivity::Activity do
       mini_john = MockChild.create(name: 'Mini John', age: 5)
       mini_john.update(name: 'Mini Alice')
 
-      activity = ::LoggableActivity::Activity.last
+      activity = LoggableActivity::Activity.last
       attrs = activity.attrs
 
       expect(attrs[:action]).to eq('mockchild.update')
@@ -73,7 +72,7 @@ RSpec.describe ::LoggableActivity::Activity do
       mock_job = mock_parent.mock_job
 
       mock_parent.update(age: 56, name: 'Jan', mock_job_attributes: { id: mock_job.id, name: 'Manager' })
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(update_activity_schema, activity_json)).to be true
 
@@ -91,7 +90,7 @@ RSpec.describe ::LoggableActivity::Activity do
       mock_parent.mock_job
       mock_parent.update(age: 56, name: 'Jan')
 
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
 
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(update_activity_schema, activity_json)).to be true
@@ -110,7 +109,7 @@ RSpec.describe ::LoggableActivity::Activity do
                       { id: child_b.id },
                       { name: 'Newbee', age: 1 }
                     ])
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(update_activity_schema, activity_json)).to be true
       payloads = attrs[:payloads]
@@ -129,7 +128,7 @@ RSpec.describe ::LoggableActivity::Activity do
       parent = MockParent.create(name: 'John the Parent', age: 55)
 
       parent.update(name: 'John the Updated Parent', age: 56)
-      attrs = ::LoggableActivity::Activity.last.attrs
+      attrs = LoggableActivity::Activity.last.attrs
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(update_activity_schema, activity_json)).to be true
 

@@ -8,11 +8,9 @@ require_relative 'loggable_activity/encryption_key'
 require_relative 'loggable_activity/data_owner'
 require_relative 'loggable_activity/hooks'
 require_relative 'loggable_activity/payload'
+require_relative 'loggable_activity/error'
 require_relative 'loggable_activity/services/base_payloads_builder'
 require_relative 'loggable_activity/services/payloads_builder'
 require_relative 'loggable_activity/services/update_payloads_builder'
 require_relative 'loggable_activity/services/destroy_payloads_builder'
 
-module LoggableActivity
-  class Error < StandardError; end
-end

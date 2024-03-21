@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ::LoggableActivity::Encryption do
+RSpec.describe LoggableActivity::Encryption do
   let(:key) { Base64.encode64(SecureRandom.random_bytes(32)) }
   let(:data) { 'my secret data' }
 
@@ -50,6 +50,25 @@ RSpec.describe ::LoggableActivity::Encryption do
 
     it 'returns false for non-empty string' do
       expect(described_class.blank?('data')).to be false
+    end
+  end
+
+  describe 'EncryptionError' do
+    let(:encryption_key) { LoggableActivity::EncryptionKey.create_encryption_key('User', 1) }
+    it 'is a subclass of StandardError' do
+      expect(LoggableActivity::EncryptionError).to be < StandardError
+    end
+
+    it 'throws an error when encryption fails' do
+      expect do
+        described_class.encrypt('Some data to encrypt', 'some_bad_key')
+      end.to raise_error(LoggableActivity::EncryptionError, 'Encryption failed: Invalid encoded_key length 7')
+    end
+
+    it 'throws an error when decryption fails' do
+      expect do
+        described_class.decrypt('Some data to decrypt', "#{encryption_key.secret_key}extra")
+      end.to raise_error(ArgumentError, 'iv must be 16 bytes')
     end
   end
 end

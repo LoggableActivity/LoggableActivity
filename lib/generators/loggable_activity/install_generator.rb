@@ -82,11 +82,6 @@ module LoggableActivity
           For more information, please visit:
           https://github.com/maxgronlund/LoggableActivity/blob/main/GETTING-STARTED.md
 
-          Install templates
-          $ rails generate loggable_activity:install_templates
-
-
-
           ------------------------------------------------
         MESSAGE
 

@@ -6,7 +6,7 @@ class CreateLoggableActivities < ActiveRecord::Migration[7.1]
       t.references :record, polymorphic: true, null: true, index: true
       t.references :encryption_key, null: false, foreign_key: { to_table: 'loggable_encryption_keys' }
     end
-    
+
     create_table :loggable_activities do |t|
       t.string :action
       t.references :actor, polymorphic: true, null: true

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require 'awesome_print'
-
 module LoggableActivity
+  # Namespace for services
   module Services
-    # This module is responsible for building payloads used in loggable activities.
+    # This class is responsible for building destroy payloads used in loggable activities.
     class DestroyPayloadsBuilder < BasePayloadsBuilder
       # Build payloads for a ::LoggableActivity::Activity.
       #

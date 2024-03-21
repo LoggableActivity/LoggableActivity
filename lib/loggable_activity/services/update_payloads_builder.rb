@@ -2,6 +2,7 @@
 
 module LoggableActivity
   module Services
+    # This service class builds update payloads when an instance of a model is updated.
     class UpdatePayloadsBuilder < BasePayloadsBuilder
       # Builds payloads for a ::LoggableActivity::Activity.
       def build

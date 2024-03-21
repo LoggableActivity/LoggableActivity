@@ -15,6 +15,7 @@ module LoggableActivity
     belongs_to :encryption_key, class_name: '::LoggableActivity::EncryptionKey'
     belongs_to :record, polymorphic: true, optional: true
 
+    # Enumeration for different payload types
     DECRYPT_ATTRS_TYPES = %w[
       primary_payload
       has_many_payload
@@ -24,6 +25,7 @@ module LoggableActivity
       has_many_create_payload
     ].freeze
 
+    # Enumeration for different updatepayload types
     DECRYPT_UPDATE_ATTRS_TYPES = %w[
       primary_update_payload
       has_one_update_payload
@@ -32,7 +34,7 @@ module LoggableActivity
     # Validations
     validates :encrypted_attrs, presence: true
 
-    # Enumeration for different payload types
+    # Enumeration for different payload relation types
     enum related_to_activity_as: {
       primary_payload: 0,
       has_one_payload: 1,

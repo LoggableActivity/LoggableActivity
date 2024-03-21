@@ -45,14 +45,14 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activerecord', '~> 7.1.3'
+  spec.add_dependency 'json-schema', '~> 4.1', '>= 4.1.1'
   spec.add_dependency 'rails', '~> 7.1.2'
-  spec.add_development_dependency 'json-schema', '~> 4.1', '>= 4.1.1'
 
   spec.add_development_dependency 'generator_spec', '~> 0.10.0'
   spec.add_development_dependency 'rspec-rails', '~> 6.1', '>= 6.1.1'
   spec.add_development_dependency 'sqlite3', '~> 1.4.2'
 
-  spec.add_development_dependency 'awesome_print', '~> 1.9', '>= 1.9.2'
+  # spec.add_development_dependency 'awesome_print', '~> 1.9', '>= 1.9.2'
   spec.add_development_dependency 'factory_bot', '~> 6.4', '>= 6.4.6'
   spec.add_development_dependency 'rubocop', '~> 1.60', '>= 1.60.2'
 

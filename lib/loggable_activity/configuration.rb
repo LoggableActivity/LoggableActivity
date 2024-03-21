@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'json-schema'
+require 'json'
+
 module LoggableActivity
   # This class is used to load the configuration file located at config/loggable_activity.yml
   class ConfigurationError < StandardError
@@ -12,43 +15,43 @@ module LoggableActivity
     end
   end
 
+  # This class is used to load the configuration file located at config/loggable_activity.yml  
+  # When the LoggableActivity::Hook is included in a model
+  # it takes the model's name and find the configuration for that model in the configuration file.
   class Configuration
     # Loads the configuration file
     def self.load_config_file(config_file_path)
       @config_data = YAML.load_file(config_file_path)
-      validate_config_data
+      validate_config_file
     rescue Errno::ENOENT
       raise ConfigurationError, 'config/loggable_activity.yaml not found'
     end
 
-    def self.validate_config_data
-      validate_current_user_model_name
-      validate_fetch_current_user_name_from
+    # Loads the schema file for the configuration file
+    def self.load_schema
+      schema_path = File.join(__dir__, '..', 'schemas', 'config_schema.json')
+      JSON.parse(File.read(schema_path))
     end
 
-    def self.validate_current_user_model_name
-      return unless current_user_model_name.nil?
+    # Validates the configuration file againss the schema
+    def self.validate_config_file
+      schema = load_schema
+      errors = JSON::Validator.fully_validate(schema, @config_data)
+      return unless errors.any?
 
       raise ConfigurationError,
-            'current_user_model_name missing, ' \
-            'Please add it to config/loggable_activity.yaml'
+            "config/loggable_activity.yaml is invalid: #{errors.join(', ')}"
     end
 
-    def self.validate_fetch_current_user_name_from
-      return unless fetch_current_user_name_from.nil?
-
-      raise ConfigurationError,
-            'fetch_current_user_name_from missing, ' \
-            'Please add it to config/loggable_activity.yaml'
-    end
-
+    # Returns true if the configuration file has been loaded
     def self.loaded?
       !@config_data.nil?
     end
 
     # Returns the configuration data
-    def self.config_data
-      @config_data
+    class << self
+      # @return [Hash]
+      attr_reader :config_data
     end
 
     # Returns the configuration data for the given class

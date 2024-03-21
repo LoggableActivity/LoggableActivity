@@ -1,4 +1,13 @@
 
+## [0.1.57] - 2024-03-04
+### Breaking change
+- All presentations generators are removed
+- Service modules for building of payloads
+- Schema validation of configuration file
+- Schema validation in tests of generated attrs
+- Support for UUID's hanging, tbd
+- 100 pct test coverage 
+
 ## [0.1.56] - 2024-03-04
 ### Breaking change
 - Generate links in helpers

@@ -2,29 +2,17 @@
 
 require 'active_support/concern'
 
-# This is the main module for loggable.
-# When included to a model, it provides the features for creating the activities.
-
-require 'awesome_print'
-
 module LoggableActivity
   # This module provides hooks for creating activities when included in a model.
-  module LoggableActivity
-    class Error < StandardError
-      def initialize(msg = '')
-        # https://api.loggable_activity.com/msg
-        puts '---------------- LOGGABLE ACTIVITY -----------------'
-        puts msg
-        puts '----------------------------------------------------'
-        super(msg)
-      end
-    end
-  end
+  # When included to a model, it provides the features for logging events regarding to the model.
+  # For this to work you have to update the configuration file 'config/loggable_activity.yaml
 
+  # When included to a model, it provides the features for logging events regarding to the model.
+  # For this to work you have to update the configuration file 'config/loggable_activity.yaml
   module Hooks
     extend ActiveSupport::Concern
+    # The disable_hooks attribute is used to disable hooks when a model is created or updated by a parent model.
     attr_accessor :disable_hooks
-
 
     # The included hook sets up configuration and callback hooks for the model.
     included do
@@ -102,16 +90,19 @@ module LoggableActivity
       )
     end
 
+    # Builds update payloads for the current action.
     def build_update_payloads
       ::LoggableActivity::Services::UpdatePayloadsBuilder
         .new(self, @payloads).build
     end
 
+    # Builds payloads for the current action.
     def build_payloads
       ::LoggableActivity::Services::PayloadsBuilder
         .new(self, @payloads).build
     end
 
+    # Builds destroy payloads for the current action.
     def build_destroy_payload
       ::LoggableActivity::Services::DestroyPayloadsBuilder
         .new(self, @payloads).build
@@ -156,7 +147,8 @@ module LoggableActivity
     end
 
     # Fullfill the needs of the data owners.
-    # Mostly this will be a few one, from 1 to 5.
+    # Mostly this will be performend a few one, from 1 to 5.
+    # Enumeration for different payload relation types
     def mark_encryption_keys_as_deleted
       ::LoggableActivity::EncryptionKey.for_record(self)&.mark_as_deleted!
       # data_owners = ::LoggableActivity::DataOwner.where(record: self)
@@ -207,6 +199,7 @@ module LoggableActivity
     end
 
     class_methods do
+      # The loggable_attrs attribute is used read the configuration for the model that included LoggableActivity::Hooks.
       attr_accessor :loggable_attrs, :relations, :auto_log, :fetch_record_name_from, :route
 
       # Convert the model name and name space in to 'base_action'.
