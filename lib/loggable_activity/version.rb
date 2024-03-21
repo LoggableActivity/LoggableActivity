@@ -3,5 +3,5 @@
 # Version of the gem
 module LoggableActivity
   # Version
-  VERSION = '0.1.57'
+  VERSION = '0.1.58'
 end
