@@ -15,7 +15,7 @@ module LoggableActivity
     end
   end
 
-  # This class is used to load the configuration file located at config/loggable_activity.yml  
+  # This class is used to load the configuration file located at config/loggable_activity.yml
   # When the LoggableActivity::Hook is included in a model
   # it takes the model's name and find the configuration for that model in the configuration file.
   class Configuration

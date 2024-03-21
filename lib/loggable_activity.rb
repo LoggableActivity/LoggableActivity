@@ -13,4 +13,3 @@ require_relative 'loggable_activity/services/base_payloads_builder'
 require_relative 'loggable_activity/services/payloads_builder'
 require_relative 'loggable_activity/services/update_payloads_builder'
 require_relative 'loggable_activity/services/destroy_payloads_builder'
-

@@ -21,9 +21,9 @@ RSpec.describe LoggableActivity::Configuration do
       let(:invalid_path) { 'non_existent_file.yml' }
 
       it 'raises an error' do
-        expect {
+        expect do
           described_class.load_config_file(invalid_path)
-        }.to raise_error(LoggableActivity::ConfigurationError)
+        end.to raise_error(LoggableActivity::ConfigurationError)
       end
     end
   end
@@ -47,15 +47,16 @@ RSpec.describe LoggableActivity::Configuration do
 
     it 'returns the correct configuration for a given class' do
       expect(described_class.for_class('User')).to eq(
-                  {"auto_log"=>[
-                    "create", 
-                    "update",
-                    "destroy"], 
-                    "data_owner"=>true, 
-                    "fetch_record_name_from"=>"full_name", 
-                    "loggable_attrs"=>["first_name", "last_name"],
-                    "record_display_name"=>"full_name"}
-            )
+        { 'auto_log' => %w[
+            create
+            update
+            destroy
+          ],
+          'data_owner' => true,
+          'fetch_record_name_from' => 'full_name',
+          'loggable_attrs' => %w[first_name last_name],
+          'record_display_name' => 'full_name' }
+      )
     end
 
     it 'returns nil for a class not in the configuration' do
@@ -98,16 +99,16 @@ RSpec.describe LoggableActivity::Configuration do
   describe 'invalid configuration' do
     it 'raises ConfigurationError when fetch_current_user_name_from is missing' do
       config_file_path = 'spec/test_files/model_name_only.yml'
-      expect {
+      expect do
         described_class.load_config_file(config_file_path)
-      }.to raise_error(LoggableActivity::ConfigurationError)
+      end.to raise_error(LoggableActivity::ConfigurationError)
     end
 
     it 'raises ConfigurationError when current_user_model_name is missing' do
       config_file_path = 'spec/test_files/fetch_name_only.yml'
-      expect {
+      expect do
         described_class.load_config_file(config_file_path)
-      }.to raise_error(LoggableActivity::ConfigurationError)
+      end.to raise_error(LoggableActivity::ConfigurationError)
     end
   end
 end
