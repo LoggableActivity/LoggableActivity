@@ -66,6 +66,7 @@ ActiveRecord::Schema.define do
     t.string :last_name
     t.integer :age
     t.string :model_type
+    t.timestamps
   end
 
   create_table :mock_data_owners do |t|

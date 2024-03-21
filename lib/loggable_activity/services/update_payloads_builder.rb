@@ -16,7 +16,8 @@ module LoggableActivity
       # Builds the primary payload.
       def build_primary_update_payload
         previous_values, current_values = saved_changes(@record)
-        previous_values.slice(*@loggable_attrs)
+        previous_values = previous_values.slice(*@loggable_attrs)
+        current_values = current_values.slice(*@loggable_attrs)
         options = { related_to_activity_as: 'primary_update_payload', current_payload: true, data_owner: true }
 
         build_encrypted_update_payload(
@@ -122,6 +123,7 @@ module LoggableActivity
         return if previous_values == current_values
 
         previous_values = previous_values.slice(*loggable_attrs)
+        current_values = current_values.slice(*loggable_attrs)
         data_owner = relation_config['data_owner']
         options = { related_to_activity_as: 'has_one_update_payload', current_payload: true, data_owner: }
 
