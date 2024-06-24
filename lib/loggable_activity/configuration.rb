@@ -2,6 +2,7 @@
 
 require 'json-schema'
 require 'json'
+require 'awesome_print'
 
 module LoggableActivity
   # This class is used to load the configuration file located at config/loggable_activity.yml
@@ -84,6 +85,11 @@ module LoggableActivity
     # Returns the name of the model to use for the current user.
     def self.current_user_model_name
       @config_data['current_user_model_name']
+    end
+
+    # Returns whatever models should be sanitized on delete.
+    def self.task_for_sanitization
+      @config_data['task_for_sanitization']
     end
   end
 end

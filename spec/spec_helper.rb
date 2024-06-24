@@ -20,6 +20,7 @@ require 'loggable_activity/payload'
 require 'factories/users'
 require 'factories/loggable_activities'
 require 'factories/loggable_payloads'
+require 'awesome_print'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
 
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define do
   create_table :loggable_encryption_keys do |t|
     t.references :record, polymorphic: true, null: true, index: true
     t.string :secret_key
+    t.datetime :delete_at
   end
 
   create_table :loggable_activities do |t|

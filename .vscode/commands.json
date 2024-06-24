@@ -1,0 +1,26 @@
+{
+  "commands": [
+    {
+      "command": "terminals.runTerminalByName",
+      "arguments": [
+        "Test"
+      ],
+      "text": "$(run)",
+      "alignment": "right",
+      "priority": 300,
+      "tooltip": "Run test for current line",
+      "filterFileRegex": ".*_spec\\.rb"
+    },
+    {
+      "command": "terminals.runTerminalByName",
+      "arguments": [
+        "Test file"
+      ],
+      "text": "$(run-all)",
+      "alignment": "right",
+      "priority": 290,
+      "tooltip": "Run test for current file",
+      "filterFileRegex": ".*_spec\\.rb"
+    }
+  ]
+}

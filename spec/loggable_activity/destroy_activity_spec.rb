@@ -122,7 +122,7 @@ RSpec.describe LoggableActivity::Activity do
       patient.destroy
 
       encryption_key = LoggableActivity::EncryptionKey.for_record(mock_journal)
-      expect(encryption_key.secret_key).to be_nil
+      expect(encryption_key.deleted?).to be_truthy
     end
 
     #     attrs = ::LoggableActivity::Activity.last.attrs

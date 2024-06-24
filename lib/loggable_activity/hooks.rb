@@ -206,6 +206,7 @@ module LoggableActivity
       def base_action
         name.downcase.gsub('::', '/')
       end
+
     end
   end
 end
