@@ -30,6 +30,7 @@ class CreateLoggableActivities < ActiveRecord::Migration[7.1]
     create_table :loggable_encryption_keys do |t|
       t.references :record, polymorphic: true, null: true, index: true
       t.string :secret_key
+      t.datetime :delete_at
     end
   end
 end
