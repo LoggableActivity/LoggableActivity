@@ -40,11 +40,11 @@ RSpec.describe LoggableActivity::Activity do
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(2)
 
-      primary_payload = payloads.find { |p| p[:related_to_activity_as] == 'primary_payload' }
+      primary_payload = payloads.find { |p| p[:relation] == 'self' }
       expect(primary_payload[:record_type]).to eq('MockChild')
       expect(primary_payload[:route]).to eq('show_child')
 
-      belongs_to_payload = payloads.find { |p| p[:related_to_activity_as] == 'belongs_to_payload' }
+      belongs_to_payload = payloads.find { |p| p[:relation] == 'belongs_to' }
       expect(belongs_to_payload[:record_type]).to eq('MockParent')
       expect(belongs_to_payload[:route]).to eq('show_parent')
     end
@@ -62,11 +62,11 @@ RSpec.describe LoggableActivity::Activity do
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(3)
 
-      primary_payload = payloads.find { |p| p[:related_to_activity_as] == 'primary_payload' }
+      primary_payload = payloads.find { |p| p[:relation] == 'self' }
       expect(primary_payload[:record_type]).to eq('MockParent')
       expect(primary_payload[:route]).to eq('show_parent')
 
-      has_many_payloads = attrs[:payloads].select { |payload| payload[:related_to_activity_as] == 'has_many_payload' }
+      has_many_payloads = attrs[:payloads].select { |payload| payload[:relation] == 'has_many' }
       expect(has_many_payloads.count).to eq(2)
 
       expect(has_many_payloads.all? { |payload| payload[:record_type] == 'MockChild' }).to be true
@@ -103,7 +103,7 @@ RSpec.describe LoggableActivity::Activity do
 
       activity_json = attrs.to_json
       expect(JSON::Validator.validate!(activity_schema, activity_json)).to be true
-      has_many_payloads = attrs[:payloads].select { |payload| payload[:related_to_activity_as] == 'has_one_payload' }
+      has_many_payloads = attrs[:payloads].select { |payload| payload[:relation] == 'has_one' }
       expect(has_many_payloads.count).to eq(1)
     end
   end

@@ -20,9 +20,19 @@ module LoggableActivity
 
     RELATION_TYPES = {
       'primary_payload' => 'self',
+      'primary_update_payload' => 'self',
+      'primary_destroy_payload' => 'self',
       'has_one_payload' => 'has_one',
+      'has_one_create_payload' => 'has_one',
+      'has_one_update_payload' => 'has_one',
+      'has_one_destroy_payload' => 'has_one',
       'has_many_payload' => 'has_many',
-      'belongs_to_payload' => 'belongs_to'
+      'has_many_create_payload' => 'has_many',
+      'has_many_destroy_payload' => 'has_many',
+      'has_many_update_payload' => 'has_many',
+      'belongs_to_payload' => 'belongs_to',
+      'belongs_to_destroy_payload' => 'belongs_to',
+      'belongs_to_update_payload' => 'belongs_to'
     }
 
     # Returns an array of hashes, each representing an activity's attributes and its associated relations. The structure and relations to include are specified in 'config/loggable_activity.yaml'. This format is designed for UI display purposes.

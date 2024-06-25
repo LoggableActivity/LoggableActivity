@@ -30,7 +30,7 @@ RSpec.describe LoggableActivity::Activity do
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(1)
 
-      primary_destroy_payload = payloads.find { |p| p[:related_to_activity_as] == 'primary_destroy_payload' }
+      primary_destroy_payload = payloads.find { |p| p[:relation] == 'self' }
       expect(primary_destroy_payload[:record_type]).to eq('MockModel')
       expect(primary_destroy_payload[:record_id]).to eq(nil)
     end
@@ -45,7 +45,7 @@ RSpec.describe LoggableActivity::Activity do
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(1)
 
-      primary_destroy_payload = payloads.find { |p| p[:related_to_activity_as] == 'primary_destroy_payload' }
+      primary_destroy_payload = payloads.find { |p| p[:relation] == 'self' }
       expect(primary_destroy_payload[:record_type]).to eq('MockChild')
       expect(primary_destroy_payload[:route]).to eq('')
       expect(primary_destroy_payload[:record_id]).to eq(nil)
@@ -67,7 +67,7 @@ RSpec.describe LoggableActivity::Activity do
       payloads = attrs[:payloads]
       expect(payloads.count).to eq(2)
 
-      primary_destroy_payload = payloads.find { |p| p[:related_to_activity_as] == 'primary_destroy_payload' }
+      primary_destroy_payload = payloads.find { |p| p[:relation] == 'self' }
       expect(primary_destroy_payload[:record_type]).to eq('MockParent')
       expect(primary_destroy_payload[:route]).to eq('')
       expect(primary_destroy_payload[:record_id]).to eq(nil)
