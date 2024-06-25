@@ -25,29 +25,71 @@ RSpec.describe LoggableActivity::EncryptionKey, type: :model do
         expect(described_class.for_record_by_type_and_id(record_type, record_id)).to be_present
       end
     end
-
-    # context 'with a parent key' do
-    #   it 'creates a new encryption key with a parent key' do
-    #     parrent_key = described_class.for_record_by_type_and_id('User', 1)
-    #     key = described_class.for_record_by_type_and_id('User', 2, parrent_key)
-    #     expect(key.parent_key_id).to eq(parrent_key.id)
-    #   end
-    # end
   end
 
-  describe '#mark_as_deleted' do
-    let(:encryption_key) { described_class.create_encryption_key('User', 1) }
+  context 'when task_for_sanitization is true' do
+    before do
+      allow(LoggableActivity::Configuration).to receive(:task_for_sanitization) { true }
+    end
+    describe '#mark_as_deleted' do
+      let(:encryption_key) { described_class.create_encryption_key('User', 1) }
 
-    it 'marks the encryption key as deleted' do
-      encryption_key.mark_as_deleted!
-      expect(encryption_key.reload.secret_key).to be_nil
+      it 'marks the encryption key as deleted' do
+        encryption_key.mark_as_deleted!
+        expect(encryption_key.reload.deleted?).to be_truthy
+      end
     end
 
-    # it 'marks parrent_key as deleted' do
-    #   parent_key = described_class.for_record_by_type_and_id('User', 2, encryption_key)
-    #   parent_key.mark_as_deleted!
-    #   expect(encryption_key.deleted?).to be_truthy
-    # end
+    describe '#deleted' do
+      let(:encryption_key) { described_class.create_encryption_key('User', 1) }
+
+      it 'delete the secret key' do
+        encryption_key.delete
+        expect(encryption_key.secret_key).to eq(nil)
+      end
+    end
+
+    describe '#restore' do
+      let(:encryption_key) { described_class.create_encryption_key('User', 1) }
+
+      it 'restore the key' do
+        encryption_key.mark_as_deleted!
+        encryption_key.restore!
+
+        expect(encryption_key.reload.deleted?).to be_falsey
+      end
+
+      it 'does not restore the key if it was deleted more than a month ago' do
+        encryption_key.mark_as_deleted!
+        encryption_key.update(delete_at: 2.months.ago)
+        encryption_key.restore!
+
+        expect(encryption_key.reload.deleted?).to be_truthy
+      end
+    end
+  end
+
+  context 'when task_for_sanitization is false' do
+    before do
+      allow(LoggableActivity::Configuration).to receive(:task_for_sanitization) { false }
+    end
+    describe '#mark_as_deleted' do
+      let(:encryption_key) { described_class.create_encryption_key('User', 1) }
+
+      it 'deletes the secret_key' do
+        encryption_key.mark_as_deleted!
+        expect(encryption_key.secret_key).to eq(nil)
+      end
+
+      it 'can not restore the key' do
+        encryption_key.mark_as_deleted!
+        encryption_key.restore!
+        expect(encryption_key.reload.deleted?).to be_truthy
+        expect(encryption_key.secret_key).to eq(nil)
+        # expect(encryption_key.delete_at).to eq(nil)
+      end
+    end
+
   end
 
   describe '.create_encryption_key' do
@@ -56,13 +98,17 @@ RSpec.describe LoggableActivity::EncryptionKey, type: :model do
         described_class.create_encryption_key('User', 1)
       end.to change(described_class, :count).by(1)
     end
+
+    it 'new encrytion keys is not deleted' do
+      encryption_key = described_class.create_encryption_key('User', 1)
+      expect(encryption_key.deleted?).to be_falsey
+    end
   end
 
   describe '.random_key' do
     it 'generates a random encryption key' do
       key = described_class.random_key
       expect(key).to be_a(String)
-      # You may add more expectations here depending on how you want to validate the key
     end
   end
 end

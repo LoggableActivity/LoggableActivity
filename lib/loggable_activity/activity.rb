@@ -18,6 +18,23 @@ module LoggableActivity
     validates :action, presence: true
     validate :must_have_at_least_one_payload
 
+    RELATION_TYPES = {
+      'primary_payload' => 'self',
+      'primary_update_payload' => 'self',
+      'primary_destroy_payload' => 'self',
+      'has_one_payload' => 'has_one',
+      'has_one_create_payload' => 'has_one',
+      'has_one_update_payload' => 'has_one',
+      'has_one_destroy_payload' => 'has_one',
+      'has_many_payload' => 'has_many',
+      'has_many_create_payload' => 'has_many',
+      'has_many_destroy_payload' => 'has_many',
+      'has_many_update_payload' => 'has_many',
+      'belongs_to_payload' => 'belongs_to',
+      'belongs_to_destroy_payload' => 'belongs_to',
+      'belongs_to_update_payload' => 'belongs_to'
+    }
+
     # Returns an array of hashes, each representing an activity's attributes and its associated relations. The structure and relations to include are specified in 'config/loggable_activity.yaml'. This format is designed for UI display purposes.
     #
     # Each hash in the array contains:
@@ -48,7 +65,7 @@ module LoggableActivity
     def payloads_attrs
       ordered_payloads.map do |payload|
         {
-          related_to_activity_as: payload.related_to_activity_as,
+          relation: RELATION_TYPES[payload.related_to_activity_as],
           record_type: payload.record_type,
           record_id: payload.deleted? ? nil : payload.record_id,
           attrs: payload.attrs,

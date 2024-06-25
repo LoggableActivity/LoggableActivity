@@ -7,10 +7,13 @@
     },
     "fetch_current_user_name_from": {
       "type": "string"
+    },
+    "task_for_sanitization": {
+      "type": "boolean"
     }
   },
   "patternProperties": {
-    "^(?!current_user_model_name$|fetch_current_user_name_from$)[A-Za-z0-9_:]+$": {
+    "^(?!current_user_model_name$|fetch_current_user_name_from$|task_for_sanitization)[A-Za-z0-9_:]+$": {
       "type": "object",
       "properties": {
         "data_owner": {
@@ -18,6 +21,9 @@
         },
         "fetch_record_name_from": {
           "type": "string"
+        },
+        "task_for_sanitization": {
+          "type": "boolean"
         },
         "loggable_attrs": {
           "type": "array",

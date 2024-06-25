@@ -14,15 +14,27 @@ module LoggableActivity
     # belongs_to :parent_key, class_name: '::LoggableActivity::EncryptionKey', optional: true,
     # foreign_key: 'parent_key_id'
 
-    # Marks the encryption key as deleted by updating the key to nil.
+    # Prepare the record for deletion 
     def mark_as_deleted!
-      update(secret_key: nil)
+      LoggableActivity::Configuration.task_for_sanitization ? update(delete_at: DateTime.now + 1.month) : delete
     end
 
-    # check if the encryption key is deleted
+    # check if the encryption key is deleted or it is about to be deleted
     def deleted?
-      secret_key.nil?
+      secret_key.nil? || delete_at.present?
     end
+
+    # Delete the encryption key by updating the key to nil.
+    def delete
+      update(secret_key: nil, delete_at: nil) 
+    end
+
+    # Restores the encryption key by updating the delete_at field to nil.
+    def restore!
+      update(delete_at: nil) if delete_at &&  DateTime.now < delete_at
+    end
+
+
 
     # Returns an encryption key for a record by its type and ID, optionally using a parent key.
     #

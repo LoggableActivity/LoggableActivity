@@ -22,19 +22,13 @@
       "items": {
         "type": "object",
         "properties": {
-          "related_to_activity_as": {
+          "relation": {
             "type": "string",
             "enum": [
-              "primary_payload",
-              "has_one_payload",
-              "belongs_to_payload",
-              "has_many_payload",
-              "primary_destroy_payload",
-              "primary_update_payload",
-              "has_one_update_payload",
-              "belongs_to_update_payload",
-              "has_many_create_payload",
-              "has_many_update_payload"
+              "self",
+              "has_one",
+              "belongs_to",
+              "has_many"
             ]
           },
           "record_type": {
@@ -114,7 +108,7 @@
           }
         },
         "required": [
-          "related_to_activity_as",
+          "relation",
           "record_type",
           "record_id",
           "attrs",

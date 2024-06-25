@@ -22,7 +22,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "related_to_activity_as": {
+          "relatiion": {
             "type": "string"
           },
           "record_type": {
@@ -52,7 +52,7 @@
           }
         },
         "required": [
-          "related_to_activity_as",
+          "relation",
           "record_type",
           "record_id",
           "attrs",

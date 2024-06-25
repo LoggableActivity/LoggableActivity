@@ -1,4 +1,7 @@
 
+## [0.2.0] - 2024-07-03
+- Keys kan be kept until LoggableActivity::Sanitizer.run is called
+
 ## [0.1.58] - 2024-03-21
 ### Breaking change
 - All presentations generators are removed

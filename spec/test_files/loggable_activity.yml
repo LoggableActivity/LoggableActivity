@@ -1,5 +1,6 @@
 current_user_model_name: MockUser
 fetch_current_user_name_from: full_name
+task_for_sanitization: true 
 MockModel:
   data_owner: true
   fetch_record_name_from: full_name
