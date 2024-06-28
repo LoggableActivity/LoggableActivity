@@ -2,7 +2,6 @@
 
 require 'json-schema'
 require 'json'
-require 'awesome_print'
 
 module LoggableActivity
   # This class is used to load the configuration file located at config/loggable_activity.yml
