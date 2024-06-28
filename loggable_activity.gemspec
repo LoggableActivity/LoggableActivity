@@ -26,9 +26,9 @@ Gem::Specification.new do |spec|
 
   spec.metadata = {
     'homepage_uri' => 'https://loggableactivity-efe7b931c886.herokuapp.com/',
-    'source_code_uri' => 'https://github.com/maxgronlund/LoggableActivity',
-    'changelog_uri' => 'https://github.com/maxgronlund/LoggableActivity/CHANGELOG.md',
-    'documentation_uri' => 'https://maxgronlund.github.io/LoggableActivity/',
+    'source_code_uri' => 'https://github.com/LoggableActivity/LoggableActivity',
+    'changelog_uri' => 'https://github.com/LoggableActivity/LoggableActivity/CHANGELOG.md',
+    'documentation_uri' => 'https://LoggableActivity.github.io/LoggableActivity/',
     'rubygems_mfa_required' => 'true'
   }
 
