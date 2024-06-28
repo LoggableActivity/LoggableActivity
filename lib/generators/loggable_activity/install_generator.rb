@@ -80,7 +80,7 @@ module LoggableActivity
 
 
           For more information, please visit:
-          https://github.com/maxgronlund/LoggableActivity/blob/main/GETTING-STARTED.md
+          https://github.com/LoggableActivity/LoggableActivity/blob/main/GETTING-STARTED.md
 
           ------------------------------------------------
         MESSAGE

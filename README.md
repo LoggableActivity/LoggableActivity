@@ -30,7 +30,7 @@ Beside the journal in the db, an activity log is kept so it is possible to track
 At some point in time the patients data from the DB and the activity log has to be removed according to GDPR.<br/>
 
 ### Getting started
-please read the [GETTING-STARTED.md](https://github.com/maxgronlund/LoggableActivity/blob/main/GETTING-STARTED.md) guide
+please read the [GETTING-STARTED.md](https://github.com/LoggableActivity/LoggableActivity/blob/main/GETTING-STARTED.md) guide
 
 ### Contribute
 👉 Join the Slack channel here: [LoggableActivity Slack Workspace](https://join.slack.com/t/loggableactivity/shared_invite/zt-2a3tvgv37-mGwjHJTrBXBH2srXFRRSXQ)

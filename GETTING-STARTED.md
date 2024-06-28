@@ -7,7 +7,7 @@ This document should you getting started with `LoggableActivity`
 
 ## Demo Application
 You can download a demo application from<br/>
-[https://github.com/maxgronlund/LoggableActivityDemoApp](https://github.com/maxgronlund/LoggableActivityDemoApp)
+[https://github.com/LoggableActivity/LoggableActivityDemoApp](https://github.com/LoggableActivity/LoggableActivityDemoApp)
 <br/>
 You can try a demo here<br/>
 [https://loggableactivity-efe7b931c886.herokuapp.com/](https://loggableactivity-efe7b931c886.herokuapp.com/)
@@ -114,6 +114,6 @@ Supported relations at the moment is
 
 ## For developers and contributors 
 If you can download and play around with a demo app
-- 1 Down the demo project from [demo project on github](https://github.com/maxgronlund/LoggableActivityDemoApp)
+- 1 Down the demo project from [demo project on github](https://github.com/LoggableActivity/LoggableActivityDemoApp)
 - 2 Update the Gemfile in the demo project so it points to your localhost.
 - 3 you can now build and test you version of the gem `$ gem build loggable_activity.gemspec`
