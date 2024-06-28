@@ -4,7 +4,7 @@ Outline of steps to get the LoggableActivity adapted.
 ### Demo project
 Nothing is better than gain som experience by getting som real world tests and experiences.
 <br/>
-Try the [Live Demo]("https://loggableactivity-efe7b931c886.herokuapp.com/") here or download it from [Github]("https://github.com/maxgronlund/LoggableActivityDemoApp") here
+Try the [Live Demo]("https://loggableactivity-efe7b931c886.herokuapp.com/") here or download it from [Github]("https://github.com/LoggableActivity/LoggableActivityDemoApp") here
 
 
 ### Open Source
