@@ -29,6 +29,7 @@ class CreateLoggableActivityTables < ActiveRecord::Migration[7.1]
       t.boolean :data_owner, default: false
       t.string :route
       t.boolean :current_payload, default: true
+      t.json :public_attrs, default: {}
 
       t.timestamps
     end

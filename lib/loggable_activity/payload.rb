@@ -62,14 +62,14 @@ module LoggableActivity
     #
     def attrs
       return deleted_attrs if record.nil?
-
+  
       case related_to_activity_as
       when *DECRYPT_ATTRS_TYPES
-        decrypted_attrs
+        decrypted_attrs.merge(public_attrs: public_attrs)
       when *DECRYPT_UPDATE_ATTRS_TYPES
-        decrypted_update_attrs
+        decrypted_update_attrs.merge(public_attrs: public_attrs)
       else
-        {}
+        { public_attrs: public_attrs }
       end
     end
 
