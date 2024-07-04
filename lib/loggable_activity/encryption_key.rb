@@ -6,7 +6,6 @@ module LoggableActivity
   # This class represents the encryption key used to unlock the data for one payload.
   # When deleted, only the encryption_key field is deleted.
   class EncryptionKey < ActiveRecord::Base
-    self.table_name = 'loggable_activity_encryption_keys'
 
     # Associations
     belongs_to :record, polymorphic: true, optional: true

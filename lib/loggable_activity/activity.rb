@@ -5,7 +5,6 @@ require 'active_record'
 module LoggableActivity
   # Represents one action in the activity log.
   class Activity < ActiveRecord::Base
-    self.table_name = 'loggable_activity_activities'
     # Associations
     has_many :payloads, class_name: '::LoggableActivity::Payload', dependent: :destroy
     belongs_to :actor, polymorphic: true, optional: true

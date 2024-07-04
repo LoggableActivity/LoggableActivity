@@ -7,7 +7,6 @@ module LoggableActivity
   # When the record is deleted, the encryption key for the payload is also deleted.
   # Payloads come in different types, each serving a specific purpose.
   class Payload < ActiveRecord::Base
-    self.table_name = 'payloads'
     validates :related_to_activity_as, presence: true
 
     # Associations

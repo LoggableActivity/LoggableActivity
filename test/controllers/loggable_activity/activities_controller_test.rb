@@ -7,12 +7,12 @@ module LoggableActivity
     include Engine.routes.url_helpers
 
     test 'should get index' do
-      get activities_index_url
+      get activities_url
       assert_response :success
     end
 
     test 'should get show' do
-      get activities_show_url
+      get activities_url(1)
       assert_response :success
     end
   end
