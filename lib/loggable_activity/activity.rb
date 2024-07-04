@@ -5,7 +5,7 @@ require 'active_record'
 module LoggableActivity
   # Represents one action in the activity log.
   class Activity < ActiveRecord::Base
-    self.table_name = 'loggable_activities'
+    self.table_name = 'loggable_activity_activities'
     # Associations
     has_many :payloads, class_name: '::LoggableActivity::Payload', dependent: :destroy
     belongs_to :actor, polymorphic: true, optional: true
@@ -33,7 +33,7 @@ module LoggableActivity
       'belongs_to_payload' => 'belongs_to',
       'belongs_to_destroy_payload' => 'belongs_to',
       'belongs_to_update_payload' => 'belongs_to'
-    }
+    }.freeze
 
     # Returns an array of hashes, each representing an activity's attributes and its associated relations. The structure and relations to include are specified in 'config/loggable_activity.yaml'. This format is designed for UI display purposes.
     #

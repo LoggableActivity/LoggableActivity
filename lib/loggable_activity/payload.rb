@@ -7,7 +7,7 @@ module LoggableActivity
   # When the record is deleted, the encryption key for the payload is also deleted.
   # Payloads come in different types, each serving a specific purpose.
   class Payload < ActiveRecord::Base
-    self.table_name = 'loggable_payloads'
+    self.table_name = 'loggable_activity_payloads'
     validates :related_to_activity_as, presence: true
 
     # Associations
@@ -93,7 +93,7 @@ module LoggableActivity
     #
     # @return [String] The display name for the record.
     def record_display_name
-      return I18n.t('loggable.activity.deleted') if deleted?
+      return I18n.t('loggable_activity.activity.deleted') if deleted?
 
       ::LoggableActivity::Encryption.decrypt(encrypted_record_name, secret_key)
     end
@@ -118,7 +118,7 @@ module LoggableActivity
     #
     # @return [Hash] The hash with deleted attributes.
     def deleted_attrs
-      encrypted_attrs.transform_values! { I18n.t('loggable.activity.deleted') }
+      encrypted_attrs.transform_keys(&:to_sym).transform_values! { I18n.t('loggable_activity.activity.deleted') }
     end
 
     # Decrypts the 'from' and 'to' attributes in the update payload.
@@ -139,7 +139,7 @@ module LoggableActivity
       change.to_h do |key, value|
         from = decrypt_attr(value['from'])
         to = decrypt_attr(value['to'])
-        [key, { from:, to: }]
+        [key.to_sym, { from:, to: }]
       end
     end
 
@@ -147,10 +147,9 @@ module LoggableActivity
     #
     # @return [Hash] The decrypted attributes.
     def decrypted_attrs
-      encrypted_attrs.each do |key, value|
-        encrypted_attrs[key] = decrypt_attr(value)
-      end
+      encrypted_attrs.transform_keys(&:to_sym).transform_values { |value| decrypt_attr(value) }
     end
+
 
     # Decrypts a single attribute.
     #

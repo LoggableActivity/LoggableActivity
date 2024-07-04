@@ -1,7 +1,4 @@
 
-## [0.2.1b] - 2024-07-03
-- Repo has moved to organization on github
-
 ## [0.2.0] - 2024-07-03
 - Keys kan be kept until LoggableActivity::Sanitizer.run is called
 

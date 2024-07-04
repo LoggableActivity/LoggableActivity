@@ -9,7 +9,7 @@
       "alignment": "right",
       "priority": 300,
       "tooltip": "Run test for current line",
-      "filterFileRegex": ".*_spec\\.rb"
+      "filterFileRegex": ".*_test\\.rb"
     },
     {
       "command": "terminals.runTerminalByName",
@@ -20,7 +20,7 @@
       "alignment": "right",
       "priority": 290,
       "tooltip": "Run test for current file",
-      "filterFileRegex": ".*_spec\\.rb"
+      "filterFileRegex": ".*_test\\.rb"
     }
   ]
 }

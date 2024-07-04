@@ -67,7 +67,7 @@ module LoggableActivity
         return if encryption_key.deleted?
 
         secret_key = encryption_key.secret_key
-        encrypted_attrs = encrypt_attributes(record, secret_key)
+        encrypted_attrs = encrypt_attributes(record, secret_key, options)
 
         build_payload(
           record,
@@ -107,8 +107,9 @@ module LoggableActivity
       end
 
       # Encrypts the attributes for the record.
-      def encrypt_attributes(record, secret_key)
-        encrypt_attrs(record.attributes, record.class.loggable_attrs, secret_key)
+      def encrypt_attributes(record, secret_key, options = {})
+        loggable_attrs = options[:loggable_attrs] || record.class.loggable_attrs
+        encrypt_attrs(record.attributes, loggable_attrs, secret_key)
       end
 
       # Encrypt one attributes for only loggable_attrs, configured

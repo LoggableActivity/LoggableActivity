@@ -1,51 +1,27 @@
-AllCops:
-  TargetRubyVersion: '3.2.0'
-  NewCops: enable
-  Exclude:
-    # - 'vendor/**/*'
-    
-Style/OpenStructUse:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
-
-Gemspec/DevelopmentDependencies:
-  Enabled: false
-
 Layout/LineLength:
-  Enabled: false
-
-Metrics/BlockLength:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Style/IfUnlessModifier:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-Metrics/ClassLength:
   Exclude:
-    - lib/loggable_activity/services/update_payloads_builder.rb
-
-Metrics/ParameterLists:
-  Exclude:
-    - lib/loggable_activity/services/base_payloads_builder.rb
-
-Metrics/ModuleLength:
-  Exclude:
-    - lib/loggable_activity/hooks.rb
-
+    - 'lib/loggable_activity/services/payloads_builder.rb'
+    - 'lib/loggable_activity/hooks.rb'
+    - 'lib/loggable_activity/activity.rb'
 Metrics/AbcSize:
   Exclude:
-    - lib/loggable_activity/encryption.rb
-    # - lib/loggable_activity/update_payloads_builderx.rb
-    - lib/generators/loggable_activity/templates/binary_ids/create_loggable_activities.rb
-    - lib/generators/loggable_activity/templates/create_loggable_activities.rb
+    - 'lib/loggable_activity/encryption.rb'
+Metrics/BlockLength:
+  Exclude:
+    - 'test/dummy/config/environments/development.rb'
+    - 'loggable_activity.gemspec'
+    - 'test/dummy/db/schema.rb'
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/loggable_activity/services/update_payloads_builder.rb'
+Metrics/MethodLength:
+  Exclude:
+    - 'lib/loggable_activity/services/update_payloads_builder.rb'
+    - 'lib/loggable_activity/services/destroy_payloads_builder.rb'
+    - 'lib/loggable_activity/services/base_payloads_builder.rb'
+    - 'lib/loggable_activity/hooks.rb'
+    - 'lib/loggable_activity/encryption.rb'
+    - 'lib/loggable_activity/activity.rb'
+Style/Documentation:
+  Exclude:
+    - 'test/**/*'

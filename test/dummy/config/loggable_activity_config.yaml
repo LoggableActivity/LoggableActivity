@@ -1,0 +1,57 @@
+current_user_name: full_name
+current_user_model_name: User
+task_for_sanitization: false 
+User: 
+  fetch_record_name_from: full_name
+  route: /demo/users/:id
+  loggable_attrs: 
+    - first_name
+    - last_name 
+    - age 
+    - email
+    - user_type 
+  auto_log:
+    - create
+    - update
+    - destroy
+  relations:
+    - has_one: :profile
+      route: /demo/users/:id/profile
+      model: Profile 
+      loggable_attrs:
+        - bio
+        - phone_number 
+Profile:
+  fetch_record_name_from: phone_number
+  route: /demo/profiles/:id
+  loggable_attrs:
+    - bio
+    - profile_picture_url
+    - location
+    - date_of_birth
+    - phone_number
+  # auto_log:
+  #   - create
+  #   - update
+  #   - destroy
+  # relations:
+  #   - belongs_to: :user
+  #     route: /demo/users/:id
+  #     model: User
+  #     loggable_attrs:
+  #       - first_name
+  #       - last_name
+  #       - age
+  #       - email
+  #       - user_type
+#   - belongs_to: :demo_address
+#     route: show_demo_address
+#     model: Demo::Address
+#     loggable_attrs:
+#       - street
+#       - postal_code
+#   - belongs_to: :demo_club
+#     route: show_demo_club
+#     model: Demo::Club
+#     loggable_attrs:
+#       - name

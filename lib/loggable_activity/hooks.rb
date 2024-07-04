@@ -60,6 +60,10 @@ module LoggableActivity
       end
     end
 
+    def disable_hooks!
+      self.disable_hooks = true
+    end
+
     private
 
     # Logs an activity for the current action.
@@ -159,13 +163,13 @@ module LoggableActivity
 
     # Returns the encrypted name of the actor.
     def encrypted_actor_name
-      name = @actor.send(fetch_current_user_name_from)
+      name = @actor.send(current_user_name)
       ::LoggableActivity::Encryption.encrypt(name, actor_secret_key)
     end
 
     # Reads the field to feetch the record name from.
-    def fetch_current_user_name_from
-      ::LoggableActivity::Configuration.fetch_current_user_name_from
+    def current_user_name
+      ::LoggableActivity::Configuration.current_user_name
     end
 
     # Returns the action key for the current action.

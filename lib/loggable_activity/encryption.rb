@@ -16,11 +16,16 @@ module LoggableActivity
     #   "SOME_ENCRYPTED_STRING"
     #
     def self.encrypt(data, secret_key)
+      # ap "data: #{data.nil?} secret_key: #{secret_key}"
       return nil if secret_key.nil?
       return nil if data.nil?
 
+
       encryption_key = Base64.decode64(secret_key)
-      raise EncryptionError, "Encryption failed: Invalid encoded_key length #{encryption_key.bytesize}" unless encryption_key.bytesize == 32
+      unless encryption_key.bytesize == 32
+        raise EncryptionError,
+              "Encryption failed: Invalid encoded_key length #{encryption_key.bytesize}"
+      end
 
       cipher = OpenSSL::Cipher.new('AES-256-CBC').encrypt
       cipher.key = encryption_key
@@ -42,11 +47,14 @@ module LoggableActivity
     #   "my secret data"
     #
     def self.decrypt(data, secret_key)
-      return I18n.t('loggable.activity.deleted') if secret_key.nil?
+      return I18n.t('loggable_activity.activity.deleted') if secret_key.nil?
       return '' if data.blank?
 
       encryption_key = Base64.decode64(secret_key)
-      raise EncryptionError, "Decryption failed: Invalid encoded_key length: #{encryption_key.bytesize}" unless encryption_key.bytesize == 32
+      unless encryption_key.bytesize == 32
+        raise EncryptionError,
+              "Decryption failed: Invalid encoded_key length: #{encryption_key.bytesize}"
+      end
 
       cipher = OpenSSL::Cipher.new('AES-256-CBC').decrypt
       cipher.key = encryption_key
@@ -58,11 +66,14 @@ module LoggableActivity
 
       decrypted_data.force_encoding('UTF-8')
     rescue OpenSSL::Cipher::CipherError => e
-      puts "CipherError Decryption failed: #{e.message}"
-      '*** DECRYPTION FAILED ***'
+      Rails.logger.error "CipherError Decryption failed: #{e.message}"
+      I18n.t('loggable_activity.decryption.failed')
     rescue EncryptionError => e
-      puts "EncryptionError failed: #{e.message}"
-      '*** DECRYPTION FAILED ***'
+      Rails.logger.error "EncryptionError: #{e.message}"
+      I18n.t('loggable_activity.decryption.failed')
+    rescue ArgumentError => e
+      Rails.logger.error "ArgumentError Decryption failed: #{e.message}"
+      I18n.t('loggable_activity.decryption.failed')
     end
 
     # Returns true if the given value is blank
