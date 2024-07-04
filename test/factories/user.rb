@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 FactoryBot.define do
@@ -6,10 +8,10 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }
     age { Faker::Number.between(from: 18, to: 80) }
-    user_type { ['customer', 'admin'].sample }
+    user_type { %w[customer admin].sample }
     created_at { Faker::Time.between(from: 2.years.ago, to: Time.current, format: :default) }
     updated_at { Faker::Time.between(from: 1.year.ago, to: Time.current, format: :default) }
-    
+
     trait :with_profile do
       profile_attributes do
         {

@@ -20,7 +20,6 @@ module LoggableActivity
       return nil if secret_key.nil?
       return nil if data.nil?
 
-
       encryption_key = Base64.decode64(secret_key)
       unless encryption_key.bytesize == 32
         raise EncryptionError,

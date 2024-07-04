@@ -75,10 +75,10 @@ module LoggableActivity
 
         data_owner = relation_config['data_owner']
         options =
-          { 
-            related_to_activity_as: 'has_one_payload', 
+          {
+            related_to_activity_as: 'has_one_payload',
             current_payload: true, data_owner:,
-            loggable_attrs: relation_config["loggable_attrs"]
+            loggable_attrs: relation_config['loggable_attrs']
           }
 
         build_encrypted_payload(record, options)

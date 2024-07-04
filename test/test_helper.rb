@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Load Rails environment
 ENV['RAILS_ENV'] = 'test'
 require_relative '../test/dummy/config/environment'
@@ -12,8 +14,9 @@ require 'factory_bot'
 FactoryBot.definition_file_paths = [File.expand_path('factories', __dir__)]
 FactoryBot.find_definitions
 
-
-class ActiveSupport::TestCase
-  include FactoryBot::Syntax::Methods
-  # Other configuration or setup for your tests
+module ActiveSupport
+  class TestCase
+    include FactoryBot::Syntax::Methods
+    # Other configuration or setup for your tests
+  end
 end

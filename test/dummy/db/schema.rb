@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_03_113709) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_04_084841) do
   create_table "loggable_activity_activities", force: :cascade do |t|
     t.string "action"
     t.string "actor_type"
@@ -77,11 +77,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_113709) do
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "email"
-    t.integer "age"
-    t.string "user_type"
+    t.string "email", default: "", null: false
+    t.integer "age", default: 37, null: false
+    t.string "user_type", default: "customer", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "loggable_activity_data_owners", "loggable_activity_encryption_keys", column: "encryption_key_id"

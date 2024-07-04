@@ -54,7 +54,8 @@ module LoggableActivity
 
     test 'throws an error when decryption fails' do
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
-      assert_equal '*** DECRYPTION FAILED ***', LoggableActivity::Encryption.decrypt('Some data to decrypt', "#{encryption_key.secret_key}extra")
+      assert_equal '*** DECRYPTION FAILED ***',
+                   LoggableActivity::Encryption.decrypt('Some data to decrypt', "#{encryption_key.secret_key}extra")
     end
   end
 end
