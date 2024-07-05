@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# app/controllers/application_controller.rb
+# Application controller
 class ApplicationController < ActionController::Base
   include ::LoggableActivity::CurrentUser
   helper_method :current_user
@@ -11,4 +11,3 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
 end
-

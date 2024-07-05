@@ -35,3 +35,12 @@ en:
       failed: '*** ENCRYPTION FAILED ***'
     decryption:
       failed: '*** DECRYPTION FAILED ***'
+    user:
+      create: A user was created
+      show: A user was shown
+      update: A user was updated
+      destroy: A user was destroyed
+    action: Action
+    record: Record
+    actor: Actor
+    timestamp: Timestamp

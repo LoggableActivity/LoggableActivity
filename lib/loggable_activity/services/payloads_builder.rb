@@ -84,6 +84,7 @@ module LoggableActivity
         build_encrypted_payload(record, options)
       end
 
+      # Builds the payload for a belongs_to relation.
       def build_belongs_to_payload(relation_config)
         relation = (relation_config['belongs_to']).to_s
         record = @record.send(relation)

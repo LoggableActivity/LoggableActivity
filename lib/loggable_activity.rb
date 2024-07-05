@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'loggable_activity/version'
+require 'loggable_activity/engine'
 require 'loggable_activity/hooks'
 require 'loggable_activity/activity'
 require 'loggable_activity/configuration'
@@ -45,7 +47,6 @@ require 'loggable_activity/concerns/current_user'
 #
 # This module is designed to be both powerful and easy to integrate, providing a solid foundation for activity logging.
 module LoggableActivity
-  # is this documentation?
   mattr_accessor :actor_class
   mattr_accessor :config_file_path
 end

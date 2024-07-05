@@ -14,7 +14,12 @@
     <p class="alert"><%= alert %></p>
     <% if current_user %>
       <%= current_user.full_name%>
+      <%= link_to 'logout', sessions_destroy_path%>
+    <% else %>
+      <%= link_to 'login', sessions_create_path%>
     <% end %>
+    <%= link_to 'users', users_path%>
+    <%= link_to 'activites', loggable_activity.activities_path%>
     <%= yield %>
   </body>
 </html>

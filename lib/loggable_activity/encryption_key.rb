@@ -6,7 +6,6 @@ module LoggableActivity
   # This class represents the encryption key used to unlock the data for one payload.
   # When deleted, only the encryption_key field is deleted.
   class EncryptionKey < ActiveRecord::Base
-
     # Associations
     belongs_to :record, polymorphic: true, optional: true
     # belongs_to :payload, class_name: '::LoggableActivity::Payload', optional: true
@@ -24,6 +23,7 @@ module LoggableActivity
     end
 
     # Delete the encryption key by updating the key to nil.
+    # Nullify the delete_at field, so the key is not deleted when the sanitization task runs.
     def delete
       update(secret_key: nil, delete_at: nil)
     end

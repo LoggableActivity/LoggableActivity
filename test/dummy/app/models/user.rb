@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   include LoggableActivity::Hooks
   has_one :profile, dependent: :destroy
