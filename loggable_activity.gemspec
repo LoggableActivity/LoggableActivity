@@ -46,7 +46,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activerecord', '~> 7.1.3'
   spec.add_dependency 'bootstrap', '~> 5.3', '>= 5.3.3'
-  spec.add_dependency 'bootstrap5-kaminari-views', '~> 0.0.1'
   spec.add_dependency 'json-schema', '~> 4.1', '>= 4.1.1'
   spec.add_dependency 'kaminari', '~> 1.2', '>= 1.2.2'
   spec.add_dependency 'rails', '~> 7.1.2'

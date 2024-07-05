@@ -4,7 +4,7 @@ module LoggableActivity
   # Controller for activities
   class ActivitiesController < ApplicationController
     def index
-      @activities = LoggableActivity::Activity.order(:created_at).page params[:page]
+      @activities = LoggableActivity::Activity.order(created_at: :desc).page params[:page]
     end
 
     def show; end
