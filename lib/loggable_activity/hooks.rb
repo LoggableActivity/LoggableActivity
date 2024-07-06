@@ -24,6 +24,7 @@ module LoggableActivity
 
       # Initializes attributes based on configuration.
       ap self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
+      self.public_attrs = config&.fetch('public_attrs', []) || []
       self.relations = config&.fetch('relations', []) || []
       self.auto_log = config&.fetch('auto_log', []) || []
       self.fetch_record_name_from = config&.fetch('fetch_record_name_from', nil)
@@ -205,7 +206,7 @@ module LoggableActivity
 
     class_methods do
       # The loggable_attrs attribute is used read the configuration for the model that included LoggableActivity::Hooks.
-      attr_accessor :loggable_attrs, :relations, :auto_log, :fetch_record_name_from, :route
+      attr_accessor :loggable_attrs, :relations, :auto_log, :fetch_record_name_from, :route, :public_attrs
 
       # Convert the model name and name space in to 'base_action'.
       def base_action

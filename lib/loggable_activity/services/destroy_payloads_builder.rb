@@ -118,6 +118,7 @@ module LoggableActivity
           related_to_activity_as:,
           data_owner: true,
           route: '',
+          public_attrs: public_attributes(record),
           current_payload: true
         )
         encryption_key

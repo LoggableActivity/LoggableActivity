@@ -10,6 +10,7 @@ module LoggableActivity
         @record = record
         @payloads = payloads
         @loggable_attrs = record.class.loggable_attrs
+        @public_attrs = record.class.public_attrs
         # @relation_config = record.relation_config
         @relations = record.class.relations
         @auto_log = record.class.auto_log
@@ -68,18 +69,20 @@ module LoggableActivity
 
         secret_key = encryption_key.secret_key
         encrypted_attrs = encrypt_attributes(record, secret_key, options)
+        public_attrs = public_attributes(record)
 
         build_payload(
           record,
           encryption_key,
           encrypted_attrs,
+          public_attrs,
           options
         )
         { encryption_key:, encrypted_attrs: }
       end
 
       # Builds the payload for a record
-      def build_payload(record, encryption_key, encrypted_attrs, options = {})
+      def build_payload(record, encryption_key, encrypted_attrs, public_attrs, options = {})
         return if encryption_key.deleted?
 
         related_to_activity_as = options[:related_to_activity_as]
@@ -96,7 +99,8 @@ module LoggableActivity
           related_to_activity_as:,
           route: record.class.route,
           current_payload:,
-          data_owner:
+          data_owner:,
+          public_attrs:
         )
         unless payload.valid?
           error_message = "Payload validation failed: #{payload.errors.full_messages.join(', ')}"
@@ -117,6 +121,10 @@ module LoggableActivity
         attrs.slice(*loggable_attrs).transform_values do |value|
           ::LoggableActivity::Encryption.encrypt(value, secret_key)
         end
+      end
+
+      def public_attributes(record)
+        record.attributes.slice(*record.class.public_attrs)
       end
 
       # Encrypt a single attribute.

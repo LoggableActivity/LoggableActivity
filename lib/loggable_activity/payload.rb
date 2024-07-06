@@ -67,7 +67,7 @@ module LoggableActivity
       when *DECRYPT_ATTRS_TYPES
         decrypted_attrs.merge(public_attrs: public_attrs)
       when *DECRYPT_UPDATE_ATTRS_TYPES
-        decrypted_update_attrs.merge(public_attrs: public_attrs)
+        decrypted_update_attrs + public_attrs['changes']
       else
         { public_attrs: public_attrs }
       end
