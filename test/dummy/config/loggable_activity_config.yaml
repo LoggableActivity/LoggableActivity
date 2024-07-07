@@ -1,6 +1,23 @@
 current_user_name: full_name
 current_user_model_name: User
 task_for_sanitization: false 
+Hat:
+  fetch_record_name_from: color
+  route: /user/:id
+  loggable_attrs:
+    - color
+  auto_log:
+    - create
+    - destroy
+  relations:
+    - belongs_to: :user
+      route: /demo/users/:id
+      model: User
+      loggable_attrs:
+        - first_name
+
+
+
 User: 
   fetch_record_name_from: full_name
   route: /demo/users/:id
@@ -20,7 +37,12 @@ User:
       model: Profile 
       loggable_attrs:
         - bio
-        - phone_number 
+        - phone_number
+    - has_many: :hats
+      route: /users/:id
+      model: Hat
+      loggable_attrs:
+        - color
 Profile:
   fetch_record_name_from: phone_number
   route: /demo/profiles/:id

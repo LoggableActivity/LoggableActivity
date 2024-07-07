@@ -1,10 +1,33 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @user %>
+<b>Hats</b>
+</br>
 
+<% @user.hats.each do |hat| %>
+    <% unless hat.new_record? %>
+      <%= hat.color %>
+      </br>
+      <%= link_to "Delete", user_hat_path(@user, hat), method: :delete, data: { confirm: "Are you sure?" } %>
+      </br>
+  <% end %>
+<% end %>
+<br/>
+
+<b>Add a New Hat</b>
+<%= form_with(model: [@user, @hat], url: create_hat_user_path(@user), local: true) do |form| %>
+  <div>
+    <%= form.label :color, style: "display: block" %>
+    <%= form.text_field :color %>
+  </div>
+  </br>
+  <div>
+    <%= form.submit "Add Hat" %>
+  </div>
+<% end %>
+</br>
 <div>
   <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
-
-  <%= button_to "Destroy this user", @user, method: :delete %>
+  <%= link_to "Back to users", users_path %> |
+  <%= link_to "Destroy this user", @user, method: :delete %>
 </div>

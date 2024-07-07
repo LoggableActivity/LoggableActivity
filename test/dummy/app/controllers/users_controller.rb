@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit update destroy create_hat]
 
   # GET /users
   def index
@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     @user.log(:show)
+    @hat = @user.hats.build
   end
 
   # GET /users/new
@@ -32,6 +33,15 @@ class UsersController < ApplicationController
       redirect_to @user, notice: 'User was successfully created.'
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def create_hat
+    @hat = @user.hats.build(hat_params)
+    if @hat.save
+      redirect_to @user, notice: 'Hat was successfully created.'
+    else
+      render :show
     end
   end
 
@@ -63,5 +73,9 @@ class UsersController < ApplicationController
       .require(:user)
       .permit(:first_name, :last_name, :email, :age, :user_type,
               profile_attributes: %i[bio profile_picture_url location date_of_birth phone_number])
+  end
+
+  def hat_params
+    params.require(:hat).permit(:color)
   end
 end

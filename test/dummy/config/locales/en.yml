@@ -35,6 +35,11 @@ en:
       failed: '*** ENCRYPTION FAILED ***'
     decryption:
       failed: '*** DECRYPTION FAILED ***'
+    hat:
+      create: A hat was created
+      show: A hat was shown
+      update: A hat was updated
+      destroy: A hat was destroyed
     user:
       create: A user was created
       show: A user was shown

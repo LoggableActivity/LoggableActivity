@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'sessions/create'
   get 'sessions/destroy'
   resources :users do
+    post 'create_hat', on: :member
     resources :hats
   end
   get 'home/index'

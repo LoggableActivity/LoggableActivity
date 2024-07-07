@@ -138,6 +138,7 @@ module LoggableActivity
     # Logs a create activity automatically if configured.
     def log_create_activity
       return unless hooks_enabled?
+      return if id.nil?
 
       log(:create) if self.class.auto_log.include?('create')
     end
