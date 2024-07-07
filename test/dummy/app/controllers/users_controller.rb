@@ -16,10 +16,13 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.build_profile
   end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+    @user.build_profile if @user.profile.nil?
+  end
 
   # POST /users
   def create
@@ -35,7 +38,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.', status: :see_other
+      redirect_to users_path, notice: 'User was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -56,6 +59,9 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :age, :user_type)
+    params
+      .require(:user)
+      .permit(:first_name, :last_name, :email, :age, :user_type,
+              profile_attributes: %i[bio profile_picture_url location date_of_birth phone_number])
   end
 end

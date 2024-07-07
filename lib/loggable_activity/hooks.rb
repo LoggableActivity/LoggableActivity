@@ -23,7 +23,7 @@ module LoggableActivity
       end
 
       # Initializes attributes based on configuration.
-      self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
+      ap self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
       self.relations = config&.fetch('relations', []) || []
       self.auto_log = config&.fetch('auto_log', []) || []
       self.fetch_record_name_from = config&.fetch('fetch_record_name_from', nil)

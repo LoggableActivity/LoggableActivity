@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @hat %>
+
+<div>
+  <%= link_to "Edit this hat", edit_hat_path(@hat) %> |
+  <%= link_to "Back to hats", hats_path %>
+
+  <%= button_to "Destroy this hat", @hat, method: :delete %>
+</div>

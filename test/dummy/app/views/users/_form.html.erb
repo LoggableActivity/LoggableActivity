@@ -36,6 +36,18 @@
     <%= form.text_field :user_type %>
   </div>
 
+  <%= form.fields_for :profile do |profile_fields| %>
+    <div>
+      <%= profile_fields.label :bio, style: "display: block" %>
+      <%= profile_fields.text_area :bio, class: 'form-control' %>
+    </div>
+    
+    <div>
+      <%= profile_fields.label :location, style: "display: block" %>
+      <%= profile_fields.text_field :location, class: 'form-control' %>
+    </div>
+  <% end %>
+  </br>
   <div>
     <%= form.submit %>
   </div>

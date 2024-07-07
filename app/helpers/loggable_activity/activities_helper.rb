@@ -8,7 +8,6 @@ module LoggableActivity
       I18n.t("loggable_activity.#{activity.action}")
     end
 
-  
     def format_json_for_display(hash_data)
       JSON.pretty_generate(hash_data)
     rescue JSON::ParserError

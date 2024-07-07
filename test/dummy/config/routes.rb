@@ -3,7 +3,9 @@
 Rails.application.routes.draw do
   get 'sessions/create'
   get 'sessions/destroy'
-  resources :users
+  resources :users do
+    resources :hats
+  end
   get 'home/index'
   root to: 'home#index'
   get 'login', to: 'sessions#new'

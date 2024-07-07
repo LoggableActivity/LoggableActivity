@@ -12,7 +12,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_703_113_709) do
+ActiveRecord::Schema[7.1].define(version: 20_240_707_180_147) do
+  create_table 'hats', force: :cascade do |t|
+    t.string 'color'
+    t.integer 'user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_hats_on_user_id'
+  end
+
   create_table 'loggable_activity_activities', force: :cascade do |t|
     t.string 'action'
     t.string 'actor_type'
@@ -87,6 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_703_113_709) do
     t.index ['email'], name: 'index_users_on_email', unique: true
   end
 
+  add_foreign_key 'hats', 'users'
   add_foreign_key 'loggable_activity_data_owners', 'loggable_activity_encryption_keys', column: 'encryption_key_id'
   add_foreign_key 'loggable_activity_payloads', 'loggable_activity_activities', column: 'activity_id'
   add_foreign_key 'loggable_activity_payloads', 'loggable_activity_encryption_keys', column: 'encryption_key_id'
