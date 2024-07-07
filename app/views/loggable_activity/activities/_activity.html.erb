@@ -1,0 +1,27 @@
+<tr>
+  <td>
+    <div class="alert alert-info" type="button" data-bs-toggle="collapse" data-bs-target="#activity_<%= activity.id %>" aria-expanded="false" aria-controls="collapseExample">
+      <div class="row">
+        <div class="col-3">
+          <%= activity_action(activity) %>
+        </div>
+        <div class="col-3">
+          <%= t(activity.record_display_name) %>
+        </div>
+        <div class="col-3">
+          <%= t(activity.actor_display_name) %>
+        </div>
+        <div class="col-3">
+          <%= l(activity.created_at, format: :long) %>
+        </div>
+      </div>
+    </div>
+    <div class="collapse" id="activity_<%= activity.id %>">
+      <pre>
+        <code class="language-json">
+          <%#= format_json_for_display(activity.attrs) %>
+        </code>
+      </pre>
+    </div>
+  </td>
+</tr>

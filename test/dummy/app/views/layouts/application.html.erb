@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dummy</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application" %>
+  </head>
+
+  <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <% if current_user %>
+      <%= current_user.full_name%>
+      <%= link_to 'logout', sessions_destroy_path%>
+    <% else %>
+      <%= link_to 'login', sessions_create_path%>
+    <% end %>
+    <%= link_to 'users', users_path%>
+    <%= link_to 'activites', loggable_activity.activities_path%>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "properties": {
+    "current_user_model_name": {
+      "type": "string"
+    },
+    "current_user_name": {
+      "type": "string"
+    },
+    "task_for_sanitization": {
+      "type": "boolean"
+    }
+  },
+  "patternProperties": {
+    "^(?!current_user_model_name$|current_user_name$|task_for_sanitization)[A-Za-z0-9_:]+$": {
+      "type": "object",
+      "properties": {
+        "data_owner": {
+          "type": "boolean"
+        },
+        "fetch_record_name_from": {
+          "type": "string"
+        },
+        "task_for_sanitization": {
+          "type": "boolean"
+        },
+        "loggable_attrs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "auto_log": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "create",
+              "update",
+              "destroy"
+            ]
+          }
+        },
+        "route": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "has_many": {
+                "type": "string"
+              },
+              "has_one": {
+                "type": "string"
+              },
+              "belongs_to": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "loggable_attrs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "route": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fetch_record_name_from": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          }
+        }
+      },
+      "required": [
+        "loggable_attrs"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "current_user_model_name",
+    "current_user_name"
+  ]
+}

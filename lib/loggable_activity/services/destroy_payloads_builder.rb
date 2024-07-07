@@ -112,7 +112,7 @@ module LoggableActivity
         @payloads << ::LoggableActivity::Payload.new(
           encryption_key:,
           record_id: nil,
-          record_type: @record.class.name,
+          record_type: record.class.name,
           encrypted_record_name:,
           encrypted_attrs:,
           related_to_activity_as:,

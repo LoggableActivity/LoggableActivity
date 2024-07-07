@@ -119,7 +119,7 @@ module LoggableActivity
         return nil if record.nil?
 
         previous_values, current_values = changes_to_save(record)
-        loggable_attrs = record.class.loggable_attrs
+        loggable_attrs = relation_config['loggable_attrs']
         return if previous_values == current_values
 
         previous_values = previous_values.slice(*loggable_attrs)

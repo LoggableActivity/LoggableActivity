@@ -8,10 +8,10 @@
       "onlySingle": true,
       "icon": "run",
       "commands": [
-        "dir=[file] && test_path=${${(s:/spec/:)dir}[1]} && file=\"spec/\"${${(s:/spec/:)dir}[2]}",
-        "echo \"$dir\\n$test_path\\n$file:[lineNumber]\"",
-        "cd $test_path",
-        "rspec $file:[lineNumber]"
+        "dir=$(dirname [file]) && test_file=$(basename [file])",
+        "echo \"$dir\\n$test_file:[lineNumber]\"",
+        "cd $dir",
+        "rails test $dir/$test_file:[lineNumber]"
       ]
     },
     {
@@ -21,10 +21,10 @@
       "onlySingle": true,
       "icon": "run-all",
       "commands": [
-        "dir=[file] && test_path=${${(s:/spec/:)dir}[1]} && file=\"spec/\"${${(s:/spec/:)dir}[2]}",
-        "echo \"$dir\\n$test_path\\n$file\"",
-        "cd $test_path",
-        "rspec $file"
+        "dir=$(dirname [file]) && test_file=$(basename [file])",
+        "echo \"$dir\\n$test_file\"",
+        "cd $dir",
+        "rails test $dir/$test_file"
       ]
     }
   ]
