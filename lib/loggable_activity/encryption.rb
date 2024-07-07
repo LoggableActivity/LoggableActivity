@@ -16,7 +16,6 @@ module LoggableActivity
     #   "SOME_ENCRYPTED_STRING"
     #
     def self.encrypt(data, secret_key)
-      # ap "data: #{data.nil?} secret_key: #{secret_key}"
       return nil if secret_key.nil?
       return nil if data.nil?
 
