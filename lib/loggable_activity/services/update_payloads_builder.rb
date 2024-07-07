@@ -93,9 +93,12 @@ module LoggableActivity
         previous_values, current_values = changes_to_save(record)
         loggable_attrs = relation_config['loggable_attrs']
         return if previous_values == current_values
-        
+
         public_attributes = relation_config['public_attrs']
-        public_attrs = updated_public_attrs(current_values.slice(*public_attributes), previous_values.slice(*public_attributes))
+        public_attrs = updated_public_attrs(
+          current_values.slice(*public_attributes),
+          previous_values.slice(*public_attributes)
+        )
 
         previous_values = previous_values.slice(*loggable_attrs)
         data_owner = relation_config['data_owner']
@@ -128,8 +131,10 @@ module LoggableActivity
         loggable_attrs = relation_config['loggable_attrs']
         return if previous_values == current_values
 
-        public_attributes = record.class.public_attrs
-        public_attrs = updated_public_attrs(current_values.slice(*public_attributes), previous_values.slice(*public_attributes))
+        public_attrs = updated_public_attrs(
+          current_values.slice(*record.class.public_attrs),
+          previous_values.slice(*record.class.public_attrs)
+        )
 
         previous_values = previous_values.slice(*loggable_attrs)
         current_values = current_values.slice(*loggable_attrs)
