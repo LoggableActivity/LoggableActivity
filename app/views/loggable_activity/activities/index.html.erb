@@ -1,29 +1,7 @@
 <h1>Activities</h1>
-<div id="activities_list">
-  <table class="table table-borderless">
-    <thead>
-      <tr>
-        <th>
-          <div class="row">
-            <div class="col-3">
-              <b class="text-secondary"><%= t('loggable_activity.action') %></b>
-            </div>
-            <div class="col-3">
-              <b class="text-secondary"><%= t('loggable_activity.record') %></b>
-            </div>
-            <div class="col-3">
-              <b class="text-secondary"><%= t('loggable_activity.actor') %></b>
-            </div>
-            <div class="col-3">
-              <b class="text-secondary"><%= t('loggable_activity.timestamp') %></b>
-            </div>
-          </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render partial: "activity", collection: @activities %>
-    </tbody>
-  </table>
-  <%= paginate @activities, theme: 'kaminari-turbo-bootstrap' %>
-</div>
+ <%= render partial: "activities", activities: @activities %>
+ 
+ <%= paginate @activities, theme: 'kaminari-turbo-bootstrap' %>
+
+
+

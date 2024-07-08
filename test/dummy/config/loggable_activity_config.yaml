@@ -15,9 +15,6 @@ Hat:
       model: User
       loggable_attrs:
         - first_name
-
-
-
 User:
   fetch_record_name_from: full_name
   route: /demo/users/:id
