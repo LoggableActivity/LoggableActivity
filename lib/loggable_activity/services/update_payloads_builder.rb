@@ -16,6 +16,7 @@ module LoggableActivity
       # Builds the primary payload.
       def build_primary_update_payload
         previous_values, current_values = saved_changes(@record)
+        public_attrs = updated_public_attrs(current_values.slice(*@public_attrs), previous_values.slice(*@public_attrs))
         previous_values = previous_values.slice(*@loggable_attrs)
         current_values = current_values.slice(*@loggable_attrs)
         options = { related_to_activity_as: 'primary_update_payload', current_payload: true, data_owner: true }
@@ -24,6 +25,7 @@ module LoggableActivity
           @record,
           current_values,
           previous_values,
+          public_attrs,
           options
         )
       end
@@ -92,6 +94,12 @@ module LoggableActivity
         loggable_attrs = relation_config['loggable_attrs']
         return if previous_values == current_values
 
+        public_attributes = relation_config['public_attrs']
+        public_attrs = updated_public_attrs(
+          current_values.slice(*public_attributes),
+          previous_values.slice(*public_attributes)
+        )
+
         previous_values = previous_values.slice(*loggable_attrs)
         data_owner = relation_config['data_owner']
         options = { related_to_activity_as: 'has_many_update_payload', current_payload: true, data_owner: }
@@ -100,6 +108,7 @@ module LoggableActivity
           record,
           current_values,
           previous_values,
+          public_attrs,
           options
         )
       end
@@ -122,6 +131,11 @@ module LoggableActivity
         loggable_attrs = relation_config['loggable_attrs']
         return if previous_values == current_values
 
+        public_attrs = updated_public_attrs(
+          current_values.slice(*record.class.public_attrs),
+          previous_values.slice(*record.class.public_attrs)
+        )
+
         previous_values = previous_values.slice(*loggable_attrs)
         current_values = current_values.slice(*loggable_attrs)
         data_owner = relation_config['data_owner']
@@ -131,6 +145,7 @@ module LoggableActivity
           record,
           current_values,
           previous_values,
+          public_attrs,
           options
         )
       end
@@ -148,8 +163,20 @@ module LoggableActivity
         { changes: }
       end
 
+      def updated_public_attrs(current_values, previous_values)
+        changes = []
+
+        previous_values.each do |key, from_value|
+          from = from_value
+          to_value = current_values[key]
+          to = to_value
+          changes << { key => { from:, to: } }
+        end
+        { changes: }
+      end
+
       # Builds the encrypted update payload for a record.
-      def build_encrypted_update_payload(record, current_values, previous_values, options = {})
+      def build_encrypted_update_payload(record, current_values, previous_values, public_attrs, options = {})
         encryption_key = ::LoggableActivity::EncryptionKey.for_record(record)
 
         encrypted_attrs = encrypted_update_attrs(
@@ -162,6 +189,7 @@ module LoggableActivity
           record,
           encryption_key,
           encrypted_attrs,
+          public_attrs,
           options
         )
       end
