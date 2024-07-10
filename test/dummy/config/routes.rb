@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   get 'sessions/create'
   get 'sessions/destroy'
+  resources :companies
   resources :users do
     post 'create_hat', on: :member
     resources :hats

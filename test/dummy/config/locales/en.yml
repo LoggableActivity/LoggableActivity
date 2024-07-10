@@ -35,6 +35,11 @@ en:
       failed: '*** ENCRYPTION FAILED ***'
     decryption:
       failed: '*** DECRYPTION FAILED ***'
+    company:
+      create: A company was created
+      show: A company was shown
+      update: A company was updated
+      destroy: A company was destroyed
     hat:
       create: A hat was created
       show: A hat was shown

@@ -14,7 +14,12 @@
  *= require_self
  */
 
-@import "bootstrap/functions";
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
-@import "bootstrap";
+// @import "css/pico.min.css";
+
+:root {
+  --pico-font-size: 100%;
+}
+
+.page-item.active {
+  font-weight: bold;
+}

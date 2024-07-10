@@ -11,6 +11,7 @@ FactoryBot.define do
     user_type { %w[customer admin].sample }
     created_at { Faker::Time.between(from: 2.years.ago, to: Time.current, format: :default) }
     updated_at { Faker::Time.between(from: 1.year.ago, to: Time.current, format: :default) }
+    belongs_to :company, optional: true
 
     trait :with_profile do
       profile_attributes do

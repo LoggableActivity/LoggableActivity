@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy create_hat]
+  before_action :set_companies, only: %i[new edit]
 
   # GET /users
   def index
@@ -61,6 +62,10 @@ class UsersController < ApplicationController
   end
 
   private
+  
+  def set_companies
+    @companies = Company.all
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
@@ -71,7 +76,7 @@ class UsersController < ApplicationController
   def user_params
     params
       .require(:user)
-      .permit(:first_name, :last_name, :email, :age, :user_type,
+      .permit(:first_name, :last_name, :email, :age, :user_type, :company_id,
               profile_attributes: %i[bio profile_picture_url location date_of_birth phone_number])
   end
 

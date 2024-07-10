@@ -1,3 +1,7 @@
+## [0.5.2] - 2024-03-21
+### Breaking change
+- Styling with pico css
+- Public attrs added
 
 ## [0.2.0] - 2024-07-03
 - Keys kan be kept until LoggableActivity::Sanitizer.run is called
