@@ -36,6 +36,11 @@
     <%= form.text_field :user_type %>
   </div>
 
+  <div class="form-group">
+    <%= form.label :company_id, "Company" %>
+    <%= form.collection_select :company_id, @companies, :id, :name, { prompt: "Select a Company" }, { class: 'form-control' } %>
+</div>
+
   <%= form.fields_for :profile do |profile_fields| %>
     <div>
       <%= profile_fields.label :bio, style: "display: block" %>

@@ -1,7 +1,10 @@
-<h1>Activities</h1>
- <%= render partial: "activities", activities: @activities %>
+<body>
+  <header>
+    <h1>Activities</h1>
+  </header>
+  <main>
+    <%= paginate @activities, views_prefix: "loggable_activity/pico" %> 
+    <%= render partial: "activities", activities: @activities %>
+  </main>
+<body>
  
- <%= paginate @activities, theme: 'kaminari-turbo-bootstrap' %>
-
-
-
