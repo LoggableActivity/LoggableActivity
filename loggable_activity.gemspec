@@ -5,7 +5,7 @@ require_relative 'lib/loggable_activity/version'
 Gem::Specification.new do |spec|
   spec.name = 'loggable_activity'
   spec.version = LoggableActivity::VERSION
-  spec.authors = ["Max \nGroenlund"]
+  spec.authors = ["Max Groenlund"]
   spec.email = ['max@synthmax.dk']
 
   spec.summary = 'Activity Logger with relations, prepared for GDPR Compliance and .'
@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 3.2.0'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
-  spec.metadata['homepage_uri'] = spec.homepage
 
   spec.metadata = {
     'homepage_uri' => 'https://loggableactivity-efe7b931c886.herokuapp.com/',

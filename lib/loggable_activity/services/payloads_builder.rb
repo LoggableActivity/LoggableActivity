@@ -87,7 +87,6 @@ module LoggableActivity
       # Builds the payload for a belongs_to relation.
       def build_belongs_to_payload(relation_config)
         relation = (relation_config['belongs_to']).to_s
-        ap relation
         record = @record.send(relation)
         return if record.nil?
 
