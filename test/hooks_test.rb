@@ -58,23 +58,28 @@ class HooksTest < ActiveSupport::TestCase
       @user = create(:user, :with_profile)
     end
 
-    test 'it logs create with has_one relation' do
-      # user = create(:user, :with_profile)
+    test 'it logs create with has_one and belongs to relations' do
 
       activity = LoggableActivity::Activity.last
-      assert_equal 2, activity.payloads_attrs.count
+      assert_equal 3, activity.payloads_attrs.count
       assert_equal @user, activity.record
       assert_equal 'user.create', activity.action
       assert_equal @current_user, activity.actor
-      assert_equal activity.payloads_attrs.first[:relation], 'self'
-      assert_equal activity.payloads_attrs.last[:relation], 'has_one'
-      assert_equal @user.first_name, activity.payloads_attrs.first.dig(:attrs, :first_name)
-      assert_equal @user.profile.phone_number, activity.payloads_attrs.last.dig(:attrs, :phone_number)
-      assert_nil activity.payloads_attrs.last.dig(:attrs, :date_of_birth)
+
+      relations = activity.payloads_attrs.collect { | payload_attrs| payload_attrs[:relation] }
+      assert_equal ['self', 'has_one', 'belongs_to'], relations
+
+      user_payload_attrs = activity.payloads_attrs.select { | payload_attrs| payload_attrs[:relation] == 'self' }.first
+      assert_equal @user.first_name, user_payload_attrs.dig(:attrs, :first_name)
+      
+      profile_attrs = activity.payloads_attrs.select { | payload_attrs| payload_attrs[:relation] == 'has_one' }.first
+      assert_equal @user.profile.phone_number, profile_attrs.dig(:attrs, :phone_number)
+      
+      company_attrs = activity.payloads_attrs.select { | payload_attrs| payload_attrs[:relation] == 'belongs_to' }.first
+      assert_equal @user.company.name, company_attrs.dig(:attrs, :name)
     end
 
-    test 'it logs update with has_one relation' do
-      # user = create(:user, :with_profile)
+    test 'it logs update with has_one and belongs_to relations' do
       from_bio = @user.profile.bio
       to_bio = "#{@user.profile.bio}_Updated"
 
@@ -91,7 +96,7 @@ class HooksTest < ActiveSupport::TestCase
     end
 
     test 'it logs destroy, with has_one relation' do
-      user = create(:user, :with_profile)
+      user = create(:user, :with_profile, company: nil)
       user.destroy
 
       activity = LoggableActivity::Activity.last
@@ -104,8 +109,8 @@ class HooksTest < ActiveSupport::TestCase
       assert_equal @current_user, LoggableActivity::Activity.last.actor
     end
 
-    test 'it logs show, with has_one relation' do
-      user = create(:user, :with_profile)
+    test 'it logs show, with belongs_to relation' do
+      user = create(:user)
       user.log(:show, actor: @current_user)
 
       activity = LoggableActivity::Activity.last
