@@ -44,11 +44,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activerecord', '~> 7.1.3'
-  spec.add_dependency 'bootstrap', '~> 5.3', '>= 5.3.3'
   spec.add_dependency 'json-schema', '~> 4.1', '>= 4.1.1'
   spec.add_dependency 'kaminari', '~> 1.2', '>= 1.2.2'
   spec.add_dependency 'rails', '~> 7.1.2'
   spec.add_dependency 'sassc-rails', '~> 2.1', '>= 2.1.2'
+  spec.add_dependency 'slim-rails', '~> 3.6', '>= 3.6.3'
 
   # spec.add_development_dependency 'generator_spec', '~> 0.10.0'
   # spec.add_development_dependency 'rspec-mocks', '~> 3.13'

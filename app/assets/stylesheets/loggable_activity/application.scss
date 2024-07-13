@@ -10,15 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
-
- *= require loggable_activity/css/pico.min
+ *= require_tree .
  *= require_self
+ *= require loggable_activity/activities
  */
-
-:root {
-  --pico-font-size: 100%;
-}
-
-.page-item.active {
-  font-weight: bold;
-}

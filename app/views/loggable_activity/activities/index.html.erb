@@ -1,10 +1,6 @@
-<body>
-  <header>
+<div class="container">
     <h1>Activities</h1>
-  </header>
-  <main>
-    <%= paginate @activities, views_prefix: "loggable_activity/pico" %> 
+    <%= paginate @activities, views_prefix: "loggable_activity/bootstrap" %> 
     <%= render partial: "activities", activities: @activities %>
-  </main>
-<body>
+</div>
  
