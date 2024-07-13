@@ -56,7 +56,7 @@ module LoggableActivity
         relation_id = "#{relation_config['belongs_to']}_id"
         model_class_name = relation_config['model']
         model_class = model_class_name.constantize
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
 
         model_ids = saved_changes(@record).map { |hash| hash[relation_id] }
 
@@ -101,7 +101,7 @@ module LoggableActivity
         )
 
         previous_values = previous_values.slice(*loggable_attrs)
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
         options = { related_to_activity_as: 'has_many_update_payload', current_payload: true, data_owner: }
 
         build_encrypted_update_payload(
@@ -115,7 +115,7 @@ module LoggableActivity
 
       def build_has_many_create_payload(relation_config, record)
         record.disable_hooks = true
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
         options =
           { related_to_activity_as: 'has_many_create_payload', current_payload: true, data_owner: }
         build_encrypted_payload(record, options)
@@ -138,7 +138,7 @@ module LoggableActivity
 
         previous_values = previous_values.slice(*loggable_attrs)
         current_values = current_values.slice(*loggable_attrs)
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
         options = { related_to_activity_as: 'has_one_update_payload', current_payload: true, data_owner: }
 
         build_encrypted_update_payload(

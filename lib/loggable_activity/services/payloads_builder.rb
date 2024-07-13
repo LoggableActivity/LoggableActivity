@@ -57,7 +57,7 @@ module LoggableActivity
       def build_has_many_payloads(relation_config)
         relation = (relation_config['has_many']).to_s
         records = @record.send(relation)
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
         options = { related_to_activity_as: 'has_many_payload', current_payload: true, data_owner: }
         records.each do |record|
           record.disable_hooks!
@@ -73,7 +73,7 @@ module LoggableActivity
 
         record.disable_hooks!
 
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
         options =
           {
             related_to_activity_as: 'has_one_payload',
@@ -90,7 +90,7 @@ module LoggableActivity
         record = @record.send(relation)
         return if record.nil?
 
-        data_owner = relation_config['data_owner']
+        data_owner = relation_config['data_owner'] || false
 
         if data_owner
           encryption_key = encryption_key_for_record(@record)
