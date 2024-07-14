@@ -165,13 +165,13 @@ module LoggableActivity
 
     # Returns the encrypted name of the actor.
     def encrypted_actor_name
-      name = @actor.send(current_user_name)
+      name = @actor.send(fetch_actor_name_from)
       ::LoggableActivity::Encryption.encrypt(name, actor_secret_key)
     end
 
     # Reads the field to feetch the record name from.
-    def current_user_name
-      ::LoggableActivity::Configuration.current_user_name
+    def fetch_actor_name_from
+      ::LoggableActivity::Configuration.fetch_actor_name_from
     end
 
     # Returns the action key for the current action.
@@ -192,16 +192,6 @@ module LoggableActivity
     # Returns the encryption key for the actor.
     def actor_secret_key
       encryption_key_for_record(@actor)&.secret_key
-    end
-
-    # Returns the display name of the actor.
-    def actor__name_field
-      Rails.application.config.loggable_activity.actor_display_name || "id: #{@actor.id}, class: #{@actor.class.name}"
-    end
-
-    # Returns the model name of the current user.
-    def current_user_model?
-      Rails.application.config.loggable_activity.current_user_model_name == self.class.name
     end
 
     class_methods do

@@ -2,10 +2,7 @@
   "$schema": "http://json-schema.org/draft-06/schema#",
   "type": "object",
   "properties": {
-    "current_user_model_name": {
-      "type": "string"
-    },
-    "current_user_name": {
+    "fetch_actor_name_from": {
       "type": "string"
     },
     "task_for_sanitization": {
@@ -13,7 +10,7 @@
     }
   },
   "patternProperties": {
-    "^(?!current_user_model_name$|current_user_name$|task_for_sanitization)[A-Za-z0-9_:]+$": {
+    "^(?!fetch_actor_name_from$|task_for_sanitization)[A-Za-z0-9_:]+$": {
       "type": "object",
       "properties": {
         "data_owner": {
@@ -72,9 +69,6 @@
               "route": {
                 "type": "string",
                 "minLength": 1
-              },
-              "fetch_record_name_from": {
-                "type": "string"
               }
             },
             "required": [
@@ -90,7 +84,6 @@
   },
   "additionalProperties": false,
   "required": [
-    "current_user_model_name",
-    "current_user_name"
+    "fetch_actor_name_from"
   ]
 }

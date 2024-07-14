@@ -1,3 +1,8 @@
+## [0.5.3] - 2024-03-21
+### Breaking change
+- Styling changed to bootstrap 
+- Configuration.yml changed 
+
 ## [0.5.2] - 2024-03-21
 ### Breaking change
 - Styling with pico css

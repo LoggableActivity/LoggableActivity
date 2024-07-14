@@ -53,15 +53,10 @@ module LoggableActivity
       end
 
       # Returns the name of the field or method to use for the actor's display name.
-      def current_user_name
-        config_data['current_user_name']
+      def fetch_actor_name_from
+        config_data['fetch_actor_name_from']
       end
-
-      # Returns the name of the model to use for the current user.
-      def current_user_model_name
-        config_data['current_user_model_name']
-      end
-
+      
       # Returns whatever models should be sanitized on delete.
       def task_for_sanitization
         config_data['task_for_sanitization']
