@@ -3,9 +3,6 @@
 class HatsController < ApplicationController
   before_action :set_hat, only: %i[edit update destroy]
 
-
-
-
   # PATCH/PUT /hats/1
   def update
     if @hat.update(hat_params)
@@ -19,7 +16,7 @@ class HatsController < ApplicationController
   # DELETE /hats/1
   def destroy
     @hat.destroy
-    redirect_to @hat.user, notice: "Hat was successfully destroyed."
+    redirect_to @hat.user, notice: 'Hat was successfully destroyed.'
   end
 
   private

@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   end
 
   private
-  
+
   def set_companies
     @companies = Company.all
   end

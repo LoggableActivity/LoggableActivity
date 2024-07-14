@@ -59,23 +59,22 @@ class HooksTest < ActiveSupport::TestCase
     end
 
     test 'it logs create with has_one and belongs to relations' do
-
       activity = LoggableActivity::Activity.last
       assert_equal 3, activity.payloads_attrs.count
       assert_equal @user, activity.record
       assert_equal 'user.create', activity.action
       assert_equal @current_user, activity.actor
 
-      relations = activity.payloads_attrs.collect { | payload_attrs| payload_attrs[:relation] }
-      assert_equal ['self', 'has_one', 'belongs_to'], relations
+      relations = activity.payloads_attrs.collect { |payload_attrs| payload_attrs[:relation] }
+      assert_equal %w[self has_one belongs_to], relations
 
-      user_payload_attrs = activity.payloads_attrs.select { | payload_attrs| payload_attrs[:relation] == 'self' }.first
+      user_payload_attrs = activity.payloads_attrs.select { |payload_attrs| payload_attrs[:relation] == 'self' }.first
       assert_equal @user.first_name, user_payload_attrs.dig(:attrs, :first_name)
-      
-      profile_attrs = activity.payloads_attrs.select { | payload_attrs| payload_attrs[:relation] == 'has_one' }.first
+
+      profile_attrs = activity.payloads_attrs.select { |payload_attrs| payload_attrs[:relation] == 'has_one' }.first
       assert_equal @user.profile.phone_number, profile_attrs.dig(:attrs, :phone_number)
-      
-      company_attrs = activity.payloads_attrs.select { | payload_attrs| payload_attrs[:relation] == 'belongs_to' }.first
+
+      company_attrs = activity.payloads_attrs.select { |payload_attrs| payload_attrs[:relation] == 'belongs_to' }.first
       assert_equal @user.company.name, company_attrs.dig(:attrs, :name)
     end
 
