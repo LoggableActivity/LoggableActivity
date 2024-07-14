@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 puts 'Seeding database...'
-company_names = ["Alpha Inc.", "Beta LLC", "Gamma Corp", "Delta Ltd", "Epsilon GmbH"]
+company_names = ['Alpha Inc.', 'Beta LLC', 'Gamma Corp', 'Delta Ltd', 'Epsilon GmbH']
 
 company_names.each do |name|
-  Company.find_or_create_by(name: name)
+  Company.find_or_create_by(name:)
 end
 # Example user data
 users_data = [
-  { first_name: "Alice", last_name: "Johnson", email: "alice.johnson@example.com", age: 28, user_type: "customer" },
-  { first_name: "Bob", last_name: "Smith", email: "bob.smith@example.com", age: 32, user_type: "customer" },
-  { first_name: "Charlie", last_name: "Brown", email: "charlie.brown@example.com", age: 24, user_type: "employee" },
-  { first_name: "Dana", last_name: "White", email: "dana.white@example.com", age: 29, user_type: "customer" },
-  { first_name: "Eli", last_name: "Green", email: "eli.green@example.com", age: 35, user_type: "employee" }
+  { first_name: 'Alice', last_name: 'Johnson', email: 'alice.johnson@example.com', age: 28, user_type: 'customer' },
+  { first_name: 'Bob', last_name: 'Smith', email: 'bob.smith@example.com', age: 32, user_type: 'customer' },
+  { first_name: 'Charlie', last_name: 'Brown', email: 'charlie.brown@example.com', age: 24, user_type: 'employee' },
+  { first_name: 'Dana', last_name: 'White', email: 'dana.white@example.com', age: 29, user_type: 'customer' },
+  { first_name: 'Eli', last_name: 'Green', email: 'eli.green@example.com', age: 35, user_type: 'employee' }
 ]
 
 users_data.each do |user_data|
