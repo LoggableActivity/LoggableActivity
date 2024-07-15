@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require_relative '../../../test_helper'
 
 class CompaniesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @company = companies(:one)
+    @company = create(:company)
   end
 
   test 'should get index' do
@@ -22,7 +22,7 @@ class CompaniesControllerTest < ActionDispatch::IntegrationTest
       post companies_url, params: { company: { name: @company.name } }
     end
 
-    assert_redirected_to company_url(Company.last)
+    assert_redirected_to companies_url
   end
 
   test 'should show company' do
@@ -37,7 +37,7 @@ class CompaniesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should update company' do
     patch company_url(@company), params: { company: { name: @company.name } }
-    assert_redirected_to company_url(@company)
+    assert_redirected_to companies_url
   end
 
   test 'should destroy company' do

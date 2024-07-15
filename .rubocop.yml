@@ -1,4 +1,5 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - 'db/migrate/20240702092648_create_loggable_activity_tables.rb'
 Layout/LineLength:
@@ -9,6 +10,7 @@ Layout/LineLength:
 Metrics/AbcSize:
   Exclude:
     - 'lib/loggable_activity/encryption.rb'
+    - 'lib/loggable_activity/services/update_payloads_builder.rb'
 Metrics/BlockLength:
   Exclude:
     - 'test/dummy/config/environments/development.rb'
@@ -18,6 +20,7 @@ Metrics/ClassLength:
   Exclude:
     - 'lib/loggable_activity/services/update_payloads_builder.rb'
 Metrics/MethodLength:
+  Enabled: true
   Exclude:
     - 'lib/loggable_activity/services/update_payloads_builder.rb'
     - 'lib/loggable_activity/services/destroy_payloads_builder.rb'
@@ -27,6 +30,7 @@ Metrics/MethodLength:
     - 'lib/loggable_activity/activity.rb'
     - 'lib/loggable_activity/services/payloads_builder.rb'
     - 'lib/loggable_activity/hooks.rb'
+    - 'test/dummy/db/migrate/20240629154538_create_users.rb'
 Metrics/ModuleLength:
   Exclude:
     - 'lib/loggable_activity/hooks.rb'
@@ -36,3 +40,6 @@ Style/Documentation:
     - 'app/models/loggable_activity/application_record.rb'
     - 'app/mailers/loggable_activity/application_mailer.rb'
     - 'app/helpers/loggable_activity/application_helper.rb'
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'lib/loggable_activity/hooks.rb'

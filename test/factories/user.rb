@@ -12,6 +12,7 @@ FactoryBot.define do
     created_at { Faker::Time.between(from: 2.years.ago, to: Time.current, format: :default) }
     updated_at { Faker::Time.between(from: 1.year.ago, to: Time.current, format: :default) }
     association :company, factory: :company
+    password { 'password' }
 
     trait :with_profile do
       profile_attributes do

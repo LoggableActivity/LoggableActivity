@@ -5,7 +5,7 @@ require_relative 'lib/loggable_activity/version'
 Gem::Specification.new do |spec|
   spec.name = 'loggable_activity'
   spec.version = LoggableActivity::VERSION
-  spec.authors = ["Max Groenlund"]
+  spec.authors = ['Max Groenlund']
   spec.email = ['max@synthmax.dk']
 
   spec.summary = 'Activity Logger with relations, prepared for GDPR Compliance and .'
@@ -51,15 +51,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'slim-rails', '~> 3.6', '>= 3.6.3'
 
   # spec.add_development_dependency 'generator_spec', '~> 0.10.0'
-  # spec.add_development_dependency 'rspec-mocks', '~> 3.13'
-  # spec.add_development_dependency 'rspec-rails', '~> 6.1', '>= 6.1.1'
-  spec.add_development_dependency 'sqlite3', '~> 1.4.2'
-
-  spec.add_development_dependency 'awesome_print', '~> 1.9', '>= 1.9.2'
-  spec.add_development_dependency 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
-  spec.add_development_dependency 'faker', '~> 3.4', '>= 3.4.1'
-  spec.add_development_dependency 'mocha', '~> 2.4'
-  spec.add_development_dependency 'rubocop', '~> 1.60', '>= 1.60.2'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
