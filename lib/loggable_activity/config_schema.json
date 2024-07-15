@@ -7,10 +7,13 @@
     },
     "task_for_sanitization": {
       "type": "boolean"
+    },
+    "actor_model_name": {
+      "type": "string"
     }
   },
   "patternProperties": {
-    "^(?!fetch_actor_name_from$|task_for_sanitization)[A-Za-z0-9_:]+$": {
+    "^(?!fetch_actor_name_from$|task_for_sanitization$|actor_model_name$)[A-Za-z0-9_:]+$": {
       "type": "object",
       "properties": {
         "data_owner": {
@@ -84,6 +87,7 @@
   },
   "additionalProperties": false,
   "required": [
-    "fetch_actor_name_from"
+    "fetch_actor_name_from",
+    "actor_model_name"
   ]
 }

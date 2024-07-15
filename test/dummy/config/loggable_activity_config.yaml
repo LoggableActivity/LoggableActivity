@@ -1,4 +1,5 @@
 fetch_actor_name_from: full_name
+actor_model_name: User
 task_for_sanitization: false
 Company:
   fetch_record_name_from: name

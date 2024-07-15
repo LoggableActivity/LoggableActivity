@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_710_093_432) do
     t.string 'first_name'
     t.string 'last_name'
     t.string 'email', default: '', null: false
+    t.string 'password', default: 'password', null: false
     t.integer 'age', default: 37, null: false
     t.string 'user_type', default: 'customer', null: false
     t.integer 'company_id'

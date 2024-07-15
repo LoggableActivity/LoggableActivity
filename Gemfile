@@ -21,3 +21,10 @@ gem 'slim-rails', '~> 3.6', '>= 3.6.3'
 
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem "debug", ">= 1.0.0"
+group :development, :test do
+  gem 'awesome_print', '~> 1.9', '>= 1.9.2'
+  gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
+  gem 'faker', '~> 3.4', '>= 3.4.1'
+  gem 'mocha', '~> 2.4'
+  gem 'rubocop', '~> 1.60', '>= 1.60.2'
+end

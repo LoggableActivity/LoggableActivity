@@ -42,7 +42,7 @@ module LoggableActivity
     #   @param params [Hash] Additional parameters for the activity.
     def log(action, actor: nil, params: {})
       @action = action
-      @actor = actor || Thread.current[:current_user]
+      @actor = actor || Thread.current[:current_user] || created_by_self
       return nil if @actor.nil?
 
       @record = self
@@ -56,6 +56,12 @@ module LoggableActivity
         log_destroy
       when :update
         log_update
+      when :login
+        log_login
+      when :logout
+        log_logout
+      when :sign_up
+        log_sign_up
       else
         log_custom_activity(action)
       end
@@ -66,6 +72,13 @@ module LoggableActivity
     end
 
     private
+
+    def created_by_self
+      return unless LoggableActivity::Configuration.actor_model_name == self.class.name
+
+      @action = :sign_up
+      self
+    end
 
     # Logs an activity for the current action.
     def log_activity
@@ -93,6 +106,18 @@ module LoggableActivity
         record: self,
         payloads:
       )
+    end
+
+    def log_login
+      create_activity(build_payloads)
+    end
+
+    def log_logout
+      create_activity(build_payloads)
+    end
+
+    def log_sign_up
+      create_activity(build_payloads)
     end
 
     # Builds update payloads for the current action.

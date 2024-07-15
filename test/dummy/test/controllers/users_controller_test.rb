@@ -48,7 +48,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
               user_type: @user.user_type
             }
           }
-    assert_redirected_to user_url(@user)
+    assert_redirected_to users_url
   end
 
   test 'should destroy user' do

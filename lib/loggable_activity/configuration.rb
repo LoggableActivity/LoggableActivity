@@ -56,10 +56,14 @@ module LoggableActivity
       def fetch_actor_name_from
         config_data['fetch_actor_name_from']
       end
-      
+
       # Returns whatever models should be sanitized on delete.
       def task_for_sanitization
         config_data['task_for_sanitization']
+      end
+
+      def actor_model_name
+        config_data['actor_model_name']
       end
     end
   end
