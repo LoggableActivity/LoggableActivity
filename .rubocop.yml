@@ -31,6 +31,7 @@ Metrics/MethodLength:
     - 'lib/loggable_activity/services/payloads_builder.rb'
     - 'lib/loggable_activity/hooks.rb'
     - 'test/dummy/db/migrate/20240629154538_create_users.rb'
+    - 'lib/loggable_activity/services/custom_payloads_builder.rb'
 Metrics/ModuleLength:
   Exclude:
     - 'lib/loggable_activity/hooks.rb'

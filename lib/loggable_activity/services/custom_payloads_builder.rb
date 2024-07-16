@@ -34,6 +34,7 @@ module LoggableActivity
 
       def encrypted_record_name
         return encrypt_attr(@params[:display_name], @secret_key) if @params[:display_name]
+
         encrypt_record_name_for_record(@record, @secret_key)
       end
 

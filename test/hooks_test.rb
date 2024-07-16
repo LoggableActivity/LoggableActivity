@@ -126,17 +126,17 @@ class HooksTest < ActiveSupport::TestCase
   class CustomAttribures < HooksTest
     setup do
       @user = create(:user)
-      @params = { 
-            display_name: "Checkout Order - #123",
-            order: {
-            route: "/orders/123",
-            order_number: '123',
-            items: [
-              { name: 'item1', units: 1, price: 10 },
-              { name: 'item2', units: 3, price: 1 }
-            ]
-          }
+      @params = {
+        display_name: 'Checkout Order - #123',
+        order: {
+          route: '/orders/123',
+          order_number: '123',
+          items: [
+            { name: 'item1', units: 1, price: 10 },
+            { name: 'item2', units: 3, price: 1 }
+          ]
         }
+      }
     end
     test 'it logs custom attributes' do
       @user.log(
