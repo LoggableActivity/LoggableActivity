@@ -122,4 +122,35 @@ class HooksTest < ActiveSupport::TestCase
 
   class HasManyRelations < HooksTest
   end
+
+  class CustomAttribures < HooksTest
+    setup do
+      @user = create(:user)
+      @params = {
+        display_name: 'Checkout Order - #123',
+        order: {
+          route: '/orders/123',
+          order_number: '123',
+          items: [
+            { name: 'item1', units: 1, price: 10 },
+            { name: 'item2', units: 3, price: 1 }
+          ]
+        }
+      }
+    end
+    test 'it logs custom attributes' do
+      @user.log(
+        :checkout_order,
+        actor: @current_user,
+        params: @params
+      )
+      activity = LoggableActivity::Activity.last
+      assert activity
+      assert_equal activity[:action], 'user.checkout_order'
+      assert_equal 1, LoggableActivity::Activity.last.payloads.count
+      payload_attrs = LoggableActivity::Activity.last.payloads_attrs.first
+      assert_equal @params[:display_name], payload_attrs[:attrs][:display_name]
+      assert_equal @params.dig(:order, :items).length, payload_attrs[:attrs][:order][:items].length
+    end
+  end
 end

@@ -22,6 +22,7 @@ module LoggableActivity
       has_one_payload
       belongs_to_update_payload
       has_many_create_payload
+      custom_payload
     ].freeze
 
     # Enumeration for different updatepayload types
@@ -47,7 +48,8 @@ module LoggableActivity
       belongs_to_update_payload: 9,
       belongs_to_destroy_payload: 10,
       has_one_destroy_payload: 11,
-      has_many_destroy_payload: 12
+      has_many_destroy_payload: 12,
+      custom_payload: 13
     }
 
     # Returns the decrypted attrs.

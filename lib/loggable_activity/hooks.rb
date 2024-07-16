@@ -63,7 +63,7 @@ module LoggableActivity
       when :sign_up
         log_sign_up
       else
-        log_custom_activity(action)
+        log_custom_activity
       end
     end
 
@@ -120,6 +120,16 @@ module LoggableActivity
       create_activity(build_payloads)
     end
 
+    # Logs a custom activity.
+    def log_custom_activity
+      create_activity(build_custom_payload)
+    end
+
+    def build_custom_payload
+      ::LoggableActivity::Services::CustomPayloadsBuilder
+        .new(self, @payloads, @params).build
+    end
+
     # Builds update payloads for the current action.
     def build_update_payloads
       ::LoggableActivity::Services::UpdatePayloadsBuilder
@@ -142,9 +152,6 @@ module LoggableActivity
     def nothing_to_log?(_payloads)
       @payloads.empty?
     end
-
-    # Logs a custom activity.
-    def log_custom_activity(activity); end
 
     # Logs an update activity automatically if configured.
     def log_update_activity

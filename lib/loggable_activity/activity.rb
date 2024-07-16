@@ -31,7 +31,8 @@ module LoggableActivity
       'has_many_update_payload' => 'has_many',
       'belongs_to_payload' => 'belongs_to',
       'belongs_to_destroy_payload' => 'belongs_to',
-      'belongs_to_update_payload' => 'belongs_to'
+      'belongs_to_update_payload' => 'belongs_to',
+      'custom_payload' => 'self'
     }.freeze
 
     # Returns an array of hashes, each representing an activity's attributes and its associated relations. The structure and relations to include are specified in 'config/loggable_activity.yaml'. This format is designed for UI display purposes.
@@ -106,7 +107,7 @@ module LoggableActivity
     #   "David Bowie"
     #
     def record_display_name
-      primary_payload.record_display_name
+      primary_payload&.record_display_name
     end
 
     # Returns the path for the activity.
@@ -171,7 +172,7 @@ module LoggableActivity
     #   payload.record_type  # => 'SOMD_MODEL_NAME'
     #
     def primary_payload
-      related_to_activity_as = %w[primary_payload primary_update_payload primary_destroy_payload]
+      related_to_activity_as = %w[primary_payload primary_update_payload primary_destroy_payload custom_payload]
       payloads.detect { |p| related_to_activity_as.include?(p.related_to_activity_as) }
     end
 

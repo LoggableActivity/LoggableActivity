@@ -6,9 +6,10 @@ module LoggableActivity
     # Other service modules related to the loggable activity will inherit from this module.
     class BasePayloadsBuilder
       # Initializes the PayloadsBuilder with a record and an initial collection of payloads,
-      def initialize(record, payloads)
+      def initialize(record, payloads, params = {})
         @record = record
         @payloads = payloads
+        @params = params
         @loggable_attrs = record.class.loggable_attrs
         @public_attrs = record.class.public_attrs
         # @relation_config = record.relation_config
