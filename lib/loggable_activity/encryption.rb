@@ -16,13 +16,11 @@ module LoggableActivity
     #   "SOME_ENCRYPTED_STRING"
     #
     def self.encrypt(data, secret_key)
-      return nil if secret_key.nil?
-      return nil if data.nil?
+      return nil if secret_key.nil? || data.nil?
 
       encryption_key = Base64.decode64(secret_key)
       unless encryption_key.bytesize == 32
-        raise EncryptionError,
-              "Encryption failed: Invalid encoded_key length #{encryption_key.bytesize}"
+        raise EncryptionError, "Encryption failed: Invalid encoded_key length #{encryption_key.bytesize}"
       end
 
       cipher = OpenSSL::Cipher.new('AES-256-CBC').encrypt
@@ -39,19 +37,47 @@ module LoggableActivity
     # Decrypts the given data using the given encryption key
     #
     # Example:
-    #   ::LoggableActivity::Encryption.decrypt('SOME_ENCRYPTED_STRING', 'SECRET_KEY')
+    #   ::LoggableActivity::Encryption.decrypt('SOME_ENCRYPTED_DATA', 'SECRET_KEY')
     #
     # Returns:
     #   "my secret data"
     #
     def self.decrypt(data, secret_key)
+      case data
+      when Hash
+        decrypt_hash(data, secret_key)
+      when Array
+        decrypt_array(data, secret_key)
+      else
+        decrypt_data(data, secret_key)
+      end
+    end
+
+    # Decrypts a hash's values using the given encryption key
+    def self.decrypt_hash(data, secret_key)
+      data
+        .transform_values { |value| decrypt(value, secret_key) }
+        .transform_keys(&:to_sym)
+    end
+
+    # Decrypts an array's values using the given encryption key
+    def self.decrypt_array(data, secret_key)
+      data.map { |value| decrypt(value, secret_key) }
+    end
+
+    # Checks if a value is blank
+    def self.blank?(value)
+      value.respond_to?(:empty?) ? value.empty? : !value
+    end
+
+    # Decrypts individual data using the given encryption key
+    def self.decrypt_data(data, secret_key)
       return I18n.t('loggable_activity.activity.deleted') if secret_key.nil?
       return '' if data.blank?
 
       encryption_key = Base64.decode64(secret_key)
       unless encryption_key.bytesize == 32
-        raise EncryptionError,
-              "Decryption failed: Invalid encoded_key length: #{encryption_key.bytesize}"
+        raise EncryptionError, "Decryption failed: Invalid encoded_key length: #{encryption_key.bytesize}"
       end
 
       cipher = OpenSSL::Cipher.new('AES-256-CBC').decrypt
@@ -72,11 +98,6 @@ module LoggableActivity
     rescue ArgumentError => e
       Rails.logger.error "ArgumentError Decryption failed: #{e.message}"
       I18n.t('loggable_activity.decryption.failed')
-    end
-
-    # Returns true if the given value is blank
-    def self.blank?(value)
-      value.respond_to?(:empty?) ? value.empty? : !value
     end
   end
 end
