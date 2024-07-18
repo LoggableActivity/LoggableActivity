@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This migration creates the necessary tables for LoggableActivity.
 class CreateLoggableActivities < ActiveRecord::Migration[7.1]
   def change
     create_table :loggable_activity_encryption_keys do |t|
