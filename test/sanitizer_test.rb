@@ -8,7 +8,7 @@ class LoggableActivitySanitizerTest < ActiveSupport::TestCase
   end
 
   test 'encryption keys marked for deletion before time to delete the key' do
-    LoggableActivity::Configuration.stubs(:task_for_sanitization).returns(true)
+    LoggableActivity.stubs(:task_for_sanitization).returns(true)
     @encryption_key.mark_as_deleted!
 
     LoggableActivity::Sanitizer.run
@@ -20,7 +20,7 @@ class LoggableActivitySanitizerTest < ActiveSupport::TestCase
   end
 
   test 'encryption keys marked for deletion after time to delete the key permanently' do
-    LoggableActivity::Configuration.stubs(:task_for_sanitization).returns(true)
+    LoggableActivity.stubs(:task_for_sanitization).returns(true)
     @encryption_key.mark_as_deleted!
     @encryption_key.update(delete_at: 1.day.ago)
 

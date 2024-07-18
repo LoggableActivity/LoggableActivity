@@ -1,0 +1,103 @@
+Company:
+  fetch_record_name_from: name
+  route: /companies/:id
+  loggable_attrs:
+    - name
+  public_attrs:
+    - name
+  relations:
+    - has_many: :users
+      route: /users/:id
+      model: User
+      loggable_attrs:
+        - first_name
+        - last_name
+  auto_log:
+    - create
+    - update
+    - destroy
+Hat:
+  fetch_record_name_from: color
+  route: /user/:id
+  loggable_attrs:
+    - color
+  auto_log:
+    - create
+    - destroy
+  relations:
+    - belongs_to: :user
+      route: /demo/users/:id
+      model: User
+      loggable_attrs:
+        - first_name
+User:
+  fetch_record_name_from: full_name
+  route: /demo/users/:id
+  loggable_attrs:
+    - first_name
+    - last_name
+    - age
+    - email
+    - user_type
+  auto_log:
+    - create
+    - update
+    - destroy
+  public_attrs:
+    - age
+    - user_type
+  relations:
+    - has_one: :profile
+      route: /demo/users/:id/profile
+      model: Profile
+      loggable_attrs:
+        - bio
+        - phone_number
+      public_attrs:
+        - date_of_birth
+    - has_many: :hats
+      route: /users/:id
+      model: Hat
+      loggable_attrs:
+        - color
+    - belongs_to: :company
+      route: /companies/:id
+      model: Company
+      loggable_attrs:
+        - name
+Profile:
+  fetch_record_name_from: phone_number
+  route: /demo/profiles/:id
+  loggable_attrs:
+    - bio
+    - profile_picture_url
+    - location
+    - date_of_birth
+    - phone_number
+  public_attrs:
+    - date_of_birth
+  # auto_log:
+  #   - create
+  #   - update
+  #   - destroy
+  # relations:
+  #   - belongs_to: :user
+  #     route: /demo/users/:id
+  #     model: User
+  #     loggable_attrs:
+  #       - first_name
+  #       - last_name
+  #       - age
+  #       - email
+  #       - user_type
+#   - belongs_to: :demo_address
+#     route: show_demo_address
+#     model: Demo::Address
+#     loggable_attrs:
+#       - street
+#       - postal_code
+#   - belongs_to: :demo_club
+#     route: show_demo_club
+#     model: Demo::Club
+#     loggable_attrs:
+#       - name

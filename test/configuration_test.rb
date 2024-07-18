@@ -28,10 +28,10 @@ class ConfigurationTest < ActiveSupport::TestCase
   end
 
   test 'it fetch_actor_name_from' do
-    assert LoggableActivity::Configuration.fetch_actor_name_from
+    assert LoggableActivity.fetch_actor_name_from
   end
 
   test 'it loads task_for_sanitization' do
-    refute LoggableActivity::Configuration.task_for_sanitization
+    refute LoggableActivity.task_for_sanitization
   end
 end

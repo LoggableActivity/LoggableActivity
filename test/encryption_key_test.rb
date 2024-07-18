@@ -20,14 +20,14 @@ module LoggableActivity
     end
 
     test 'mark_as_deleted marks the encryption key as deleted when task_for_sanitization is true' do
-      LoggableActivity::Configuration.stubs(:task_for_sanitization).returns(true)
+      LoggableActivity.stubs(:task_for_sanitization).returns(true)
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
       assert encryption_key.reload.deleted?
     end
 
     test 'mark_as_deleted deletes the secret key when task_for_sanitization is false' do
-      LoggableActivity::Configuration.stubs(:task_for_sanitization).returns(false)
+      LoggableActivity.stubs(:task_for_sanitization).returns(false)
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
       assert_nil encryption_key.secret_key
@@ -35,7 +35,7 @@ module LoggableActivity
     end
 
     test 'restore restores the key when task_for_sanitization is true' do
-      LoggableActivity::Configuration.stubs(:task_for_sanitization).returns(true)
+      LoggableActivity.stubs(:task_for_sanitization).returns(true)
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
       encryption_key.restore!
@@ -43,7 +43,7 @@ module LoggableActivity
     end
 
     test 'does not restore the key if it was deleted more than a month ago when task_for_sanitization is true' do
-      LoggableActivity::Configuration.stubs(:task_for_sanitization).returns(true)
+      LoggableActivity.stubs(:task_for_sanitization).returns(true)
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
       encryption_key.update(delete_at: 2.months.ago)

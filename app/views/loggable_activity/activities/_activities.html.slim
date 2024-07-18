@@ -1,13 +1,13 @@
 
 .row 
   .col-3 
-    b.text-secondary Action
+    b.text-secondary = t('loggable_activity.activity.action') 
   .col-3 
-    b.text-secondary Record
+    b.text-secondary = t('loggable_activity.activity.record') 
   .col-3 
-    b.text-secondary Actor
+    b.text-secondary = t('loggable_activity.activity.actor')
   .col-3 
-    b.text-secondary Created At
+    b.text-secondary = t('loggable_activity.activity.created_at')
 
 - @activities.each do |activity|
   .activity.activity-info[type="button" data-bs-toggle="collapse" data-bs-target="#activity_#{activity.id}" aria-expanded="false" aria-controls="collapseExample"]
@@ -15,9 +15,9 @@
       .col-3
         = activity_action(activity) 
       .col-3
-        = t(activity.record_display_name)
+        = activity.record_display_name
       .col-3 
-        = t(activity.actor_display_name)
+        = activity.actor_display_name
       .col-3 
         = l(activity.created_at, format: :long)
   .collapse id="activity_#{activity.id}"

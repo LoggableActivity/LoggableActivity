@@ -14,7 +14,7 @@ module LoggableActivity
 
     # Prepare the record for deletion
     def mark_as_deleted!
-      LoggableActivity::Configuration.task_for_sanitization ? update(delete_at: DateTime.now + 1.month) : delete
+      LoggableActivity.task_for_sanitization ? update(delete_at: DateTime.now + 1.month) : delete
     end
 
     # check if the encryption key is deleted or it is about to be deleted

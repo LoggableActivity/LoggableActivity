@@ -51,20 +51,6 @@ module LoggableActivity
       def for_class(class_name)
         config_data[class_name]
       end
-
-      # Returns the name of the field or method to use for the actor's display name.
-      def fetch_actor_name_from
-        config_data['fetch_actor_name_from']
-      end
-
-      # Returns whatever models should be sanitized on delete.
-      def task_for_sanitization
-        config_data['task_for_sanitization']
-      end
-
-      def actor_model_name
-        config_data['actor_model_name']
-      end
     end
   end
 end

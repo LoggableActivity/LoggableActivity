@@ -1,10 +1,16 @@
-## [0.5.3] - 2024-03-21
+## [0.5.6] - 2024-07-18
+- Documentation updated
+- Generator updated
+
+## [0.5.5] - 2024-07-16
+- Custom attrs added
 ### Breaking change
-- Styling changed to bootstrap 
 - Configuration.yml changed 
 
+## [0.5.4] - 2024-03-21
+- Styling with bootstrap css
+
 ## [0.5.2] - 2024-03-21
-### Breaking change
 - Styling with pico css
 - Public attrs added
 

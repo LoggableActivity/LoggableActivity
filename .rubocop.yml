@@ -11,6 +11,7 @@ Metrics/AbcSize:
   Exclude:
     - 'lib/loggable_activity/encryption.rb'
     - 'lib/loggable_activity/services/update_payloads_builder.rb'
+    - 'lib/generators/loggable_activity/install/templates/create_loggable_activities.rb'
 Metrics/BlockLength:
   Exclude:
     - 'test/dummy/config/environments/development.rb'
@@ -32,6 +33,7 @@ Metrics/MethodLength:
     - 'lib/loggable_activity/hooks.rb'
     - 'test/dummy/db/migrate/20240629154538_create_users.rb'
     - 'lib/loggable_activity/services/custom_payloads_builder.rb'
+    - 'lib/generators/loggable_activity/install/templates/create_loggable_activities.rb'
 Metrics/ModuleLength:
   Exclude:
     - 'lib/loggable_activity/hooks.rb'
