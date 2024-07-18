@@ -7,8 +7,12 @@ class LoggableActivityTest < ActiveSupport::TestCase
     assert LoggableActivity::VERSION
   end
 
-  test 'it has an actor class' do
-    assert LoggableActivity.actor_class
+  test 'it actor_model_name' do
+    assert LoggableActivity.actor_model_name
+  end
+
+  test 'it fetch_actorname_from' do
+    assert LoggableActivity.actor_model_name
   end
 
   test 'it has a config file path' do

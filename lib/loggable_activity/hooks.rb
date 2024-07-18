@@ -73,8 +73,10 @@ module LoggableActivity
 
     private
 
+    # If the actor is the same as the record, it is created by the actor.
+    # This assumes it is a sign_up action.
     def created_by_self
-      return unless LoggableActivity::Configuration.actor_model_name == self.class.name
+      return unless LoggableActivity.actor_model_name == self.class.name
 
       @action = :sign_up
       self
@@ -203,7 +205,7 @@ module LoggableActivity
 
     # Reads the field to feetch the record name from.
     def fetch_actor_name_from
-      ::LoggableActivity::Configuration.fetch_actor_name_from
+      LoggableActivity.fetch_actor_name_from
     end
 
     # Returns the action key for the current action.

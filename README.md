@@ -1,11 +1,8 @@
 # Loggable Activity 🌟
-Secure protect data and log how it is handled
-- Keep an activity log of how data in the db are handled.
-- Protect and secure the privacy of data stored in Activity Logs
-- Prepare for General Data Protection Regulation (GDPR) compliance.
-- Handles activities that involves more than one table in the DB.
-- Encrypt data stored in the activity log
-- Support binary_ids
+Super easy to use activity log with views out of the box
+- Just add the gem and mount the engine and you have a cool looking activity log.
+- Easy and simple to customize and configure
+- All data are encrypted, and 
 
 ### Important!
 This project is under development and not ready for production. There might be breaking changes, so please consult the CHANGELOG.md

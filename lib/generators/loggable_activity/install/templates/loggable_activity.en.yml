@@ -1,0 +1,32 @@
+
+# This file was generated when you installed Loggable Activity and is used for internationalization.
+# When a model 'includes LoggableActivity::Hooks' tags for translations are generated.
+# Example:
+# class User < ApplicationRecord
+#   include LoggableActivity::Hooks
+# end
+# This will make the following tags for translations available:
+# - loggable_activity.user.create
+# - loggable_activity.user.show
+# - loggable_activity.user.update
+# - loggable_activity.user.destroy
+# - loggable_activity.user.login
+# - loggable_activity.user.logout
+# 
+en:
+  loggable_activity:
+    activity:
+      actor: Actor
+      action: Action
+      record: Record
+      created_at: Created at
+      deleted: "*** DELETED ***"
+    user:
+      update: A user was updated
+      create: A user was created
+      show: "A user was shown"
+      destroy: A user was deleted
+      sign_up: A user signed up
+      login: A user logged in
+      logout: A user logged out
+      

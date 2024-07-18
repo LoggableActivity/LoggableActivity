@@ -49,6 +49,8 @@ require 'kaminari'
 #
 # This module is designed to be both powerful and easy to integrate, providing a solid foundation for activity logging.
 module LoggableActivity
-  mattr_accessor :actor_class
+  mattr_accessor :actor_model_name
+  mattr_accessor :fetch_actor_name_from
   mattr_accessor :config_file_path
+  mattr_accessor :task_for_sanitization
 end
