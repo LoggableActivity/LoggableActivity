@@ -2,7 +2,7 @@
 
 # Application controller
 class ApplicationController < ActionController::Base
-  include ::LoggableActivity::CurrentUser
+  include ::LoggableActivity::CurrentActor
   helper_method :current_user
 
   private

@@ -16,7 +16,7 @@ require 'loggable_activity/services/custom_payloads_builder'
 require 'loggable_activity/services/payloads_builder'
 require 'loggable_activity/services/update_payloads_builder'
 require 'loggable_activity/services/destroy_payloads_builder'
-require 'loggable_activity/concerns/current_user'
+require 'loggable_activity/concerns/current_actor'
 require 'kaminari'
 
 # LoggableActivity
