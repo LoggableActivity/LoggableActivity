@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>pre-rebase.sample - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+  var index_rel_prefix = "../../";
+</script>
+
+<script src="../../js/navigation.js" defer></script>
+<script src="../../js/search.js" defer></script>
+<script src="../../js/search_index.js" defer></script>
+<script src="../../js/searcher.js" defer></script>
+<script src="../../js/darkfish.js" defer></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="project-metadata">
+    
+<div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+    <li><a href="../../CHANGELOG_md.html">CHANGELOG</a>
+    <li><a href="../../CHEAT_SHEET_md.html">CHEAT_SHEET</a>
+    <li><a href="../../CODE_OF_CONDUCT_md.html">CODE_OF_CONDUCT</a>
+    <li><a href="../../GETTING-STARTED_md.html">GETTING-STARTED</a>
+    <li><a href="../../Gemfile.html">Gemfile</a>
+    <li><a href="../../Gemfile_lock.html">Gemfile.lock</a>
+    <li><a href="../../MIT-LICENSE.html">MIT-LICENSE</a>
+    <li><a href="../../README_md.html">README</a>
+    <li><a href="../../Rakefile.html">Rakefile</a>
+    <li><details><summary>app</summary>
+    <ul class="link-list">
+      <li><a href="../../app/assets/config/loggable_activity_manifest_js.html">loggable_activity_manifest.js</a>
+      <li><a href="../../app/assets/javascripts/loggable_activity/application_js.html">application.js</a>
+      <li><a href="../../app/assets/stylesheets/loggable_activity/activities_scss.html">activities.scss</a>
+      <li><a href="../../app/assets/stylesheets/loggable_activity/application_scss.html">application.scss</a>
+      <li><a href="../../app/views/layouts/loggable_activity/application_html_slim.html">application.html.slim</a>
+      <li><a href="../../app/views/loggable_activity/activities/_activities_html_slim.html">_activities.html.slim</a>
+    </ul></details>
+    <li><details open><summary>git-org</summary>
+    <ul class="link-list">
+      <li><a href="../../git-org/HEAD.html">HEAD</a>
+      <li><a href="../../git-org/config.html">config</a>
+      <li><a href="../../git-org/description.html">description</a>
+      <li><a href="../../git-org/hooks/applypatch-msg_sample.html">applypatch-msg.sample</a>
+      <li><a href="../../git-org/hooks/commit-msg_sample.html">commit-msg.sample</a>
+      <li><a href="../../git-org/hooks/fsmonitor-watchman_sample.html">fsmonitor-watchman.sample</a>
+      <li><a href="../../git-org/hooks/post-update_sample.html">post-update.sample</a>
+      <li><a href="../../git-org/hooks/pre-applypatch_sample.html">pre-applypatch.sample</a>
+      <li><a href="../../git-org/hooks/pre-commit_sample.html">pre-commit.sample</a>
+      <li><a href="../../git-org/hooks/pre-merge-commit_sample.html">pre-merge-commit.sample</a>
+      <li><a href="../../git-org/hooks/pre-push_sample.html">pre-push.sample</a>
+      <li><a href="../../git-org/hooks/pre-rebase_sample.html">pre-rebase.sample</a>
+      <li><a href="../../git-org/hooks/pre-receive_sample.html">pre-receive.sample</a>
+      <li><a href="../../git-org/hooks/prepare-commit-msg_sample.html">prepare-commit-msg.sample</a>
+      <li><a href="../../git-org/hooks/push-to-checkout_sample.html">push-to-checkout.sample</a>
+      <li><a href="../../git-org/hooks/update_sample.html">update.sample</a>
+      <li><a href="../../git-org/info/exclude.html">exclude</a>
+    </ul></details>
+    <li><details><summary>lib</summary>
+    <ul class="link-list">
+      <li><a href="../../lib/loggable_activity/config_schema_json.html">config_schema.json</a>
+      <li><a href="../../lib/tasks/loggable_activity_tasks_rake.html">loggable_activity_tasks.rake</a>
+    </ul></details>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page git-org/hooks/pre-rebase.sample">
+
+<p>!/bin/sh # # Copyright © 2006, 2008 Junio C Hamano # # The “pre-rebase” hook is run just before “git rebase” starts doing # its job, and can prevent the command from running by exiting with # non-zero status. # # The hook is called with the following parameters: # # $1 – the upstream the series was forked from. # $2 – the branch being rebased (or empty when rebasing the current branch). # # This sample shows how to prevent topic branches that are already # merged to ‘next’ branch from getting rebased, because allowing it # would result in rebasing already published history.</p>
+
+<p>publish=next basebranch=“$1” if test “$#” = 2 then</p>
+
+<pre class="ruby"><span class="ruby-identifier">topic</span>=<span class="ruby-string">&quot;refs/heads/$2&quot;</span>
+</pre>
+
+<p>else</p>
+
+<pre>topic=`git symbolic-ref HEAD` ||
+exit 0 ;# we do not interrupt rebasing detached HEAD</pre>
+
+<p>fi</p>
+
+<p>case “$topic” in refs/heads/??/*)</p>
+
+<pre class="ruby">;;
+</pre>
+
+<p>*)</p>
+
+<pre class="ruby"><span class="ruby-identifier">exit</span> <span class="ruby-value">0</span> ;<span class="ruby-comment"># we do not interrupt others.</span>
+;;
+</pre>
+
+<p>esac</p>
+
+<p># Now we are dealing with a topic branch being rebased # on top of master.  Is it OK to rebase it?</p>
+
+<p># Does the topic really exist? git show-ref -q “$topic” || {</p>
+
+<pre>echo &gt;&amp;2 &quot;No such branch $topic&quot;
+exit 1</pre>
+
+<p>}</p>
+
+<p># Is topic fully merged to master? not_in_master=‘git rev-list –pretty=oneline ^master “$topic”` if test -z “$not_in_master” then</p>
+
+<pre>echo &gt;&amp;2 &quot;$topic is fully merged to master; better remove it.&quot;
+exit 1 ;# we could allow it, but there is no point.</pre>
+
+<p>fi</p>
+
+<p># Is topic ever merged to next?  If so you should not be rebasing it. only_next_1=‘git rev-list ^master “^$topic” ${publish} | sort` only_next_2=`git rev-list ^master           ${publish} | sort` if test “$only_next_1” = “$only_next_2” then</p>
+
+<pre>not_in_topic=`git rev-list &quot;^$topic&quot; master`
+if test -z &quot;$not_in_topic&quot;
+then
+        echo &gt;&amp;2 &quot;$topic is already up to date with master&quot;
+        exit 1 ;# we could allow it, but there is no point.
+else
+        exit 0
+fi</pre>
+
+<p>else</p>
+
+<pre>not_in_next=`git rev-list --pretty=oneline ^${publish} &quot;$topic&quot;`
+/usr/bin/perl -e &#39;
+        my $topic = $ARGV[0];
+        my $msg = &quot;* $topic has commits already merged to public branch:\n&quot;;
+        my (%not_in_next) = map {
+                /^([0-9a-f]+) /;
+                ($1 =&gt; 1);
+        } split(/\n/, $ARGV[1]);
+        for my $elem (map {
+                        /^([0-9a-f]+) (.*)$/;
+                        [$1 =&gt; $2];
+                } split(/\n/, $ARGV[2])) {
+                if (!exists $not_in_next{$elem-&gt;[0]}) {
+                        if ($msg) {
+                                print STDERR $msg;
+                                undef $msg;
+                        }
+                        print STDERR &quot; $elem-&gt;[1]\n&quot;;
+                }
+        }
+&#39; &quot;$topic&quot; &quot;$not_in_next&quot; &quot;$not_in_master&quot;
+exit 1</pre>
+
+<p>fi</p>
+
+<p>&lt;&lt;DOC_END</p>
+
+<p>This sample hook safeguards topic branches that have been published from being rewound.</p>
+
+<p>The workflow assumed here is:</p>
+
+<pre>* Once a topic branch forks from &quot;master&quot;, &quot;master&quot; is never
+  merged into it again (either directly or indirectly).
+
+* Once a topic branch is fully cooked and merged into &quot;master&quot;,
+  it is deleted.  If you need to build on top of it to correct
+  earlier mistakes, a new topic branch is created by forking at
+  the tip of the &quot;master&quot;.  This is not strictly necessary, but
+  it makes it easier to keep your history simple.
+
+* Whenever you need to test or publish your changes to topic
+  branches, merge them into &quot;next&quot; branch.</pre>
+
+<p>The script, being an example, hardcodes the publish branch name to be “next”, but it is trivial to make it configurable via $GIT_DIR/config mechanism.</p>
+
+<p>With this workflow, you would want to know:</p>
+
+<p>(1) … if a topic branch has ever been merged to “next”.  Young</p>
+
+<pre>topic branches can have stupid mistakes you would rather
+clean up before publishing, and things that have not been
+merged into other branches can be easily rebased without
+affecting other people.  But once it is published, you would
+not want to rewind it.</pre>
+
+<p>(2) … if a topic branch has been fully merged to “master”.</p>
+
+<pre>Then you can delete it.  More importantly, you should not
+build on top of it -- other people may already want to
+change things related to the topic as patches against your
+&quot;master&quot;, so if you need further changes, it is better to
+fork the topic (perhaps with the same name) afresh from the
+tip of &quot;master&quot;.</pre>
+
+<p>Let’s look at this example:</p>
+
+<pre>               o---o---o---o---o---o---o---o---o---o &quot;next&quot;
+              /       /           /           /
+             /   a---a---b A     /           /
+            /   /               /           /
+           /   /   c---c---c---c B         /
+          /   /   /             \         /
+         /   /   /   b---b C     \       /
+        /   /   /   /             \     /
+---o---o---o---o---o---o---o---o---o---o---o &quot;master&quot;</pre>
+
+<p>A, B and C are topic branches.</p>
+
+<pre>* A has one fix since it was merged up to &quot;next&quot;.
+
+* B has finished.  It has been fully merged up to &quot;master&quot; and &quot;next&quot;,
+  and is ready to be deleted.
+
+* C has not merged to &quot;next&quot; at all.</pre>
+
+<p>We would want to allow C to be rebased, refuse A, and encourage B to be deleted.</p>
+
+<p>To compute (1):</p>
+
+<pre>git rev-list ^master ^topic next
+git rev-list ^master        next
+
+if these match, topic has not merged in next at all.</pre>
+
+<p>To compute (2):</p>
+
+<pre>git rev-list master..topic
+
+if this is empty, it is fully merged to &quot;master&quot;.</pre>
+
+<p>DOC_END</p>
+
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.7.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

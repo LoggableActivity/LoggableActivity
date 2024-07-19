@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class LoggableActivity::Configuration - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link"><a href="../Object.html">Object</a>
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-c-config_data">::config_data</a>
+    <li ><a href="#method-c-for_class">::for_class</a>
+    <li ><a href="#method-c-load_schema">::load_schema</a>
+    <li ><a href="#method-c-validate_config_file">::validate_config_file</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-LoggableActivity::Configuration">
+  <h1 id="class-LoggableActivity::Configuration" class="class">
+    class LoggableActivity::Configuration
+  </h1>
+
+  <section class="description">
+    
+<p>This class is used to load the configuration file located at config/loggable_activity.yml When the LoggableActivity::Hook is included in a model it takes the model’s name and find the configuration for that model in the configuration file.</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-config_data" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">config_data</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Loads the configuration file, and store it as a hash</p>
+
+          <div class="method-source-code" id="config_data-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">config_data</span>
+  <span class="ruby-ivar">@config_data</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-constant">LoggableActivity</span>.<span class="ruby-identifier">config_file_path</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-for_class" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">for_class</span><span
+              class="method-args">(class_name)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the configuration data for the given class</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">for_class</span>(<span class="ruby-string">&#39;User&#39;</span>)
+</pre>
+
+<p>Returns:</p>
+
+<pre>{
+  &quot;fetch_record_name_from&quot;: &quot;full_name&quot;,
+  &quot;loggable_attrs&quot;: [
+    &quot;first_name&quot;,
+    &quot;last_name&quot;,
+  ],
+  &quot;auto_log&quot;: [
+    &quot;create&quot;,
+    &quot;update&quot;,
+    &quot;destroy&quot;
+  ],
+....
+}</pre>
+
+          <div class="method-source-code" id="for_class-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">for_class</span>(<span class="ruby-identifier">class_name</span>)
+  <span class="ruby-identifier">config_data</span>[<span class="ruby-identifier">class_name</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-load_schema" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">load_schema</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Loads the schema file for the configuration file</p>
+
+          <div class="method-source-code" id="load_schema-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_schema</span>
+  <span class="ruby-identifier">schema_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">__dir__</span>, <span class="ruby-string">&#39;config_schema.json&#39;</span>)
+  <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">schema_path</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-validate_config_file" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">validate_config_file</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Validates the configuration file againss the schema</p>
+
+          <div class="method-source-code" id="validate_config_file-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/configuration.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_config_file</span>
+  <span class="ruby-identifier">schema</span> = <span class="ruby-identifier">load_schema</span>
+  <span class="ruby-identifier">errors</span> = <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Validator</span>.<span class="ruby-identifier">fully_validate</span>(<span class="ruby-identifier">schema</span>, <span class="ruby-identifier">config_data</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">any?</span>
+
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ConfigurationError</span>,
+        <span class="ruby-node">&quot;config/loggable_activity.yaml is invalid: #{errors.join(&#39;, &#39;)}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.7.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

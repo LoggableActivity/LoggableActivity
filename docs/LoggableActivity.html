@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module LoggableActivity - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/navigation.js" defer></script>
+<script src="./js/search.js" defer></script>
+<script src="./js/search_index.js" defer></script>
+<script src="./js/searcher.js" defer></script>
+<script src="./js/darkfish.js" defer></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-LoggableActivity">
+  <h1 id="module-LoggableActivity" class="module">
+    module LoggableActivity
+  </h1>
+
+  <section class="description">
+    
+<p>This module provides generators for installing and configuring <a href="LoggableActivity.html"><code>LoggableActivity</code></a>. It includes generators for creating initializer, migration, and locale files.</p>
+
+<p>Example usage:</p>
+
+<pre class="ruby"><span class="ruby-identifier">rails</span> <span class="ruby-identifier">generate</span> <span class="ruby-value">loggable_activity:</span><span class="ruby-identifier">install</span>
+</pre>
+
+<p>This will:</p>
+<ul><li>
+<p>Create an initializer file in config/initializers/loggable_activity.rb</p>
+</li><li>
+<p>Create a migration file in db/migrate/</p>
+</li><li>
+<p>Create a locale file in config/locales/loggable_activity.en.yml</p>
+</li></ul>
+
+<p>After running the generator, remember to:</p>
+<ul><li>
+<p>Add ‘mount <a href="LoggableActivity/Engine.html"><code>LoggableActivity::Engine</code></a> =&gt; ’/loggable_activity’‘ to your routes.rb file.</p>
+</li><li>
+<p>Run ‘rails db:migrate` to create the necessary database tables.</p>
+</li><li>
+<p>Include ‘LoggableActivity::Hook` in the models you want to track.</p>
+</li><li>
+<p>Update the config/loggable_activity.yaml file with the fields you want to track.</p>
+</li><li>
+<p>Ensure the locale files are properly set up in config/locales/loggable_activity.en.yml.</p>
+</li></ul>
+
+<p><a href="LoggableActivity.html"><code>LoggableActivity</code></a></p>
+
+<p>The <a href="LoggableActivity.html"><code>LoggableActivity</code></a> module provides a comprehensive solution for tracking and logging user activities within a Rails application. It offers a flexible and extensible framework for capturing, encrypting, and storing activity data, ensuring that sensitive information is handled securely.</p>
+
+<p>Features:</p>
+<ul><li>
+<p><a href="LoggableActivity/Activity.html"><code>Activity</code></a> Logging: Captures user actions across the application, providing insights into user behavior.</p>
+</li><li>
+<p>Encryption: Ensures that logged data is encrypted, safeguarding user privacy and data security.</p>
+</li><li>
+<p>Configuration: Offers customizable options to tailor the logging mechanism to specific application needs.</p>
+</li><li>
+<p>Extensibility: Designed to be extensible, allowing developers to add custom logging capabilities as needed.</p>
+</li></ul>
+
+<p>Components:</p>
+<ul><li>
+<p>Hooks: Mechanisms to hook into application events for logging.</p>
+</li><li>
+<p>Activity: The core model representing logged activities.</p>
+</li><li>
+<p>Configuration: Manages configuration settings for the logging mechanism.</p>
+</li><li>
+<p>Encryption: Handles the encryption and decryption of logged data.</p>
+</li><li>
+<p>DataOwner: Identifies the owner of the logged data.</p>
+</li><li>
+<p>Payload: Structures the data to be logged.</p>
+</li><li>
+<p>Error: Defines custom error types for the logging process.</p>
+</li><li>
+<p>Sanitizer: Provides data sanitization utilities.</p>
+</li><li>
+<p>Services: Contains services for building and managing payloads.</p>
+</li><li>
+<p>Concerns: Includes concerns for integrating with application models and controllers.</p>
+</li></ul>
+
+<p>Usage: To use <a href="LoggableActivity.html"><code>LoggableActivity</code></a>, include it in your Rails application and configure it according to your needs.</p>
+
+<p>This module is designed to be both powerful and easy to integrate, providing a solid foundation for activity logging.</p>
+
+<p>Version of the gem</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+        <dt id="VERSION">VERSION
+        <dd><p>Version</p>
+      </dl>
+    </section>
+
+
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.7.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

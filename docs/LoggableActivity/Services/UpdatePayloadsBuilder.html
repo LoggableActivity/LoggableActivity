@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class LoggableActivity::Services::UpdatePayloadsBuilder - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+  var index_rel_prefix = "../../";
+</script>
+
+<script src="../../js/navigation.js" defer></script>
+<script src="../../js/search.js" defer></script>
+<script src="../../js/search_index.js" defer></script>
+<script src="../../js/searcher.js" defer></script>
+<script src="../../js/darkfish.js" defer></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link"><a href="BasePayloadsBuilder.html">LoggableActivity::Services::BasePayloadsBuilder</a>
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-i-build">#build</a>
+    <li ><a href="#method-i-build_belongs_to_update_payload">#build_belongs_to_update_payload</a>
+    <li ><a href="#method-i-build_encrypted_update_payload">#build_encrypted_update_payload</a>
+    <li ><a href="#method-i-build_has_many_create_payload">#build_has_many_create_payload</a>
+    <li ><a href="#method-i-build_has_many_update_payload">#build_has_many_update_payload</a>
+    <li ><a href="#method-i-build_has_many_update_payloads">#build_has_many_update_payloads</a>
+    <li ><a href="#method-i-build_has_one_update_payload">#build_has_one_update_payload</a>
+    <li ><a href="#method-i-build_primary_update_payload">#build_primary_update_payload</a>
+    <li ><a href="#method-i-build_relation_update_payload">#build_relation_update_payload</a>
+    <li ><a href="#method-i-build_relations_update_payloads">#build_relations_update_payloads</a>
+    <li ><a href="#method-i-encrypted_update_attrs">#encrypted_update_attrs</a>
+    <li ><a href="#method-i-updated_public_attrs">#updated_public_attrs</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-LoggableActivity::Services::UpdatePayloadsBuilder">
+  <h1 id="class-LoggableActivity::Services::UpdatePayloadsBuilder" class="class">
+    class LoggableActivity::Services::UpdatePayloadsBuilder
+  </h1>
+
+  <section class="description">
+    
+<p>This service class builds update payloads when an instance of a model is updated.</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-build" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds payloads for a <a href="../Activity.html"><code>::LoggableActivity::Activity</code></a>.</p>
+
+          <div class="method-source-code" id="build-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 8</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build</span>
+  <span class="ruby-identifier">build_primary_update_payload</span>
+  <span class="ruby-identifier">build_relations_update_payloads</span>
+  <span class="ruby-ivar">@payloads</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+      <div id="method-i-build_belongs_to_update_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_belongs_to_update_payload</span><span
+              class="method-args">(relation_config)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the update payload for a belongs_to relation.</p>
+
+          <div class="method-source-code" id="build_belongs_to_update_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_belongs_to_update_payload</span>(<span class="ruby-identifier">relation_config</span>)
+  <span class="ruby-identifier">relation_id</span> = <span class="ruby-node">&quot;#{relation_config[&#39;belongs_to&#39;]}_id&quot;</span>
+  <span class="ruby-identifier">model_class_name</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;model&#39;</span>]
+  <span class="ruby-identifier">model_class</span> = <span class="ruby-identifier">model_class_name</span>.<span class="ruby-identifier">constantize</span>
+  <span class="ruby-identifier">data_owner</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;data_owner&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+
+  <span class="ruby-identifier">model_ids</span> = <span class="ruby-identifier">saved_changes</span>(<span class="ruby-ivar">@record</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">hash</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">relation_id</span>] }
+
+  <span class="ruby-identifier">model_ids</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">record</span> = <span class="ruby-identifier">id</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">model_class</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">id:</span>) <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">record</span>
+
+    <span class="ruby-identifier">options</span> =
+      { <span class="ruby-value">related_to_activity_as:</span> <span class="ruby-string">&#39;belongs_to_update_payload&#39;</span>, <span class="ruby-value">current_payload:</span> <span class="ruby-identifier">index</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>, <span class="ruby-value">data_owner:</span> }
+
+    <span class="ruby-identifier">build_encrypted_payload</span>(<span class="ruby-identifier">record</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_encrypted_update_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_encrypted_update_payload</span><span
+              class="method-args">(record, current_values, previous_values, public_attrs, options = {})</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the encrypted update payload for a record.</p>
+
+          <div class="method-source-code" id="build_encrypted_update_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 179</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_encrypted_update_payload</span>(<span class="ruby-identifier">record</span>, <span class="ruby-identifier">current_values</span>, <span class="ruby-identifier">previous_values</span>, <span class="ruby-identifier">public_attrs</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">record</span>)
+
+  <span class="ruby-identifier">encrypted_attrs</span> = <span class="ruby-identifier">encrypted_update_attrs</span>(
+    <span class="ruby-identifier">current_values</span>,
+    <span class="ruby-identifier">previous_values</span>,
+    <span class="ruby-identifier">encryption_key</span>.<span class="ruby-identifier">secret_key</span>
+  )
+
+  <span class="ruby-identifier">build_payload</span>(
+    <span class="ruby-identifier">record</span>,
+    <span class="ruby-identifier">encryption_key</span>,
+    <span class="ruby-identifier">encrypted_attrs</span>,
+    <span class="ruby-identifier">public_attrs</span>,
+    <span class="ruby-identifier">options</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_has_many_create_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_has_many_create_payload</span><span
+              class="method-args">(relation_config, record)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="build_has_many_create_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 116</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_has_many_create_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">record</span>.<span class="ruby-identifier">disable_hooks</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">data_owner</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;data_owner&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">options</span> =
+    { <span class="ruby-value">related_to_activity_as:</span> <span class="ruby-string">&#39;has_many_create_payload&#39;</span>, <span class="ruby-value">current_payload:</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">data_owner:</span> }
+  <span class="ruby-identifier">build_encrypted_payload</span>(<span class="ruby-identifier">record</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_has_many_update_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_has_many_update_payload</span><span
+              class="method-args">(relation_config, record)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="build_has_many_update_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_has_many_update_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">record</span>.<span class="ruby-identifier">disable_hooks</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">previous_values</span>, <span class="ruby-identifier">current_values</span> = <span class="ruby-identifier">changes_to_save</span>(<span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">loggable_attrs</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;loggable_attrs&#39;</span>]
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">previous_values</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_values</span>
+
+  <span class="ruby-identifier">public_attributes</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;public_attrs&#39;</span>]
+  <span class="ruby-identifier">public_attrs</span> = <span class="ruby-identifier">updated_public_attrs</span>(
+    <span class="ruby-identifier">current_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">public_attributes</span>),
+    <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">public_attributes</span>)
+  )
+
+  <span class="ruby-identifier">previous_values</span> = <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">loggable_attrs</span>)
+  <span class="ruby-identifier">data_owner</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;data_owner&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">options</span> = { <span class="ruby-value">related_to_activity_as:</span> <span class="ruby-string">&#39;has_many_update_payload&#39;</span>, <span class="ruby-value">current_payload:</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">data_owner:</span> }
+
+  <span class="ruby-identifier">build_encrypted_update_payload</span>(
+    <span class="ruby-identifier">record</span>,
+    <span class="ruby-identifier">current_values</span>,
+    <span class="ruby-identifier">previous_values</span>,
+    <span class="ruby-identifier">public_attrs</span>,
+    <span class="ruby-identifier">options</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_has_many_update_payloads" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_has_many_update_payloads</span><span
+              class="method-args">(relation_config)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds payloads for has_many relations.</p>
+
+          <div class="method-source-code" id="build_has_many_update_payloads-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_has_many_update_payloads</span>(<span class="ruby-identifier">relation_config</span>)
+  <span class="ruby-identifier">relation</span> = (<span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;has_many&#39;</span>]).<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">records</span> = <span class="ruby-ivar">@record</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">relation</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">records</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-identifier">records</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">persisted?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">changes_to_save</span>.<span class="ruby-identifier">any?</span>
+      <span class="ruby-identifier">build_has_many_update_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-identifier">record</span>)
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">persisted?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">saved_changes</span>.<span class="ruby-identifier">any?</span>
+      <span class="ruby-comment"># &quot;no changes to save&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">build_has_many_create_payload</span>(<span class="ruby-identifier">relation_config</span>, <span class="ruby-identifier">record</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_has_one_update_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_has_one_update_payload</span><span
+              class="method-args">(relation_config)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the update payload for a has_one relation.</p>
+
+          <div class="method-source-code" id="build_has_one_update_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 125</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_has_one_update_payload</span>(<span class="ruby-identifier">relation_config</span>)
+  <span class="ruby-identifier">relation</span> = (<span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;has_one&#39;</span>]).<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">record</span> = <span class="ruby-ivar">@record</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">relation</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">previous_values</span>, <span class="ruby-identifier">current_values</span> = <span class="ruby-identifier">changes_to_save</span>(<span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">loggable_attrs</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;loggable_attrs&#39;</span>]
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">previous_values</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_values</span>
+
+  <span class="ruby-identifier">public_attrs</span> = <span class="ruby-identifier">updated_public_attrs</span>(
+    <span class="ruby-identifier">current_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">public_attrs</span>),
+    <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">record</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">public_attrs</span>)
+  )
+
+  <span class="ruby-identifier">previous_values</span> = <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">loggable_attrs</span>)
+  <span class="ruby-identifier">current_values</span> = <span class="ruby-identifier">current_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">loggable_attrs</span>)
+  <span class="ruby-identifier">data_owner</span> = <span class="ruby-identifier">relation_config</span>[<span class="ruby-string">&#39;data_owner&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">options</span> = { <span class="ruby-value">related_to_activity_as:</span> <span class="ruby-string">&#39;has_one_update_payload&#39;</span>, <span class="ruby-value">current_payload:</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">data_owner:</span> }
+
+  <span class="ruby-identifier">build_encrypted_update_payload</span>(
+    <span class="ruby-identifier">record</span>,
+    <span class="ruby-identifier">current_values</span>,
+    <span class="ruby-identifier">previous_values</span>,
+    <span class="ruby-identifier">public_attrs</span>,
+    <span class="ruby-identifier">options</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_primary_update_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_primary_update_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Builds the primary payload.</p>
+
+          <div class="method-source-code" id="build_primary_update_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_primary_update_payload</span>
+  <span class="ruby-identifier">previous_values</span>, <span class="ruby-identifier">current_values</span> = <span class="ruby-identifier">saved_changes</span>(<span class="ruby-ivar">@record</span>)
+  <span class="ruby-identifier">public_attrs</span> = <span class="ruby-identifier">updated_public_attrs</span>(<span class="ruby-identifier">current_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-ivar">@public_attrs</span>), <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-ivar">@public_attrs</span>))
+  <span class="ruby-identifier">previous_values</span> = <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-ivar">@loggable_attrs</span>)
+  <span class="ruby-identifier">current_values</span> = <span class="ruby-identifier">current_values</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-operator">*</span><span class="ruby-ivar">@loggable_attrs</span>)
+  <span class="ruby-identifier">options</span> = { <span class="ruby-value">related_to_activity_as:</span> <span class="ruby-string">&#39;primary_update_payload&#39;</span>, <span class="ruby-value">current_payload:</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">data_owner:</span> <span class="ruby-keyword">true</span> }
+
+  <span class="ruby-identifier">build_encrypted_update_payload</span>(
+    <span class="ruby-ivar">@record</span>,
+    <span class="ruby-identifier">current_values</span>,
+    <span class="ruby-identifier">previous_values</span>,
+    <span class="ruby-identifier">public_attrs</span>,
+    <span class="ruby-identifier">options</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_relation_update_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_relation_update_payload</span><span
+              class="method-args">(relation_config)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="build_relation_update_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 41</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relation_update_payload</span>(<span class="ruby-identifier">relation_config</span>)
+  <span class="ruby-identifier">relation_config</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">key</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;belongs_to&#39;</span>
+      <span class="ruby-identifier">build_belongs_to_update_payload</span>(<span class="ruby-identifier">relation_config</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;has_one&#39;</span>
+      <span class="ruby-identifier">build_has_one_update_payload</span>(<span class="ruby-identifier">relation_config</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;has_many&#39;</span>
+      <span class="ruby-identifier">build_has_many_update_payloads</span>(<span class="ruby-identifier">relation_config</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-build_relations_update_payloads" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">build_relations_update_payloads</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Build the payloads for the relations of the record. only relations included in the configuration, will be logged.</p>
+
+          <div class="method-source-code" id="build_relations_update_payloads-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">build_relations_update_payloads</span>
+  <span class="ruby-ivar">@relations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">relation_config</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">build_relation_update_payload</span>(<span class="ruby-identifier">relation_config</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-encrypted_update_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">encrypted_update_attrs</span><span
+              class="method-args">(current_values, previous_values, encryption_key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the encrypted attributes for the update payload.</p>
+
+          <div class="method-source-code" id="encrypted_update_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 154</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">encrypted_update_attrs</span>(<span class="ruby-identifier">current_values</span>, <span class="ruby-identifier">previous_values</span>, <span class="ruby-identifier">encryption_key</span>)
+  <span class="ruby-identifier">changes</span> = []
+
+  <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">from_value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">from</span> = <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">from_value</span>, <span class="ruby-identifier">encryption_key</span>)
+    <span class="ruby-identifier">to_value</span> = <span class="ruby-identifier">current_values</span>[<span class="ruby-identifier">key</span>]
+    <span class="ruby-identifier">to</span> = <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">encrypt</span>(<span class="ruby-identifier">to_value</span>, <span class="ruby-identifier">encryption_key</span>)
+    <span class="ruby-identifier">changes</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-identifier">key</span> <span class="ruby-operator">=&gt;</span> { <span class="ruby-value">from:</span>, <span class="ruby-value">to:</span> } }
+  <span class="ruby-keyword">end</span>
+  { <span class="ruby-value">changes:</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-updated_public_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">updated_public_attrs</span><span
+              class="method-args">(current_values, previous_values)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="updated_public_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/services/update_payloads_builder.rb, line 166</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">updated_public_attrs</span>(<span class="ruby-identifier">current_values</span>, <span class="ruby-identifier">previous_values</span>)
+  <span class="ruby-identifier">changes</span> = []
+
+  <span class="ruby-identifier">previous_values</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">from_value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">from</span> = <span class="ruby-identifier">from_value</span>
+    <span class="ruby-identifier">to_value</span> = <span class="ruby-identifier">current_values</span>[<span class="ruby-identifier">key</span>]
+    <span class="ruby-identifier">to</span> = <span class="ruby-identifier">to_value</span>
+    <span class="ruby-identifier">changes</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-identifier">key</span> <span class="ruby-operator">=&gt;</span> { <span class="ruby-value">from:</span>, <span class="ruby-value">to:</span> } }
+  <span class="ruby-keyword">end</span>
+  { <span class="ruby-value">changes:</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.7.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

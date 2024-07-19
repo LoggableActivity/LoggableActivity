@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class LoggableActivity::Activity - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link">ActiveRecord::Base
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-c-activities_for_actor">::activities_for_actor</a>
+    <li ><a href="#method-c-last">::last</a>
+    <li ><a href="#method-c-latest">::latest</a>
+    <li ><a href="#method-i-actor_deleted-3F">#actor_deleted?</a>
+    <li ><a href="#method-i-actor_display_name">#actor_display_name</a>
+    <li ><a href="#method-i-actor_secret_key">#actor_secret_key</a>
+    <li ><a href="#method-i-attrs">#attrs</a>
+    <li ><a href="#method-i-must_have_at_least_one_payload">#must_have_at_least_one_payload</a>
+    <li ><a href="#method-i-ordered_payloads">#ordered_payloads</a>
+    <li ><a href="#method-i-payloads_attrs">#payloads_attrs</a>
+    <li ><a href="#method-i-primary_payload">#primary_payload</a>
+    <li ><a href="#method-i-primary_route">#primary_route</a>
+    <li ><a href="#method-i-record_display_name">#record_display_name</a>
+    <li ><a href="#method-i-record_key">#record_key</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-LoggableActivity::Activity">
+  <h1 id="class-LoggableActivity::Activity" class="class">
+    class LoggableActivity::Activity
+  </h1>
+
+  <section class="description">
+    
+<p>Represents one action in the activity log.</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+        <dt id="RELATION_TYPES">RELATION_TYPES
+        <dd>
+      </dl>
+    </section>
+
+
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-activities_for_actor" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">activities_for_actor</span><span
+              class="method-args">(actor, limit = 20, params = { offset: 0 })</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns a list of activities for a given actor.</p>
+
+          <div class="method-source-code" id="activities_for_actor-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">activities_for_actor</span>(<span class="ruby-identifier">actor</span>, <span class="ruby-identifier">limit</span> = <span class="ruby-value">20</span>, <span class="ruby-identifier">params</span> = { <span class="ruby-value">offset:</span> <span class="ruby-value">0</span> })
+  <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Activity</span>.<span class="ruby-identifier">latest</span>(<span class="ruby-identifier">limit</span>, <span class="ruby-identifier">params</span>).<span class="ruby-identifier">where</span>(<span class="ruby-value">actor:</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-last" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">last</span><span
+              class="method-args">(limit = 1)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the last activity. This is done to support of UUID primary keys.</p>
+
+          <div class="method-source-code" id="last-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">last</span>(<span class="ruby-identifier">limit</span> = <span class="ruby-value">1</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">latest</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">first</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">limit</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+
+  <span class="ruby-identifier">latest</span>(<span class="ruby-identifier">limit</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-latest" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">latest</span><span
+              class="method-args">(limit = 20, params = { offset: 0 })</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns a list of activities ordered by creation date. This is done to support UUID primary keys.</p>
+
+          <div class="method-source-code" id="latest-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 148</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">latest</span>(<span class="ruby-identifier">limit</span> = <span class="ruby-value">20</span>, <span class="ruby-identifier">params</span> = { <span class="ruby-value">offset:</span> <span class="ruby-value">0</span> })
+  <span class="ruby-identifier">offset</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:offset</span>] <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+  <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Activity</span>
+    .<span class="ruby-identifier">all</span>
+    .<span class="ruby-identifier">order</span>(<span class="ruby-value">created_at:</span> <span class="ruby-value">:desc</span>)
+    .<span class="ruby-identifier">includes</span>(<span class="ruby-value">payloads:</span> <span class="ruby-value">:encryption_key</span>)
+    .<span class="ruby-identifier">offset</span>(<span class="ruby-identifier">offset</span>)
+    .<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">limit</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-actor_display_name" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">actor_display_name</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the display name for a actor. what method to use if defined in ‘/config/loggable_activity.yaml’</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-ivar">@activity</span>.<span class="ruby-identifier">actor_display_name</span>
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby"><span class="ruby-string">&quot;Elvis Presley&quot;</span>
+</pre>
+
+          <div class="method-source-code" id="actor_display_name-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_display_name</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;loggable.activity.deleted&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">actor_deleted?</span>
+
+  <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryption</span>.<span class="ruby-identifier">decrypt</span>(<span class="ruby-identifier">encrypted_actor_name</span>, <span class="ruby-identifier">actor_secret_key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns an array of hashes, each representing an activity’s attributes and its associated relations. The structure and relations to include are specified in ‘config/loggable_activity.yaml’. This format is designed for UI display purposes.</p>
+
+<p>Each hash in the array contains:</p>
+<ul><li>
+<p>:record_type: The class name of the record.</p>
+</li><li>
+<p>:related_to_activity_as: A descriptor of the payload’s role (e.g., ‘primary_payload’ or ‘current_association’).</p>
+</li><li>
+<p>:attrs: A hash of the record’s attributes.</p>
+</li></ul>
+
+<p>Example usage:</p>
+
+<pre class="ruby"><span class="ruby-ivar">@activity</span>.<span class="ruby-identifier">attrs</span>
+</pre>
+
+<p>Sample return value:</p>
+
+<pre>[
+  { record_type: MODEL_NAME, related_to_activity_as: &quot;primary_payload&quot;, attrs: { &quot;KEY&quot; =&gt; &quot;VALUE&quot;, ... } },
+  { record_type: MODEL_NAME, related_to_activity_as: &quot;current_association&quot;, attrs: { &quot;KEY&quot; =&gt; &quot;VALUE&quot;, ... } },
+  ...
+]</pre>
+
+          <div class="method-source-code" id="attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attrs</span>
+  {
+    <span class="ruby-value">actor_type:</span>,
+    <span class="ruby-value">actor_id:</span>,
+    <span class="ruby-value">action:</span>,
+    <span class="ruby-value">actor_display_name:</span>,
+    <span class="ruby-value">record_display_name:</span>,
+    <span class="ruby-value">payloads:</span> <span class="ruby-identifier">payloads_attrs</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-payloads_attrs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">payloads_attrs</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="payloads_attrs-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payloads_attrs</span>
+  <span class="ruby-identifier">ordered_payloads</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">payload</span><span class="ruby-operator">|</span>
+    {
+      <span class="ruby-value">relation:</span> <span class="ruby-constant">RELATION_TYPES</span>[<span class="ruby-identifier">payload</span>.<span class="ruby-identifier">related_to_activity_as</span>],
+      <span class="ruby-value">record_type:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">record_type</span>,
+      <span class="ruby-value">record_id:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">deleted?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">record_id</span>,
+      <span class="ruby-value">attrs:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">attrs</span>,
+      <span class="ruby-value">route:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">payload_route</span>,
+      <span class="ruby-value">record_display_name:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">record_display_name</span>,
+      <span class="ruby-value">current_payload:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">current_payload</span>,
+      <span class="ruby-value">data_owner:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">data_owner</span>,
+      <span class="ruby-value">public_attrs:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">public_attrs</span>
+    }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-primary_route" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">primary_route</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the path for the activity.</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-ivar">@activity</span>.<span class="ruby-identifier">path</span>
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby"><span class="ruby-string">&quot;/path/to/activity&quot;</span>
+</pre>
+
+          <div class="method-source-code" id="primary_route-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">primary_route</span>
+  <span class="ruby-identifier">primary_payload</span>.<span class="ruby-identifier">payload_route</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-record_display_name" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">record_display_name</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the display name for a record. what method to use if defined in ‘/config/loggable_activity.yaml’</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-ivar">@activity</span>.<span class="ruby-identifier">record_display_name</span>
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby"><span class="ruby-string">&quot;David Bowie&quot;</span>
+</pre>
+
+          <div class="method-source-code" id="record_display_name-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 109</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">record_display_name</span>
+  <span class="ruby-identifier">primary_payload</span>&amp;.<span class="ruby-identifier">record_display_name</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+      <div id="method-i-actor_deleted-3F" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">actor_deleted?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Check if the actor is deleted. If the actor is deleted, it will return true. This way we don’t rely on access to the main DB to check if the actor is deleted.</p>
+
+          <div class="method-source-code" id="actor_deleted-3F-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 195</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_deleted?</span>
+  <span class="ruby-identifier">actor_secret_key</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-actor_secret_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">actor_secret_key</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the key for the actor.</p>
+
+          <div class="method-source-code" id="actor_secret_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 200</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">actor_secret_key</span>
+  <span class="ruby-comment"># @actor_key_secret_key ||=</span>
+  <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record_by_type_and_id</span>(<span class="ruby-identifier">actor_type</span>, <span class="ruby-identifier">actor_id</span>)&amp;.<span class="ruby-identifier">secret_key</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-must_have_at_least_one_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">must_have_at_least_one_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Validates that the activity has at least one payload.</p>
+
+          <div class="method-source-code" id="must_have_at_least_one_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 206</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">must_have_at_least_one_payload</span>
+  <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:payloads</span>, <span class="ruby-string">&#39;must have at least one payload&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-ordered_payloads" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">ordered_payloads</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns payloads sorted by :related_to_activity_as.</p>
+
+          <div class="method-source-code" id="ordered_payloads-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 180</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ordered_payloads</span>
+  <span class="ruby-comment"># payloads.order(related_to_activity_as: :desc)</span>
+  <span class="ruby-identifier">payloads</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-primary_payload" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">primary_payload</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the primary payload associated with the activity.</p>
+
+<p>Example usage:</p>
+
+<pre class="ruby"><span class="ruby-identifier">payload</span> = <span class="ruby-ivar">@activity</span>.<span class="ruby-identifier">primary_payload</span>
+<span class="ruby-identifier">payload</span>.<span class="ruby-identifier">record_type</span>  <span class="ruby-comment"># =&gt; &#39;SOMD_MODEL_NAME&#39;</span>
+</pre>
+
+          <div class="method-source-code" id="primary_payload-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 174</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">primary_payload</span>
+  <span class="ruby-identifier">related_to_activity_as</span> = <span class="ruby-node">%w[primary_payload primary_update_payload primary_destroy_payload custom_payload]</span>
+  <span class="ruby-identifier">payloads</span>.<span class="ruby-identifier">detect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">related_to_activity_as</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">p</span>.<span class="ruby-identifier">related_to_activity_as</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-record_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">record_key</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns the key for the logged record.</p>
+
+          <div class="method-source-code" id="record_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/activity.rb, line 186</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">record_key</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">record</span>)&amp;.<span class="ruby-identifier">secret_key</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.7.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

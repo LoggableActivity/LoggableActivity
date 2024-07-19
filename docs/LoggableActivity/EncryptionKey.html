@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class LoggableActivity::EncryptionKey - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link">ActiveRecord::Base
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-c-create_encryption_key">::create_encryption_key</a>
+    <li ><a href="#method-c-for_record">::for_record</a>
+    <li ><a href="#method-c-for_record_by_type_and_id">::for_record_by_type_and_id</a>
+    <li ><a href="#method-c-random_key">::random_key</a>
+    <li ><a href="#method-i-delete">#delete</a>
+    <li ><a href="#method-i-deleted-3F">#deleted?</a>
+    <li ><a href="#method-i-mark_as_deleted-21">#mark_as_deleted!</a>
+    <li ><a href="#method-i-restore-21">#restore!</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-LoggableActivity::EncryptionKey">
+  <h1 id="class-LoggableActivity::EncryptionKey" class="class">
+    class LoggableActivity::EncryptionKey
+  </h1>
+
+  <section class="description">
+    
+<p>This class represents the encryption key used to unlock the data for one payload. When deleted, only the encryption_key field is deleted.</p>
+
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-create_encryption_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">create_encryption_key</span><span
+              class="method-args">(record_type, record_id)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Creates an encryption key for a record, optionally using a parent key.</p>
+
+<pre>@param record_type [String] The type of the record.
+@param record_id [Integer] The ID of the record.
+@param parent_key [::LoggableActivity::EncryptionKey, nil] The parent encryption key, if any.
+@return [::LoggableActivity::EncryptionKey] The created encryption key.</pre>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">create_encryption_key</span>(<span class="ruby-string">&#39;User&#39;</span>, <span class="ruby-value">1</span>)
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby">{
+  <span class="ruby-value">:id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">39</span>,
+  <span class="ruby-value">:parent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
+  <span class="ruby-value">:key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>,
+  <span class="ruby-value">:record_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;User&quot;</span>,
+  <span class="ruby-value">:record_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">1</span>
+}
+</pre>
+
+          <div class="method-source-code" id="create_encryption_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 109</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_encryption_key</span>(<span class="ruby-identifier">record_type</span>, <span class="ruby-identifier">record_id</span>)
+  <span class="ruby-identifier">create</span>(<span class="ruby-value">record_type:</span>, <span class="ruby-value">record_id:</span>, <span class="ruby-value">secret_key:</span> <span class="ruby-identifier">random_key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-for_record" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">for_record</span><span
+              class="method-args">(record)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns an encryption key for a record, optionally using a parent key.</p>
+
+<pre>@param record [ActiveRecord::Base] The record for which to get the encryption key.
+@param parent_key [::LoggableActivity::EncryptionKey, nil] The parent encryption key, if any.
+@return [::LoggableActivity::EncryptionKey] The encryption key for the record.</pre>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">1</span>)
+<span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record</span>(<span class="ruby-identifier">user</span>)
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby">{
+  <span class="ruby-value">:id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">39</span>,
+  <span class="ruby-value">:parent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
+  <span class="ruby-value">:key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>,
+  <span class="ruby-value">:record_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;User&quot;</span>,
+  <span class="ruby-value">:record_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">1</span>
+}
+</pre>
+
+          <div class="method-source-code" id="for_record-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 81</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">for_record</span>(<span class="ruby-identifier">record</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-value">record:</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">encryption_key</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>
+
+  <span class="ruby-identifier">create_encryption_key</span>(<span class="ruby-identifier">record</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">record</span>.<span class="ruby-identifier">id</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-for_record_by_type_and_id" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">for_record_by_type_and_id</span><span
+              class="method-args">(record_type, record_id)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Returns an encryption key for a record by its type and ID, optionally using a parent key.</p>
+
+<pre>@param record_type [String] The type of the record.
+@param record_id [Integer] The ID of the record.
+@param parent_key [::LoggableActivity::EncryptionKey, nil] The parent encryption key, if any.
+@return [::LoggableActivity::EncryptionKey] The encryption key for the record.</pre>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">for_record_by_type_and_id</span>(<span class="ruby-string">&#39;User&#39;</span>, <span class="ruby-value">1</span>)
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby">{
+  <span class="ruby-value">:id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">39</span>,
+  <span class="ruby-value">:parent_key_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">38</span>,
+  <span class="ruby-value">:key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>,
+  <span class="ruby-value">:record_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;User&quot;</span>,
+  <span class="ruby-value">:record_id</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">1</span>
+}
+</pre>
+
+          <div class="method-source-code" id="for_record_by_type_and_id-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">for_record_by_type_and_id</span>(<span class="ruby-identifier">record_type</span>, <span class="ruby-identifier">record_id</span>)
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-value">record_type:</span>, <span class="ruby-value">record_id:</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">encryption_key</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encryption_key</span>
+
+  <span class="ruby-identifier">create_encryption_key</span>(<span class="ruby-identifier">record_type</span>, <span class="ruby-identifier">record_id</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-random_key" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">random_key</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Generates a random encryption key.</p>
+
+<pre>@return [String] The generated encryption key.</pre>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-operator">::</span><span class="ruby-constant">LoggableActivity</span><span class="ruby-operator">::</span><span class="ruby-constant">EncryptionKey</span>.<span class="ruby-identifier">random_key</span>
+</pre>
+
+<p>Returns:</p>
+
+<pre class="ruby"><span class="ruby-string">&quot;a8f4774e7f42eb253045a4db7de7b79e&quot;</span>
+</pre>
+
+          <div class="method-source-code" id="random_key-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 123</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">random_key</span>
+  <span class="ruby-comment"># Generate 32 random bytes (256 bits) directly</span>
+  <span class="ruby-identifier">encryption_key</span> = <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">random_bytes</span>(<span class="ruby-value">32</span>)
+  <span class="ruby-comment"># Encode the key in Base64 to ensure it&#39;s in a transferable format</span>
+  <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-identifier">encryption_key</span>).<span class="ruby-identifier">strip</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-delete" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">delete</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Delete the encryption key by updating the key to nil. Nullify the delete_at field, so the key is not deleted when the sanitization task runs.</p>
+
+          <div class="method-source-code" id="delete-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>
+  <span class="ruby-identifier">update</span>(<span class="ruby-value">secret_key:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">delete_at:</span> <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-deleted-3F" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">deleted?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>check if the encryption key is deleted or it is about to be deleted</p>
+
+          <div class="method-source-code" id="deleted-3F-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">deleted?</span>
+  <span class="ruby-identifier">secret_key</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">delete_at</span>.<span class="ruby-identifier">present?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-mark_as_deleted-21" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">mark_as_deleted!</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Prepare the record for deletion</p>
+
+          <div class="method-source-code" id="mark_as_deleted-21-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 16</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mark_as_deleted!</span>
+  <span class="ruby-constant">LoggableActivity</span>.<span class="ruby-identifier">task_for_sanitization</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">update</span>(<span class="ruby-value">delete_at:</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>.<span class="ruby-identifier">month</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">delete</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-restore-21" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">restore!</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          <p>Restores the encryption key by updating the delete_at field to nil.</p>
+
+          <div class="method-source-code" id="restore-21-source">
+            <pre><span class="ruby-comment"># File lib/loggable_activity/encryption_key.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">restore!</span>
+  <span class="ruby-identifier">update</span>(<span class="ruby-value">delete_at:</span> <span class="ruby-keyword">nil</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">delete_at</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">delete_at</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.7.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
