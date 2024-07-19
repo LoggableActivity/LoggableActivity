@@ -5,7 +5,7 @@ require_relative '../../../test_helper'
 class HatsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = create(:user)
-    Thread.current[:current_user] = @user
+    Thread.current[:current_actor] = @user
   end
 
   test 'should create hat' do

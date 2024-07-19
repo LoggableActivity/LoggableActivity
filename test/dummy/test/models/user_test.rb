@@ -4,7 +4,7 @@ require_relative '../../../test_helper'
 
 class UserTest < ActiveSupport::TestCase
   test 'should log sign_up' do
-    User.create(
+    user = User.new(
       first_name: 'John',
       last_name: 'Doe',
       email: 'john@example.com',
@@ -12,6 +12,10 @@ class UserTest < ActiveSupport::TestCase
       age: 37,
       user_type: 'customer'
     )
+    user.disable_hooks!
+    user.save!
+    user.log(:sign_up, actor: user)
+
     assert_equal LoggableActivity::Activity.last.action, 'user.sign_up'
   end
 end

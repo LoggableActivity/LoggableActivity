@@ -42,7 +42,7 @@ module LoggableActivity
     #   @param params [Hash] Additional parameters for the activity.
     def log(action, actor: nil, params: {})
       @action = action
-      @actor = actor || Thread.current[:current_user] || created_by_self
+      @actor = actor || Thread.current[:current_actor]
       return nil if @actor.nil?
 
       @record = self
@@ -72,15 +72,6 @@ module LoggableActivity
     end
 
     private
-
-    # If the actor is the same as the record, it is created by the actor.
-    # This assumes it is a sign_up action.
-    def created_by_self
-      return unless LoggableActivity.actor_model_name == self.class.name
-
-      @action = :sign_up
-      self
-    end
 
     # Logs an activity for the current action.
     def log_activity

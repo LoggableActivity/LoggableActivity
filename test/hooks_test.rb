@@ -4,7 +4,7 @@ require 'test_helper'
 
 class HooksTest < ActiveSupport::TestCase
   setup do
-    Thread.current[:current_user] = @current_user = create(:user, user_type: 'admin')
+    Thread.current[:current_actor] = @current_user = create(:user, user_type: 'admin')
   end
 
   class NoRelations < HooksTest
