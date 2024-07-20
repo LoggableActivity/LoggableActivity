@@ -50,8 +50,10 @@ module LoggableActivity
       @payloads = []
 
       case action
-      when :create, :show
-        log_activity
+      when :create
+        log_create
+      when  :show
+        log_show
       when :destroy
         log_destroy
       when :update
@@ -73,9 +75,16 @@ module LoggableActivity
 
     private
 
-    # Logs an activity for the current action.
-    def log_activity
-      create_activity(build_payloads)
+    # Logs an activity for the show action.
+    def log_show
+      return nil if just_created?
+      return nil if just_updated?
+      log_activity 
+    end
+
+    # Logs an activity for the create action.
+    def log_create
+      log_activity
     end
 
     # Logs an activity for the update action.
@@ -86,6 +95,25 @@ module LoggableActivity
     # Logs an activity for the destroy action.
     def log_destroy
       create_activity(build_destroy_payload)
+    end
+
+    # Logs an activity for the current action.
+    def log_activity
+      create_activity(build_payloads)
+    end
+
+    def just_created?
+      action = self.class.base_action + ".create"
+      activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
+      return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+      true
+    end
+
+    def just_updated?
+      action = self.class.base_action + ".update"
+      activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
+      return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+      true
     end
 
     # Creates an activity with the specified payloads.

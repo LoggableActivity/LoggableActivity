@@ -45,6 +45,8 @@ class HooksTest < ActiveSupport::TestCase
 
     test 'it logs show' do
       user = create(:user)
+      activity = LoggableActivity::Activity.last
+      activity.update(created_at: 6.seconds.ago)
       user.log(:show, actor: @current_user)
       activity = LoggableActivity::Activity.last
 
@@ -110,6 +112,8 @@ class HooksTest < ActiveSupport::TestCase
 
     test 'it logs show, with belongs_to relation' do
       user = create(:user)
+      activity = LoggableActivity::Activity.last
+      activity.update(created_at: 6.seconds.ago)
       user.log(:show, actor: @current_user)
 
       activity = LoggableActivity::Activity.last
@@ -151,6 +155,42 @@ class HooksTest < ActiveSupport::TestCase
       payload_attrs = LoggableActivity::Activity.last.payloads_attrs.first
       assert_equal @params[:display_name], payload_attrs[:attrs][:display_name]
       assert_equal @params.dig(:order, :items).length, payload_attrs[:attrs][:order][:items].length
+    end
+  end
+
+  class DontLogAfterCreate < HooksTest
+    test 'it does not log show after create' do
+      user = create(:user)
+      activity = LoggableActivity::Activity.last
+      user.log(:show, actor: @current_user)
+      assert_equal activity, LoggableActivity::Activity.last
+    end
+    
+    test 'it does log show after create if it was created more than 5 sec ago' do
+      user = create(:user)
+      activity = LoggableActivity::Activity.last
+      activity.update(created_at: 6.seconds.ago)
+      user.log(:show, actor: @current_user)
+      refute_equal activity, LoggableActivity::Activity.last
+    end
+  end
+
+  class DontLogAfterUpdate < HooksTest
+    test 'it does not log show after update' do
+      user = create(:user)
+      user.update(first_name: "#{user.first_name}_Updated")
+      activity = LoggableActivity::Activity.last
+      user.log(:show, actor: @current_user)
+      assert_equal activity, LoggableActivity::Activity.last
+    end
+    
+    test 'it does log show after update if it was updated more than 5 sec ago' do
+      user = create(:user)
+      user.update(first_name: "#{user.first_name}_Updated")
+      activity = LoggableActivity::Activity.last
+      activity.update(created_at: 6.seconds.ago)
+      user.log(:show, actor: @current_user)
+      refute_equal activity, LoggableActivity::Activity.last
     end
   end
 end
