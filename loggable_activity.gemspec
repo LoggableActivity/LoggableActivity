@@ -49,6 +49,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rails', '~> 7.1.2'
   spec.add_dependency 'sassc-rails', '~> 2.1', '>= 2.1.2'
   spec.add_dependency 'slim-rails', '~> 3.6', '>= 3.6.3'
+  spec.add_dependency 'bunny', '~> 2.23'
 
   # spec.add_development_dependency 'generator_spec', '~> 0.10.0'
 

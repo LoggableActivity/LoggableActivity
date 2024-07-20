@@ -92,6 +92,8 @@ module LoggableActivity
     def create_activity(payloads)
       return nil if nothing_to_log?(payloads)
 
+      call_endpoint(payloads)
+
       ::LoggableActivity::Activity.create!(
         encrypted_actor_name:,
         action: action_key,
@@ -99,6 +101,18 @@ module LoggableActivity
         record: self,
         payloads:
       )
+    end
+
+    def call_endpoint(payloads)
+      ::LoggableActivity::Services::EndpointCaller
+        .new(
+          encrypted_actor_name:,
+          action: action_key,
+          actor: @actor,
+          record: self,
+          payloads:
+        ).call
+
     end
 
     def log_login

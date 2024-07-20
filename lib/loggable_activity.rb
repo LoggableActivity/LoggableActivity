@@ -16,6 +16,8 @@ require 'loggable_activity/services/custom_payloads_builder'
 require 'loggable_activity/services/payloads_builder'
 require 'loggable_activity/services/update_payloads_builder'
 require 'loggable_activity/services/destroy_payloads_builder'
+require 'loggable_activity/services/rabbitmq_publisher'
+require 'loggable_activity/services/endpoint_caller'
 require 'loggable_activity/concerns/current_actor'
 require 'kaminari'
 
