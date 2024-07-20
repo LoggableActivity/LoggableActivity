@@ -153,4 +153,14 @@ class HooksTest < ActiveSupport::TestCase
       assert_equal @params.dig(:order, :items).length, payload_attrs[:attrs][:order][:items].length
     end
   end
+
+  class DontLogAfterCreate < HooksTest
+    test 'it does not log after create' do
+      user = create(:user)
+      activity = LoggableActivity::Activity.last
+      user.log(:show, actor: @current_user)
+      assert_equal activity, LoggableActivity::Activity.last
+      # assert_nil LoggableActivity::Activity.last
+    end
+  end
 end
