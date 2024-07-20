@@ -92,7 +92,7 @@ module LoggableActivity
     def create_activity(payloads)
       return nil if nothing_to_log?(payloads)
 
-      call_endpoint(payloads)
+      call_endpoint(payloads) if LoggableActivity.call_endpoint
 
       ::LoggableActivity::Activity.create!(
         encrypted_actor_name:,

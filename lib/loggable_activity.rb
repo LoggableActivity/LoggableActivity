@@ -55,4 +55,5 @@ module LoggableActivity
   mattr_accessor :fetch_actor_name_from
   mattr_accessor :config_file_path
   mattr_accessor :task_for_sanitization
+  mattr_accessor :call_endpoint
 end
