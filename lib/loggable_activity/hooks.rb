@@ -104,13 +104,16 @@ module LoggableActivity
 
     def just_created?
       action = self.class.base_action + ".create"
-      return 
-      LoggableActivity::Activity.where(record: self, actor: @actor).last.action == action
+      activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
+      return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+      true
     end
 
     def just_updated?
       action = self.class.base_action + ".update"
-      LoggableActivity::Activity.where(record: self, actor: @actor).last.action == action
+      activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
+      return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+      true
     end
 
     # Creates an activity with the specified payloads.
