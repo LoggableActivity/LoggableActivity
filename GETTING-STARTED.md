@@ -7,6 +7,7 @@ This document should you getting started with `LoggableActivity`
 
 ## Installation
 Add the loggable_activity gem to the Gemfile `gem 'loggable_activity', '~> 0.5.4` and then<br/>
+Remember to check for the latest version number
 ```
 $ bundle install
 ```
