@@ -1,3 +1,6 @@
+## [0.5.7] - 2024-07-21
+- Config file is optional
+
 ## [0.5.6] - 2024-07-18
 - Documentation updated
 - Generator updated
