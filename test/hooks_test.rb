@@ -165,7 +165,7 @@ class HooksTest < ActiveSupport::TestCase
       user.log(:show, actor: @current_user)
       assert_equal activity, LoggableActivity::Activity.last
     end
-    
+
     test 'it does log show after create if it was created more than 5 sec ago' do
       user = create(:user)
       activity = LoggableActivity::Activity.last
@@ -183,7 +183,7 @@ class HooksTest < ActiveSupport::TestCase
       user.log(:show, actor: @current_user)
       assert_equal activity, LoggableActivity::Activity.last
     end
-    
+
     test 'it does log show after update if it was updated more than 5 sec ago' do
       user = create(:user)
       user.update(first_name: "#{user.first_name}_Updated")

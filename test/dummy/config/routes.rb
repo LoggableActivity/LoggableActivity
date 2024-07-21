@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :cars
   get 'sessions/create'
   get 'sessions/destroy'
   resources :companies
