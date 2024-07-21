@@ -34,4 +34,8 @@ class ConfigurationTest < ActiveSupport::TestCase
   test 'it loads task_for_sanitization' do
     refute LoggableActivity.task_for_sanitization
   end
+
+  test 'it uses attribute_names if no confiburation found' do
+    assert_equal Car.loggable_attrs, Car.attribute_names
+  end
 end

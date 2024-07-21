@@ -18,17 +18,17 @@ module LoggableActivity
     included do
       config = ::LoggableActivity::Configuration.for_class(name)
 
-      if config.nil?
-        raise LoggableActivity::Error, "Configuration not found for #{name}, Please add it to 'config/loggable_activity.yaml"
-      end
-
+      # if config.nil?
+      #   # logg all attributes by default.
+      #   self.loggable_attrs = attribute_names
+      # end
       # Initializes attributes based on configuration.
-      self.loggable_attrs = config&.fetch('loggable_attrs', []) || []
+      self.loggable_attrs = config&.fetch('loggable_attrs', []) || attribute_names
       self.public_attrs = config&.fetch('public_attrs', []) || []
       self.relations = config&.fetch('relations', []) || []
-      self.auto_log = config&.fetch('auto_log', []) || []
-      self.fetch_record_name_from = config&.fetch('fetch_record_name_from', nil)
+      self.auto_log = config&.fetch('auto_log', []) || %w[create update destroy]
       self.route = config&.fetch('route', nil)
+      self.fetch_record_name_from = config&.fetch('fetch_record_name_from', nil)
 
       after_create :log_create_activity
       after_update :log_update_activity
@@ -52,7 +52,7 @@ module LoggableActivity
       case action
       when :create
         log_create
-      when  :show
+      when :show
         log_show
       when :destroy
         log_destroy
@@ -79,7 +79,8 @@ module LoggableActivity
     def log_show
       return nil if just_created?
       return nil if just_updated?
-      log_activity 
+
+      log_activity
     end
 
     # Logs an activity for the create action.
@@ -103,16 +104,18 @@ module LoggableActivity
     end
 
     def just_created?
-      action = self.class.base_action + ".create"
+      action = "#{self.class.base_action}.create"
       activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
       return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+
       true
     end
 
     def just_updated?
-      action = self.class.base_action + ".update"
+      action = "#{self.class.base_action}.update"
       activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
       return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+
       true
     end
 

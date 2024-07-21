@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Cars
+
+#cars
+  - @cars.each do |car|
+    == render car
+    p
+      = link_to "Show this car", car
+
+= link_to "New car", new_car_path
