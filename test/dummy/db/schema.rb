@@ -12,7 +12,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_710_093_432) do
+ActiveRecord::Schema[7.1].define(version: 20_240_721_125_803) do
+  create_table 'cars', force: :cascade do |t|
+    t.string 'color'
+    t.string 'brand'
+    t.integer 'age'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
   create_table 'companies', force: :cascade do |t|
     t.string 'name'
     t.datetime 'created_at', null: false
