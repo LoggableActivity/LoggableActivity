@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    loggable_activity (0.5.6)
+    loggable_activity (0.5.7)
       activerecord (~> 7.1.3)
       bunny (~> 2.23)
       json-schema (~> 4.1, >= 4.1.1)
