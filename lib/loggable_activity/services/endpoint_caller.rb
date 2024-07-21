@@ -11,13 +11,7 @@ module LoggableActivity
       end
 
       def call
-        RabbitmqPublisher
-          .publish('users_queue', params)
-
-        # ap @record
-        # ap @payloads
-        # This is where the endpoint would be called.
-        # The endpoint would receive the payloads and log the activity.
+        RabbitmqPublisher.publish('loggable_activity_queue', params)
       end
 
       def params
