@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Date": {
+        "type": "string"
+      },
+      "Actor": {
+        "type": "string"
+      },
+      "Action": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "data": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "Date",
+      "Actor",
+      "Action",
+      "type",
+      "name",
+      "data"
+    ],
+    "additionalProperties": false
+  }
+}

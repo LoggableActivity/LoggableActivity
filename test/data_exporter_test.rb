@@ -29,8 +29,7 @@ module LoggableActivity
       record.destroy
       exporter = LoggableActivity::DataExporter.new(record)
       csv_data = exporter.export_csv
-      file_path = '/Users/maxgronlund/Documents/Max/open-source/LoggableActivityEngine/LoggableActivityEngine/file.csv'
-      File.write(file_path, csv_data)
+      assert_instance_of(String, csv_data)
     end
   end
 end
