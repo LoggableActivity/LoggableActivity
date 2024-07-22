@@ -2,17 +2,18 @@
 Super easy to use activity log with views out of the box
 - Just add the gem and mount the engine and you have a cool looking activity log.
 - Easy and simple to customize and configure
-- All data are encrypted, and 
+- All data are encrypted, and sanitized automatically when needed. 
 
 ### Important!
-This project is under development and not ready for production. There might be breaking changes, so please consult the CHANGELOG.md
+This project is under development. There might be breaking changes from version to version,</br>
+so please consult the CHANGELOG.md before updating.
 ### What it is not
 - An error logging system
 - A paper trails system with rollback.
 - A backup system
 
-### Applications
-Most organizations needs to keep a log of how users interact with data stored in the DB
+### Where to use
+The activity logger is designed for organizations who needs to keep a log of how users interact with data in the system
 - Finance
 - Healthcare
 - Sales and Support

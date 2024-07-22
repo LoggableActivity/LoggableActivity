@@ -8,14 +8,17 @@ Gem::Specification.new do |spec|
   spec.authors = ['Max Groenlund']
   spec.email = ['max@synthmax.dk']
 
-  spec.summary = 'Activity Logger with relations, prepared for GDPR Compliance and .'
+  spec.summary = 'Activity Logger: Fast, easy-to-use, full-featured logging with privacy protection and graphical representation'
   spec.description = <<-DESC
-    LoggableActivity is a powerful gem for Ruby on Rails that provides seamless user activity logging
+    LoggableActivity is a powerful gem for Ruby on Rails that provides seamless activity logging
     prepared for GDPR compliance and supporting record relations. It allows you to effortlessly
     keep track of user actions within your application, capturing who did what and when, even with
     related records included in the logs. With LoggableActivity, you can maintain the privacy of
     sensitive information in your logs, making it a perfect solution for applications that require
     robust audit trails while adhering to strict data protection regulations.
+    Without any hassle you can easily visualize the logs in a graphical representation,
+    or build your own custom views.
+    Data can be exported in csv format for a given record. Eg. a user, a company, a project etc.
   DESC
   spec.homepage = 'https://loggableactivity-efe7b931c886.herokuapp.com/'
   spec.license = 'MIT'
@@ -26,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     'homepage_uri' => 'https://loggableactivity-efe7b931c886.herokuapp.com/',
     'source_code_uri' => 'https://github.com/LoggableActivity/LoggableActivity',
-    'changelog_uri' => 'https://github.com/LoggableActivity/LoggableActivity/CHANGELOG.md',
+    'changelog_uri' => 'https://github.com/LoggableActivity/LoggableActivity/blob/main/CHANGELOG.md',
     'documentation_uri' => 'https://LoggableActivity.github.io/LoggableActivity/',
     'rubygems_mfa_required' => 'true'
   }
