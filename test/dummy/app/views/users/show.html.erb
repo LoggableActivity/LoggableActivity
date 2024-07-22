@@ -29,5 +29,5 @@
 <div>
   <%= link_to "Edit this user", edit_user_path(@user) %> |
   <%= link_to "Back to users", users_path %> |
-  <%= link_to "Destroy this user", @user, method: :delete %>
+  <%= link_to "Destroy this user", @user, method: :delete, data: { confirm: "Are you sure?" } %>
 </div>
