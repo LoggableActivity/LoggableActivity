@@ -17,6 +17,8 @@ require 'loggable_activity/services/custom_payloads_builder'
 require 'loggable_activity/services/payloads_builder'
 require 'loggable_activity/services/update_payloads_builder'
 require 'loggable_activity/services/destroy_payloads_builder'
+require 'loggable_activity/services/rabbitmq_publisher'
+require 'loggable_activity/services/endpoint_caller'
 require 'loggable_activity/concerns/current_actor'
 require 'kaminari'
 
@@ -54,4 +56,5 @@ module LoggableActivity
   mattr_accessor :fetch_actor_name_from
   mattr_accessor :config_file_path
   mattr_accessor :task_for_sanitization
+  mattr_accessor :call_endpoint
 end

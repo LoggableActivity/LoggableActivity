@@ -9,11 +9,13 @@ class CompaniesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index' do
     get companies_url
+
     assert_response :success
   end
 
   test 'should get new' do
     get new_company_url
+
     assert_response :success
   end
 
@@ -27,16 +29,19 @@ class CompaniesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should show company' do
     get company_url(@company)
+
     assert_response :success
   end
 
   test 'should get edit' do
     get edit_company_url(@company)
+
     assert_response :success
   end
 
   test 'should update company' do
     patch company_url(@company), params: { company: { name: @company.name } }
+
     assert_redirected_to companies_url
   end
 

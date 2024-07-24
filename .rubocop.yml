@@ -1,3 +1,11 @@
+require: 
+  - rubocop-factory_bot
+  - rubocop-minitest
+
+Minitest/MultipleAssertions:
+  Exclude:
+    - 'test/hooks_test.rb'
+
 AllCops:
   NewCops: enable
   Exclude:

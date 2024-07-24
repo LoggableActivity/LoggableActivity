@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :profile do
-    association :user
+    user
     bio { Faker::Lorem.paragraph }
     profile_picture_url { Faker::Avatar.image }
     location { Faker::Address.city }

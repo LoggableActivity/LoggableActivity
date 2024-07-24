@@ -14,7 +14,7 @@ class LoggableActivitySanitizerTest < ActiveSupport::TestCase
     LoggableActivity::Sanitizer.run
     @encryption_key.reload
 
-    assert @encryption_key.deleted?
+    assert_predicate @encryption_key, :deleted?
     refute_nil @encryption_key.secret_key
     refute_nil @encryption_key.delete_at
   end
@@ -27,7 +27,7 @@ class LoggableActivitySanitizerTest < ActiveSupport::TestCase
     LoggableActivity::Sanitizer.run
     @encryption_key.reload
 
-    assert @encryption_key.deleted?
+    assert_predicate @encryption_key, :deleted?
     assert_nil @encryption_key.secret_key
     assert_nil @encryption_key.delete_at
   end

@@ -9,6 +9,7 @@ class ActivitiesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index' do
     get loggable_activity.activities_url
+
     assert_response :success
     assert_includes response.body, ' <h1>Activities</h1>'
   end

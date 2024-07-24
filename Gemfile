@@ -19,6 +19,9 @@ gem 'kaminari', '~> 1.2', '>= 1.2.2'
 # Use Slim as template language
 gem 'slim-rails', '~> 3.6', '>= 3.6.3'
 
+# Use RabbitMQ for message queueing
+gem 'bunny', '~> 2.23'
+
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem "debug", ">= 1.0.0"
 group :development, :test do
@@ -27,4 +30,6 @@ group :development, :test do
   gem 'faker', '~> 3.4', '>= 3.4.1'
   gem 'mocha', '~> 2.4'
   gem 'rubocop', '~> 1.60', '>= 1.60.2'
+  gem 'rubocop-factory_bot', '~> 2.26', '>= 2.26.1'
+  gem 'rubocop-minitest', '~> 0.35.1'
 end
