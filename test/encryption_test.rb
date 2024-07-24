@@ -11,6 +11,7 @@ module LoggableActivity
 
     test 'encrypt encrypts the data when data and key are present' do
       encrypted_data = LoggableActivity::Encryption.encrypt(@data, @key)
+
       assert_not_nil encrypted_data
       assert_not_equal @data, encrypted_data
     end
@@ -22,6 +23,7 @@ module LoggableActivity
 
     test 'decrypt decrypts the data when encrypted data and key are present' do
       encrypted_data = LoggableActivity::Encryption.encrypt(@data, @key)
+
       assert_equal @data, LoggableActivity::Encryption.decrypt(encrypted_data, @key)
     end
 
@@ -43,7 +45,7 @@ module LoggableActivity
     end
 
     test 'EncryptionError is a subclass of StandardError' do
-      assert LoggableActivity::EncryptionError < StandardError
+      assert_operator LoggableActivity::EncryptionError, :<, StandardError
     end
 
     test 'throws an error when encryption fails' do
@@ -54,6 +56,7 @@ module LoggableActivity
 
     test 'throws an error when decryption fails' do
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
+
       assert_equal '*** DECRYPTION FAILED ***',
                    LoggableActivity::Encryption.decrypt('Some data to decrypt', "#{encryption_key.secret_key}extra")
     end

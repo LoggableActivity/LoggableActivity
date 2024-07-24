@@ -16,7 +16,7 @@ class HooksTest < ActiveSupport::TestCase
       assert_equal user, activity.record
       assert_equal 'user.create', activity.action
       assert_equal @current_user, LoggableActivity::Activity.last.actor
-      assert_equal activity.payloads_attrs.first[:relation], 'self'
+      assert_equal 'self', activity.payloads_attrs.first[:relation]
       assert_equal user.first_name, activity.payloads_attrs.first.dig(:attrs, :first_name)
     end
 
@@ -38,6 +38,7 @@ class HooksTest < ActiveSupport::TestCase
       user = create(:user)
       user.destroy
       activity = LoggableActivity::Activity.last
+
       assert_equal 'user.destroy', activity.action
       assert_equal I18n.t('loggable_activity.activity.deleted'), activity.payloads_attrs.first.dig(:attrs, :first_name)
       assert_equal @current_user, activity.actor
@@ -62,21 +63,26 @@ class HooksTest < ActiveSupport::TestCase
 
     test 'it logs create with has_one and belongs to relations' do
       activity = LoggableActivity::Activity.last
+
       assert_equal 3, activity.payloads_attrs.count
       assert_equal @user, activity.record
       assert_equal 'user.create', activity.action
       assert_equal @current_user, activity.actor
 
       relations = activity.payloads_attrs.collect { |payload_attrs| payload_attrs[:relation] }
+
       assert_equal %w[self has_one belongs_to], relations
 
       user_payload_attrs = activity.payloads_attrs.select { |payload_attrs| payload_attrs[:relation] == 'self' }.first
+
       assert_equal @user.first_name, user_payload_attrs.dig(:attrs, :first_name)
 
       profile_attrs = activity.payloads_attrs.select { |payload_attrs| payload_attrs[:relation] == 'has_one' }.first
+
       assert_equal @user.profile.phone_number, profile_attrs.dig(:attrs, :phone_number)
 
       company_attrs = activity.payloads_attrs.select { |payload_attrs| payload_attrs[:relation] == 'belongs_to' }.first
+
       assert_equal @user.company.name, company_attrs.dig(:attrs, :name)
     end
 
@@ -149,10 +155,12 @@ class HooksTest < ActiveSupport::TestCase
         params: @params
       )
       activity = LoggableActivity::Activity.last
+
       assert activity
-      assert_equal activity[:action], 'user.checkout_order'
+      assert_equal 'user.checkout_order', activity[:action]
       assert_equal 1, LoggableActivity::Activity.last.payloads.count
       payload_attrs = LoggableActivity::Activity.last.payloads_attrs.first
+
       assert_equal @params[:display_name], payload_attrs[:attrs][:display_name]
       assert_equal @params.dig(:order, :items).length, payload_attrs[:attrs][:order][:items].length
     end
@@ -163,6 +171,7 @@ class HooksTest < ActiveSupport::TestCase
       user = create(:user)
       activity = LoggableActivity::Activity.last
       user.log(:show, actor: @current_user)
+
       assert_equal activity, LoggableActivity::Activity.last
     end
 
@@ -171,6 +180,7 @@ class HooksTest < ActiveSupport::TestCase
       activity = LoggableActivity::Activity.last
       activity.update(created_at: 6.seconds.ago)
       user.log(:show, actor: @current_user)
+
       refute_equal activity, LoggableActivity::Activity.last
     end
   end
@@ -181,6 +191,7 @@ class HooksTest < ActiveSupport::TestCase
       user.update(first_name: "#{user.first_name}_Updated")
       activity = LoggableActivity::Activity.last
       user.log(:show, actor: @current_user)
+
       assert_equal activity, LoggableActivity::Activity.last
     end
 
@@ -190,6 +201,7 @@ class HooksTest < ActiveSupport::TestCase
       activity = LoggableActivity::Activity.last
       activity.update(created_at: 6.seconds.ago)
       user.log(:show, actor: @current_user)
+
       refute_equal activity, LoggableActivity::Activity.last
     end
   end

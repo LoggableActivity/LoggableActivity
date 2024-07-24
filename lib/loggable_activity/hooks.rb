@@ -143,7 +143,6 @@ module LoggableActivity
           record: self,
           payloads:
         ).call
-
     end
 
     def log_login

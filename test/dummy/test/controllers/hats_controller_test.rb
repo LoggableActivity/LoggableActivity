@@ -13,6 +13,6 @@ class HatsControllerTest < ActionDispatch::IntegrationTest
       post create_hat_user_url(@user), params: { hat: { color: 'red' } }
     end
 
-    assert_equal LoggableActivity::Activity.all.last.action, 'hat.create'
+    assert_equal 'hat.create', LoggableActivity::Activity.all.last.action
   end
 end

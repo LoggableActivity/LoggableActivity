@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LoggableActivity
   module Services
     # This class is responsible for calling the loggable activity endpoint.

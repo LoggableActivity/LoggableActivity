@@ -11,7 +11,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test 'should log login' do
     post login_url(email: @user.email, password: 'password')
 
-    assert_equal LoggableActivity::Activity.last.action, 'user.login'
+    assert_equal 'user.login', LoggableActivity::Activity.last.action
     assert_equal LoggableActivity::Activity.last.actor_type, @user.class.name
     assert_equal LoggableActivity::Activity.last.actor_id, @user.id
   end
@@ -21,6 +21,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
     delete logout_url
 
-    assert_equal LoggableActivity::Activity.last.action, 'user.logout'
+    assert_equal 'user.logout', LoggableActivity::Activity.last.action
   end
 end

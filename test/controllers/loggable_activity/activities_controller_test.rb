@@ -8,6 +8,7 @@ module LoggableActivity
 
     test 'should get index' do
       get activities_url
+
       assert_response :success
     end
   end

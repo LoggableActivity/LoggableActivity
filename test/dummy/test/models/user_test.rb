@@ -16,6 +16,6 @@ class UserTest < ActiveSupport::TestCase
     user.save!
     user.log(:sign_up, actor: user)
 
-    assert_equal LoggableActivity::Activity.last.action, 'user.sign_up'
+    assert_equal 'user.sign_up', LoggableActivity::Activity.last.action
   end
 end

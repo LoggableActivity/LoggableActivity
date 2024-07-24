@@ -24,9 +24,9 @@ LoggableActivity.config_file_path = Rails.root.join('config/loggable_activity.ya
 # If set to 'true' the data is inaccessible, but can be restored.
 # If set to 'true' you have to permanently delete
 # the data by calling 'LoggableActivity::Sanitizer.run' from a task.
-LoggableActivity.task_for_sanitization = true
+LoggableActivity.task_for_sanitization = false
 
 # Specify whether to call an external endpoint or not
 # If set to 'true' the endpoint is called
 # If set to 'false' the endpoint is not called
-LoggableActivity.call_endpoint = false
+LoggableActivity.call_endpoint = true

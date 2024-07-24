@@ -15,7 +15,7 @@ class UpdatePayloadsBuilderTest < ActiveSupport::TestCase
     test 'it prepares update payload' do
       ::LoggableActivity::Services::UpdatePayloadsBuilder.new(@user, @payloads).build
 
-      assert_equal LoggableActivity::Payload, @payloads.last.class
+      assert_instance_of LoggableActivity::Payload, @payloads.last
       assert_equal({ 'changes' => [{ 'age' => { 'from' => 55, 'to' => 60 } }] }, @payloads.last.public_attrs)
     end
   end

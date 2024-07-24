@@ -9,11 +9,13 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index' do
     get cars_url
+
     assert_response :success
   end
 
   test 'should get new' do
     get new_car_url
+
     assert_response :success
   end
 
@@ -27,16 +29,19 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should show car' do
     get car_url(@car)
+
     assert_response :success
   end
 
   test 'should get edit' do
     get edit_car_url(@car)
+
     assert_response :success
   end
 
   test 'should update car' do
     patch car_url(@car), params: { car: { age: @car.age, brand: @car.brand, color: @car.color } }
+
     assert_redirected_to car_url(@car)
   end
 

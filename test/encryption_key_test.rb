@@ -16,22 +16,25 @@ module LoggableActivity
       record_type = 'User'
       record_id = 1
       LoggableActivity::EncryptionKey.create_encryption_key(record_type, record_id)
-      assert LoggableActivity::EncryptionKey.for_record_by_type_and_id(record_type, record_id).present?
+
+      assert_predicate LoggableActivity::EncryptionKey.for_record_by_type_and_id(record_type, record_id), :present?
     end
 
     test 'mark_as_deleted marks the encryption key as deleted when task_for_sanitization is true' do
       LoggableActivity.stubs(:task_for_sanitization).returns(true)
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
-      assert encryption_key.reload.deleted?
+
+      assert_predicate encryption_key.reload, :deleted?
     end
 
     test 'mark_as_deleted deletes the secret key when task_for_sanitization is false' do
       LoggableActivity.stubs(:task_for_sanitization).returns(false)
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
+
       assert_nil encryption_key.secret_key
-      assert encryption_key.reload.deleted?
+      assert_predicate encryption_key.reload, :deleted?
     end
 
     test 'restore restores the key when task_for_sanitization is true' do
@@ -39,6 +42,7 @@ module LoggableActivity
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
       encryption_key.mark_as_deleted!
       encryption_key.restore!
+
       assert_not encryption_key.reload.deleted?
     end
 
@@ -48,7 +52,8 @@ module LoggableActivity
       encryption_key.mark_as_deleted!
       encryption_key.update(delete_at: 2.months.ago)
       encryption_key.restore!
-      assert encryption_key.reload.deleted?
+
+      assert_predicate encryption_key.reload, :deleted?
     end
 
     test 'create_encryption_key creates a new encryption key' do
@@ -59,11 +64,13 @@ module LoggableActivity
 
     test 'new encryption keys are not deleted' do
       encryption_key = LoggableActivity::EncryptionKey.create_encryption_key('User', 1)
+
       assert_not encryption_key.deleted?
     end
 
     test 'random_key generates a random encryption key' do
       key = LoggableActivity::EncryptionKey.random_key
+
       assert_kind_of String, key
     end
   end

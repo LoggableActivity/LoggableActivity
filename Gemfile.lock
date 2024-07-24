@@ -247,6 +247,11 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.3)
       parser (>= 3.3.1.0)
+    rubocop-factory_bot (2.26.1)
+      rubocop (~> 1.61)
+    rubocop-minitest (0.35.1)
+      rubocop (>= 1.61, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     sassc (2.4.0)
@@ -309,6 +314,8 @@ DEPENDENCIES
   mocha (~> 2.4)
   puma
   rubocop (~> 1.60, >= 1.60.2)
+  rubocop-factory_bot (~> 2.26, >= 2.26.1)
+  rubocop-minitest (~> 0.35.1)
   sassc-rails
   slim-rails (~> 3.6, >= 3.6.3)
   sprockets-rails
