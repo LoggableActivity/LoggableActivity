@@ -11,7 +11,7 @@ module LoggableActivity
       end
 
       def call
-        RabbitmqPublisher.publish('loggable_activity_queue', params)
+        # RabbitmqPublisher.publish('loggable_activity_queue', params)
       end
 
       def params
