@@ -11,7 +11,7 @@ LoggableActivity.actor_model_name = 'User'
 # This should be eighter a string representing the attribute name of the actor model
 # or a method that returns the actor's name.
 # Example: If you want to use the user's email as their name, set it to 'email'.
-LoggableActivity.fetch_actor_name_from = 'email'
+LoggableActivity.fetch_actor_name_from = 'full_name'
 
 # Specify the path to the configuration file for LoggableActivity.
 # This file should be a YAML file that contains the necessary configuration for logging activities.

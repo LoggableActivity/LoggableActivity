@@ -17,12 +17,7 @@ module LoggableActivity
     # The included hook sets up configuration and callback hooks for the model.
     included do
       config = ::LoggableActivity::Configuration.for_class(name)
-
-      # if config.nil?
-      #   # logg all attributes by default.
-      #   self.loggable_attrs = attribute_names
-      # end
-      # Initializes attributes based on configuration.
+      has_many :metadata, class_name: '::LoggableActivity::Metadata', as: :record
       self.loggable_attrs = config&.fetch('loggable_attrs', []) || attribute_names
       self.public_attrs = config&.fetch('public_attrs', []) || []
       self.relations = config&.fetch('relations', []) || []
@@ -32,7 +27,8 @@ module LoggableActivity
 
       after_create :log_create_activity
       after_update :log_update_activity
-      before_destroy :log_destroy_activity
+      before_destroy :log_destroy_activity_and_delete_metadata
+      # before_destroy :log_destroy_activity
     end
 
     # Logs an activity with the specified action, actor, and params.
@@ -69,16 +65,29 @@ module LoggableActivity
       end
     end
 
+    # Disable hooks for the current action.
+    # Will not log any activities for the current action.
+    # Will re-enable hooks after the current action.
     def disable_hooks!
       self.disable_hooks = true
     end
 
+    def delete
+      log_destroy_activity_and_delete_metadata
+      super
+    end
+
     private
+
+    # Log an activity for the destroy action and delete metadata.
+    def log_destroy_activity_and_delete_metadata
+      log_destroy_activity
+      metadata.delete_all
+    end
 
     # Logs an activity for the show action.
     def log_show
-      return nil if just_created?
-      return nil if just_updated?
+      return nil if just_created? || just_updated?
 
       log_activity
     end
@@ -103,20 +112,24 @@ module LoggableActivity
       create_activity(build_payloads)
     end
 
+    # Return true if a 'MODEL_NAME.create' for this record
+    # with the same actor was created in the last 5 seconds.
     def just_created?
-      action = "#{self.class.base_action}.create"
-      activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
-      return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
-
-      true
+      action = get_action_key('create')
+      latest_activity_for(action)
     end
 
+    # Return true if a 'MODEL_NAME.update' for this record
+    # with the same actor was created in the last 5 seconds.
     def just_updated?
-      action = "#{self.class.base_action}.update"
-      activity = LoggableActivity::Activity.where(record: self, actor: @actor).last
-      return false unless activity && activity.action == action && activity.created_at > 5.seconds.ago
+      action = get_action_key('update')
+      latest_activity_for(action)
+    end
 
-      true
+    def latest_activity_for(action)
+      LoggableActivity::Activity.where(record: self, actor: @actor, action:)
+                                .where('created_at > ?', 5.seconds.ago)
+                                .exists?
     end
 
     # Creates an activity with the specified payloads.
@@ -245,7 +258,11 @@ module LoggableActivity
 
     # Returns the action key for the current action.
     def action_key
-      self.class.base_action + ".#{@action}"
+      get_action_key(@action)
+    end
+
+    def get_action_key(action)
+      self.class.base_action + ".#{action}"
     end
 
     # Returns the primary encryption key for the activity

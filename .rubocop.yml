@@ -16,6 +16,7 @@ Layout/LineLength:
     - 'lib/loggable_activity/hooks.rb'
     - 'lib/loggable_activity/activity.rb'
     - 'loggable_activity.gemspec'
+    - 'lib/loggable_activity/activity.rb'
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'lib/loggable_activity/data_exporter.rb'
@@ -32,6 +33,7 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Exclude:
     - 'lib/loggable_activity/services/update_payloads_builder.rb'
+    - 'lib/loggable_activity/activity.rb'
 Metrics/MethodLength:
   Enabled: true
   Exclude:

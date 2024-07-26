@@ -17,6 +17,8 @@ module LoggableActivity
     validates :action, presence: true
     validate :must_have_at_least_one_payload
 
+    after_create :update_metadata
+
     RELATION_TYPES = {
       'primary_payload' => 'self',
       'primary_update_payload' => 'self',
@@ -205,6 +207,21 @@ module LoggableActivity
     # Validates that the activity has at least one payload.
     def must_have_at_least_one_payload
       errors.add(:payloads, 'must have at least one payload') if payloads.empty?
+    end
+
+    # Create metadata for the activity unless it already exists.
+    def update_metadata
+      ::LoggableActivity::Metadata.where(
+        record:,
+        action:,
+        actor:
+      ).first_or_create(
+        record_display_name:,
+        actor_display_name:,
+        record:,
+        actor:,
+        action:
+      )
     end
   end
 end
