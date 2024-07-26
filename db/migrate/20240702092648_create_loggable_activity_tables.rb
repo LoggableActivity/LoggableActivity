@@ -40,5 +40,15 @@ class CreateLoggableActivityTables < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
+
+    create_table :loggable_activity_metadata do |t|
+      t.string :record_display_name
+      t.string :actor_display_name
+      t.string :action
+      t.references :record, polymorphic: true, null: true
+      t.references :actor, polymorphic: true, null: true
+
+      t.timestamps
+    end
   end
 end
