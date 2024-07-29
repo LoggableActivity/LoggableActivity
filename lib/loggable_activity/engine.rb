@@ -19,7 +19,7 @@ module LoggableActivity
   class Engine < ::Rails::Engine
     isolate_namespace LoggableActivity
     initializer 'loggable_activity.assets.precompile' do |app|
-      app.config.assets.precompile += %w(loggable_activity/application.css)
+      app.config.assets.precompile += %w[loggable_activity/application.css]
     end
   end
 end

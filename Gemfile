@@ -32,4 +32,5 @@ group :development, :test do
   gem 'rubocop', '~> 1.60', '>= 1.60.2'
   gem 'rubocop-factory_bot', '~> 2.26', '>= 2.26.1'
   gem 'rubocop-minitest', '~> 0.35.1'
+  gem 'rubocop-rails', '~> 2.25', '>= 2.25.1'
 end
