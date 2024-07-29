@@ -34,6 +34,9 @@ Metrics/ClassLength:
   Exclude:
     - 'lib/loggable_activity/services/update_payloads_builder.rb'
     - 'lib/loggable_activity/activity.rb'
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'lib/loggable_activity/hooks.rb'
 Metrics/MethodLength:
   Enabled: true
   Exclude:
@@ -58,6 +61,9 @@ Style/Documentation:
     - 'app/models/loggable_activity/application_record.rb'
     - 'app/mailers/loggable_activity/application_mailer.rb'
     - 'app/helpers/loggable_activity/application_helper.rb'
-Metrics/CyclomaticComplexity:
+Style/StringLiterals:
   Exclude:
-    - 'lib/loggable_activity/hooks.rb'
+    - 'test/dummy/db/schema.rb'
+Style/WordArray:
+  Exclude:
+    - 'test/dummy/db/schema.rb'

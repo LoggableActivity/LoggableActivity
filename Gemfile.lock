@@ -252,6 +252,11 @@ GEM
     rubocop-minitest (0.35.1)
       rubocop (>= 1.61, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rails (2.25.1)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.33.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     sassc (2.4.0)
@@ -316,6 +321,7 @@ DEPENDENCIES
   rubocop (~> 1.60, >= 1.60.2)
   rubocop-factory_bot (~> 2.26, >= 2.26.1)
   rubocop-minitest (~> 0.35.1)
+  rubocop-rails (~> 2.25, >= 2.25.1)
   sassc-rails
   slim-rails (~> 3.6, >= 3.6.3)
   sprockets-rails
