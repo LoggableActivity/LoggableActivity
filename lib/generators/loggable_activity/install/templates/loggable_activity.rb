@@ -16,8 +16,8 @@ LoggableActivity.fetch_actor_name_from = 'email'
 # Specify the path to the configuration file for LoggableActivity.
 # This file should be a YAML file that contains the necessary configuration for logging activities.
 # The path is set relative to the Rails root directory.
-# Example: The default configuration file path is 'config/loggable_activity.yaml'.
-LoggableActivity.config_file_path = Rails.root.join('config/loggable_activity.yaml')
+# Example: The default configuration file path is 'config/loggable_activity.yml'.
+LoggableActivity.config_file_path = Rails.root.join('config/loggable_activity.yml')
 
 # Specify whether the sanitazion should be performed by a task or not
 # If set to 'false' the sanitization is performed immediately.

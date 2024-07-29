@@ -29,6 +29,11 @@ module LoggableActivity
         template 'loggable_activity.rb', 'config/initializers/loggable_activity.rb'
       end
 
+      desc 'Creates a LoggableActivity configuration in your application.'
+      def copy_configuration
+        template 'loggable_activity.yml', 'config/loggable_activity.yml'
+      end
+
       desc 'Creates a migration file for LoggableActivity in your application.'
       def copy_migration
         template 'create_loggable_activities.rb', "db/migrate/#{migration_number}_create_loggable_activities.rb"
