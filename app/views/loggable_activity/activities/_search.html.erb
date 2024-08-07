@@ -1,0 +1,39 @@
+<span class="card p-2">
+  <%= search_form_for @q, url: activities_path,
+                          html: { method: :get } do |f| %>
+    <div class="d-flex">
+      <div class="flex-fill p-2">
+        <%= f.label :action_eq, t('loggable_activity.activity.action') %>
+        <%= f.select :action_eq, options_for_select(translated_actions(@unique_actions), selected: params.dig(:q, :action_eq)), { include_blank: 'All' }, { class: 'form-select' } %>
+      </div>
+
+      <div class="flex-fill p-2">
+        <%= f.label :record_display_name_matches, t('loggable_activity.activity.record_display_name') %>
+        <%= f.search_field :record_display_name_matches, {class: "form-control" } %>
+      </div>
+
+      <div class="flex-fill p-2">
+        <%= f.label :actor_id_eq, t('loggable_activity.actioin.actor') %>
+        <%= f.select :actor_id_eq, options_for_select(@actor_names, selected: params.dig(:q, :actor_id_eq)), {include_blank: 'All'}, {class: 'form-select'}%>
+      </div>
+    </div>
+
+    <div class="d-flex mt-2">
+      <div class="flex-fill p-2">
+        <%= f.label :created_at_gt, t('loggable_activity.activity.date_from') %>
+        <%= f.date_field :created_at_gt, value: params.dig(:q, :created_at_gteq), class: 'form-control' %>
+      </div>
+      <div class="flex-fill p-2">
+        <%= f.label :created_at_lteq, t('loggable_activity.activity.date_to') %>
+        <%= f.date_field :created_at_lteq, value: params.dig(:q, :created_at_lteq), class: 'form-control' %>
+      </div>
+    </div>
+    <div class="d-flex mt-w">
+      <div class="flex-fill p-2">
+        <%= f.submit 'Search', class: 'btn btn-primary' %>
+        <%= link_to 'Reset', activities_path, class: 'btn btn-secondary' %>
+      </div>
+    </div>
+
+  <% end %>
+</span>

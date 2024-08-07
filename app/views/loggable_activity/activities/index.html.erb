@@ -1,6 +1,11 @@
 <div class="container">
     <h1>Activities</h1>
-    <%= paginate @activities, views_prefix: "loggable_activity/bootstrap" %> 
-    <%= render partial: "activities", activities: @activities %>
+    <%= render partial: "search", params: {}%>
+    <div class="mt-2">
+      <%= render partial: "activities", activities: @activities %>
+    </div>
+    <div class="mt-2">
+      <%= paginate @activities, views_prefix: "loggable_activity/bootstrap" %> 
+    </div>
 </div>
  

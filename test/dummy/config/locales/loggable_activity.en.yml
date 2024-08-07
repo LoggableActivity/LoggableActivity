@@ -5,8 +5,11 @@ en:
       actor: Actor
       action: Action
       record: Name
-      created_at: Created at
+      created_at: Date 
+      date_from: Date from
+      date_to: Date to
       deleted: "*** DELETED ***"
+      record_display_name: Name
     encryption:
       failed: '*** ENCRYPTION FAILED ***'
     decryption:

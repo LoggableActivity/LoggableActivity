@@ -22,6 +22,8 @@ gem 'slim-rails', '~> 3.6', '>= 3.6.3'
 # Use RabbitMQ for message queueing
 gem 'bunny', '~> 2.23'
 
+gem 'ransack', '~> 4.2'
+
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem "debug", ">= 1.0.0"
 group :development, :test do

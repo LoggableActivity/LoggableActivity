@@ -226,6 +226,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    ransack (4.2.0)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rbtree (0.4.6)
     rdoc (6.7.0)
       psych (>= 4.0.0)
@@ -318,6 +322,7 @@ DEPENDENCIES
   loggable_activity!
   mocha (~> 2.4)
   puma
+  ransack (~> 4.2)
   rubocop (~> 1.60, >= 1.60.2)
   rubocop-factory_bot (~> 2.26, >= 2.26.1)
   rubocop-minitest (~> 0.35.1)

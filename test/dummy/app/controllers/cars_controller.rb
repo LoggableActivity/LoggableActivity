@@ -9,7 +9,9 @@ class CarsController < ApplicationController
   end
 
   # GET /cars/1
-  def show; end
+  def show
+    @car.log(:show)
+  end
 
   # GET /cars/new
   def new
