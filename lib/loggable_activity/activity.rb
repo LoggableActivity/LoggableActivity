@@ -139,7 +139,6 @@ module LoggableActivity
 
       ::LoggableActivity::Encryption.decrypt(encrypted_actor_name, actor_secret_key)
     end
-    
 
     # Returns a list of activities for a given actor.
     def self.activities_for_actor(actor, limit = 20, params = { offset: 0 })

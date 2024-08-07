@@ -13,7 +13,7 @@ module LoggableActivity
       record_ids = results.map(&:record_id)
       record_types = results.map(&:record_type)
 
-      @activities = 
+      @activities =
         LoggableActivity::Activity.where(record_id: record_ids)
                                   .where(record_type: record_types)
                                   .page(params[:page])
@@ -23,9 +23,5 @@ module LoggableActivity
       index
       render :index
     end
-
-    # def activity_params
-    #   params.require(:activity).permit(:action, :actor_id, :actor_type, :actor_display_name, :record_id, :record_type, :record_display_name)
-    # end
   end
 end
