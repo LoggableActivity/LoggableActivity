@@ -11,7 +11,6 @@ require 'loggable_activity/encryption_key'
 require 'loggable_activity/engine'
 require 'loggable_activity/error'
 require 'loggable_activity/hooks'
-require 'loggable_activity/metadata'
 require 'loggable_activity/payload'
 require 'loggable_activity/sanitizer'
 require 'loggable_activity/services/base_payloads_builder'
@@ -54,7 +53,7 @@ require 'loggable_activity/version'
 # This module is designed to be both powerful and easy to integrate, providing a solid foundation for activity logging.
 module LoggableActivity
   mattr_accessor :actor_model_name
-  mattr_accessor :fetch_actor_name_from
+  mattr_accessor :fetch_actor_display_name_from
   mattr_accessor :config_file_path
   mattr_accessor :task_for_sanitization
   mattr_accessor :call_endpoint

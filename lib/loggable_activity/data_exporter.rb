@@ -79,18 +79,9 @@ module LoggableActivity
         '',
         '',
         payload.record_type,
-        payload.record_display_name,
+        payload.payload_display_name,
         format_attrs(payload.attrs)
       ]
-
-      # attrs = payload.attrs.delete(:public_attrs)
-      # [
-      #   payload.activity.created_at.strftime('%Y, %B %d %I:%M %p'),
-      #   I18n.t(activity_translation_key(payload.activity.action)),
-      #   payload.record_display_name,
-      #   format_attrs(payload.attrs),
-      #   payload.activity.id
-      # ]
     end
 
     def format_attrs(attrs)

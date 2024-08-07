@@ -1,5 +1,5 @@
 User:
-  fetch_record_name_from: name 
+  fetch_record_display_name_from: name 
   route: /users/:id
   loggable_attrs:
     - name 

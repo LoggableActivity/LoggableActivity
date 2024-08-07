@@ -27,8 +27,8 @@ class ConfigurationTest < ActiveSupport::TestCase
     assert_kind_of Hash, LoggableActivity::Configuration.for_class('User')
   end
 
-  test 'it fetch_actor_name_from' do
-    assert LoggableActivity.fetch_actor_name_from
+  test 'it fetch_actor_display_name_from' do
+    assert LoggableActivity.fetch_actor_display_name_from
   end
 
   test 'it loads task_for_sanitization' do

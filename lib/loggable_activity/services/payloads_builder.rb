@@ -12,8 +12,8 @@ module LoggableActivity
       # Returns an Array of ::LoggableActivity::Payload instances, each representing a payload
       # for the loggable activity. For example:
       # [
-      #   #<::LoggableActivity::Payload:0x0000000109658718 @encryption_key="key1", @record=#<MockRecord:0x0000000105000000 @name="Record1">, @encrypted_record_name="Encrypted Name1", @encrypted_attrs={...}, @related_to_activity_as="primary_payload", @data_owner=true, @route="route1">,
-      #   #<::LoggableActivity::Payload:0x0000000109658720 @encryption_key="key2", @record=#<MockRecord:0x0000000105000001 @name="Record2">, @encrypted_record_name="Encrypted Name2", @encrypted_attrs={...}, @related_to_activity_as="has_one_payload", @data_owner=true, @route="route2">
+      #   #<::LoggableActivity::Payload:0x0000000109658718 @encryption_key="key1", @record=#<MockRecord:0x0000000105000000 @name="Record1">, @record_name="Encrypted Name1", @encrypted_attrs={...}, @related_to_activity_as="primary_payload", @data_owner=true, @route="route1">,
+      #   #<::LoggableActivity::Payload:0x0000000109658720 @encryption_key="key2", @record=#<MockRecord:0x0000000105000001 @name="Record2">, @record_name="Encrypted Name2", @encrypted_attrs={...}, @related_to_activity_as="has_one_payload", @data_owner=true, @route="route2">
       # ]
       #
       def build

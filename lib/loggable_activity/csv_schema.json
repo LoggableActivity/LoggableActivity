@@ -5,22 +5,40 @@
     "type": "object",
     "properties": {
       "Date": {
-        "type": "string"
+        "type": [
+          "string",
+          "null"
+        ]
       },
       "Actor": {
-        "type": "string"
+        "type": [
+          "string",
+          "null"
+        ]
       },
       "Action": {
-        "type": "string"
+        "type": [
+          "string",
+          "null"
+        ]
       },
       "type": {
-        "type": "string"
+        "type": [
+          "string",
+          "null"
+        ]
       },
       "name": {
-        "type": "string"
+        "type": [
+          "string",
+          "null"
+        ]
       },
       "data": {
-        "type": "string"
+        "type": [
+          "string",
+          "null"
+        ]
       }
     },
     "required": [

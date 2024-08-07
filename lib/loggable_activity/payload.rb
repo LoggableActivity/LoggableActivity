@@ -93,10 +93,10 @@ module LoggableActivity
     #   payload.record_display_name
     #
     # @return [String] The display name for the record.
-    def record_display_name
+    def fetch_record_display_name
       return I18n.t('loggable_activity.activity.deleted') if deleted?
 
-      ::LoggableActivity::Encryption.decrypt(encrypted_record_name, secret_key)
+      payload_display_name
     end
 
     # Check if the record has been deleted.

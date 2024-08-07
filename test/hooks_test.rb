@@ -137,7 +137,7 @@ class HooksTest < ActiveSupport::TestCase
     setup do
       @user = create(:user)
       @params = {
-        display_name: 'Checkout Order - #123',
+        record_display_name: 'Checkout Order - #123',
         order: {
           route: '/orders/123',
           order_number: '123',
@@ -161,7 +161,7 @@ class HooksTest < ActiveSupport::TestCase
       assert_equal 1, LoggableActivity::Activity.last.payloads.count
       payload_attrs = LoggableActivity::Activity.last.payloads_attrs.first
 
-      assert_equal @params[:display_name], payload_attrs[:attrs][:display_name]
+      assert_equal @params[:record_display_name], payload_attrs[:attrs][:record_display_name]
       assert_equal @params.dig(:order, :items).length, payload_attrs[:attrs][:order][:items].length
     end
   end

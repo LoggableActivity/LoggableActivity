@@ -4,19 +4,11 @@ module LoggableActivity
   # Controller for activities
   class ActivitiesController < ApplicationController
     def index
-      @unique_actions = LoggableActivity::Metadata.distinct.pluck(:action)
-      @actor_names = LoggableActivity::Metadata.distinct.pluck(:actor_display_name, :actor_id)
+      @unique_actions = LoggableActivity::Activity.distinct.pluck(:action)
+      @actor_display_names = LoggableActivity::Activity.distinct.pluck(:actor_display_name, :actor_id)
 
-      @q = LoggableActivity::Metadata.ransack(params[:q])
-      results = @q.result
-
-      record_ids = results.map(&:record_id)
-      record_types = results.map(&:record_type)
-
-      @activities =
-        LoggableActivity::Activity.where(record_id: record_ids)
-                                  .where(record_type: record_types)
-                                  .page(params[:page])
+      @q = LoggableActivity::Activity.ransack(params[:q])
+      @activities = @q.result.page(params[:page])
     end
 
     def search
