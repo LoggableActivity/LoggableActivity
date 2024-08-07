@@ -13,7 +13,7 @@ class EndpointCallerTest < ActiveSupport::TestCase
     activity = LoggableActivity::Activity.last
     # ap activity.payloads_attrs
     LoggableActivity::Services::EndpointCaller.new(
-      encrypted_actor_name: activity[:encrypted_actor_name],
+      actor_display_name: activity[:actor_display_name],
       action: activity[:action],
       record: user,
       actor: user,

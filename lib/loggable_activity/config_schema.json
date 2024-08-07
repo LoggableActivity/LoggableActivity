@@ -8,7 +8,7 @@
         "data_owner": {
           "type": "boolean"
         },
-        "fetch_record_name_from": {
+        "fetch_record_display_name_from": {
           "type": "string"
         },
         "task_for_sanitization": {

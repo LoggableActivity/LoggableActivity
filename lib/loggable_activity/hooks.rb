@@ -17,18 +17,16 @@ module LoggableActivity
     # The included hook sets up configuration and callback hooks for the model.
     included do
       config = ::LoggableActivity::Configuration.for_class(name)
-      has_many :metadata, class_name: '::LoggableActivity::Metadata', as: :record
       self.loggable_attrs = config&.fetch('loggable_attrs', []) || attribute_names
       self.public_attrs = config&.fetch('public_attrs', []) || []
       self.relations = config&.fetch('relations', []) || []
       self.auto_log = config&.fetch('auto_log', []) || %w[create update destroy]
       self.route = config&.fetch('route', nil)
-      self.fetch_record_name_from = config&.fetch('fetch_record_name_from', nil)
+      self.fetch_record_display_name_from = config&.fetch('fetch_record_display_name_from', nil) || nil
 
       after_create :log_create_activity
       after_update :log_update_activity
-      before_destroy :log_destroy_activity_and_delete_metadata
-      # before_destroy :log_destroy_activity
+      before_destroy :log_destroy_activity
     end
 
     # Logs an activity with the specified action, actor, and params.
@@ -73,17 +71,11 @@ module LoggableActivity
     end
 
     def delete
-      log_destroy_activity_and_delete_metadata
+      log_destroy_activity
       super
     end
 
     private
-
-    # Log an activity for the destroy action and delete metadata.
-    def log_destroy_activity_and_delete_metadata
-      log_destroy_activity
-      metadata.delete_all
-    end
 
     # Logs an activity for the show action.
     def log_show
@@ -139,7 +131,7 @@ module LoggableActivity
       # call_endpoint(payloads) if LoggableActivity.call_endpoint
 
       ::LoggableActivity::Activity.create!(
-        encrypted_actor_name:,
+        actor_display_name:,
         action: action_key,
         actor: @actor,
         record: self,
@@ -150,7 +142,7 @@ module LoggableActivity
     def call_endpoint(payloads)
       ::LoggableActivity::Services::EndpointCaller
         .new(
-          encrypted_actor_name:,
+          actor_display_name:,
           action: action_key,
           actor: @actor,
           record: self,
@@ -245,15 +237,13 @@ module LoggableActivity
         .each(&:mark_as_deleted!)
     end
 
-    # Returns the encrypted name of the actor.
-    def encrypted_actor_name
-      name = @actor.send(fetch_actor_name_from)
-      ::LoggableActivity::Encryption.encrypt(name, actor_secret_key)
+    def actor_display_name
+      @actor.send(fetch_actor_display_name_from)
     end
 
     # Reads the field to feetch the record name from.
-    def fetch_actor_name_from
-      LoggableActivity.fetch_actor_name_from
+    def fetch_actor_display_name_from
+      LoggableActivity.fetch_actor_display_name_from
     end
 
     # Returns the action key for the current action.
@@ -282,7 +272,7 @@ module LoggableActivity
 
     class_methods do
       # The loggable_attrs attribute is used read the configuration for the model that included LoggableActivity::Hooks.
-      attr_accessor :loggable_attrs, :relations, :auto_log, :fetch_record_name_from, :route, :public_attrs
+      attr_accessor :loggable_attrs, :relations, :auto_log, :fetch_record_display_name_from, :route, :public_attrs
 
       # Convert the model name and name space in to 'base_action'.
       def base_action

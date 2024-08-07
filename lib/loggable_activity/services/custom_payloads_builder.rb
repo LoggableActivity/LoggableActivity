@@ -13,7 +13,7 @@ module LoggableActivity
         payload = ::LoggableActivity::Payload.new(
           encryption_key:,
           record: @record,
-          encrypted_record_name:,
+          payload_display_name:,
           encrypted_attrs:,
           related_to_activity_as: 'custom_payload',
           route: @record.class.route,
@@ -32,10 +32,10 @@ module LoggableActivity
 
       private
 
-      def encrypted_record_name
-        return encrypt_attr(@params[:display_name], @secret_key) if @params[:display_name]
+      def payload_display_name
+        return @params[:record_display_name] if @params[:record_display_name]
 
-        encrypt_record_name_for_record(@record, @secret_key)
+        display_name_for_record(@record)
       end
 
       def build_custom_payloads(params)

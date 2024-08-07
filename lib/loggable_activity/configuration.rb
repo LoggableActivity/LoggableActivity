@@ -36,7 +36,7 @@ module LoggableActivity
       #   ::LoggableActivity::Configuration.for_class('User')
       # Returns:
       #   {
-      #     "fetch_record_name_from": "full_name",
+      #     "fetch_record_display_name_from": "full_name",
       #     "loggable_attrs": [
       #       "first_name",
       #       "last_name",

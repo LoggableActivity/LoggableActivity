@@ -31,21 +31,9 @@ module LoggableActivity
         encryption_key = encryption_key_for_record(@record)
         secret_key = encryption_key.secret_key
         encrypt_attrs(@record.attributes, @record.class.loggable_attrs, secret_key)
-        encrypt_record_name_for_record(@record, secret_key)
+        display_name_for_record(@record)
 
         build_encrypted_destroy_payload(@record, 'primary_destroy_payload')
-
-        # @payloads << ::LoggableActivity::Payload.new(
-        #   encryption_key:,
-        #   record_id: nil,
-        #   record_type: @record.class.name,
-        #   encrypted_record_name:,
-        #   encrypted_attrs:,
-        #   related_to_activity_as: 'primary_destroy_payload',
-        #   data_owner: true,
-        #   route: @record.class.route
-        # )
-        # encryption_key
       end
 
       def build_relations_destroy_payloads
@@ -107,13 +95,13 @@ module LoggableActivity
         encryption_key = encryption_key_for_record(record)
         secret_key = encryption_key.secret_key
         encrypted_attrs = encrypt_attrs(record.attributes, record.class.loggable_attrs, secret_key)
-        encrypted_record_name = encrypt_record_name_for_record(record, secret_key)
+        payload_display_name = display_name_for_record(record)
 
         @payloads << ::LoggableActivity::Payload.new(
           encryption_key:,
           record_id: nil,
           record_type: record.class.name,
-          encrypted_record_name:,
+          payload_display_name:,
           encrypted_attrs:,
           related_to_activity_as:,
           data_owner: true,

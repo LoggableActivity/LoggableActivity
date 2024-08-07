@@ -12,10 +12,8 @@ module LoggableActivity
         @params = params
         @loggable_attrs = record.class.loggable_attrs
         @public_attrs = record.class.public_attrs
-        # @relation_config = record.relation_config
         @relations = record.class.relations
         @auto_log = record.class.auto_log
-        # @fetch_record_name_from = record.class.fetch_record_name_from
         @route = record.class.route
       end
 
@@ -39,21 +37,15 @@ module LoggableActivity
         [previous_values, current_values]
       end
 
-      # Encrypts the record name for the record.
-      # If the record has a fetch_record_name_from the configuration,
-      # it will use that method to fetch the record name.
-      # Otherwise, it will use the class name and the record id.
-      def encrypt_record_name_for_record(record, secret_key)
-        record_name = fetch_record_name_for_record(record) || "#{record.class.name}##{record.id}"
-
-        ::LoggableActivity::Encryption.encrypt(record_name, secret_key)
+      def display_name_for_record(record)
+        fetch_display_name_for_record(record) || "#{record.class.name}##{record.id}"
       end
 
       # Return the record name for the record.
-      # If the record has a fetch_record_name_from the configuration,
-      def fetch_record_name_for_record(record)
-        fetch_from = record.class.fetch_record_name_from
-        return nil if fetch_from.nil?
+      # If the record has a fetch_record_display_name_from the configuration,
+      def fetch_display_name_for_record(record)
+        fetch_from = record.class.fetch_record_display_name_from
+        return false if fetch_from.nil?
 
         record.send(fetch_from)
       end
@@ -90,12 +82,11 @@ module LoggableActivity
         current_payload = options[:current_payload]
         data_owner = options[:data_owner]
 
-        secret_key = encryption_key.secret_key
-        encrypted_record_name = encrypt_record_name_for_record(record, secret_key)
+        payload_display_name = display_name_for_record(record)
         payload = ::LoggableActivity::Payload.new(
           encryption_key:,
           record:,
-          encrypted_record_name:,
+          payload_display_name:,
           encrypted_attrs:,
           related_to_activity_as:,
           route: record.class.route,

@@ -39,7 +39,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_721_125_803) do
     t.string "action"
     t.string "actor_type"
     t.integer "actor_id"
-    t.string "encrypted_actor_name"
+    t.string "actor_display_name"
     t.string "record_type"
     t.integer "record_id"
     t.datetime "created_at", null: false
@@ -68,26 +68,12 @@ ActiveRecord::Schema[7.1].define(version: 20_240_721_125_803) do
     t.index ["record_type", "record_id"], name: "index_loggable_activity_encryption_keys_on_record"
   end
 
-  create_table "loggable_activity_metadata", force: :cascade do |t|
-    t.string "record_display_name"
-    t.string "actor_display_name"
-    t.string "action"
-    t.string "record_type"
-    t.integer "record_id"
-    t.string "actor_type"
-    t.integer "actor_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["actor_type", "actor_id"], name: "index_loggable_activity_metadata_on_actor"
-    t.index ["record_type", "record_id"], name: "index_loggable_activity_metadata_on_record"
-  end
-
   create_table "loggable_activity_payloads", force: :cascade do |t|
     t.integer "activity_id", null: false
     t.integer "encryption_key_id", null: false
     t.string "record_type"
     t.integer "record_id"
-    t.string "encrypted_record_name"
+    t.string "payload_display_name"
     t.json "encrypted_attrs"
     t.integer "related_to_activity_as", default: 0
     t.boolean "data_owner", default: false

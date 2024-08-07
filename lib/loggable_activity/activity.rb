@@ -17,8 +17,6 @@ module LoggableActivity
     validates :action, presence: true
     validate :must_have_at_least_one_payload
 
-    after_create :update_metadata
-
     RELATION_TYPES = {
       'primary_payload' => 'self',
       'primary_update_payload' => 'self',
@@ -36,6 +34,14 @@ module LoggableActivity
       'belongs_to_update_payload' => 'belongs_to',
       'custom_payload' => 'self'
     }.freeze
+
+    def self.ransackable_attributes(_auth_object = nil)
+      %w[action actor_display_name actor_id actor_type created_at id id_value record_id record_type updated_at]
+    end
+
+    def self.ransackable_associations(_auth_object = nil)
+      %w[actor payloads record]
+    end
 
     # Returns an array of hashes, each representing an activity's attributes and its associated relations. The structure and relations to include are specified in 'config/loggable_activity.yaml'. This format is designed for UI display purposes.
     #
@@ -58,7 +64,7 @@ module LoggableActivity
         actor_type:,
         actor_id:,
         action:,
-        actor_display_name:,
+        actor_display_name: fetch_actor_display_name,
         record_display_name:,
         payloads: payloads_attrs
       }
@@ -72,7 +78,7 @@ module LoggableActivity
           record_id: payload.deleted? ? nil : payload.record_id,
           attrs: payload.attrs,
           route: payload.payload_route,
-          record_display_name: payload.record_display_name,
+          record_display_name: payload.fetch_record_display_name,
           current_payload: payload.current_payload,
           data_owner: payload.data_owner,
           public_attrs: payload.public_attrs
@@ -109,7 +115,7 @@ module LoggableActivity
     #   "David Bowie"
     #
     def record_display_name
-      primary_payload&.record_display_name
+      primary_payload&.fetch_record_display_name
     end
 
     # Returns the path for the activity.
@@ -134,10 +140,10 @@ module LoggableActivity
     # Returns:
     #   "Elvis Presley"
     #
-    def actor_display_name
+    def fetch_actor_display_name
       return I18n.t('loggable.activity.deleted') if actor_deleted?
 
-      ::LoggableActivity::Encryption.decrypt(encrypted_actor_name, actor_secret_key)
+      actor_display_name
     end
 
     # Returns a list of activities for a given actor.
@@ -207,21 +213,6 @@ module LoggableActivity
     # Validates that the activity has at least one payload.
     def must_have_at_least_one_payload
       errors.add(:payloads, 'must have at least one payload') if payloads.empty?
-    end
-
-    # Create metadata for the activity unless it already exists.
-    def update_metadata
-      ::LoggableActivity::Metadata.where(
-        record:,
-        action:,
-        actor:
-      ).first_or_create(
-        record_display_name:,
-        actor_display_name:,
-        record:,
-        actor:,
-        action:
-      )
     end
   end
 end

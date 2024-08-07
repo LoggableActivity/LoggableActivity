@@ -1,5 +1,5 @@
 Company:
-  fetch_record_name_from: name
+  fetch_record_display_name_from: name
   route: /companies/:id
   loggable_attrs:
     - name
@@ -17,7 +17,7 @@ Company:
     - update
     - destroy
 Hat:
-  fetch_record_name_from: color
+  fetch_record_display_name_from: color
   route: /user/:id
   loggable_attrs:
     - color
@@ -31,7 +31,7 @@ Hat:
       loggable_attrs:
         - first_name
 User:
-  fetch_record_name_from: full_name
+  fetch_record_display_name_from: full_name
   route: /demo/users/:id
   loggable_attrs:
     - first_name
@@ -66,7 +66,7 @@ User:
       loggable_attrs:
         - name
 Profile:
-  fetch_record_name_from: phone_number
+  fetch_record_display_name_from: phone_number
   route: /demo/profiles/:id
   loggable_attrs:
     - bio

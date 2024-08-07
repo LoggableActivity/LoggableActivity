@@ -8,13 +8,13 @@
       </div>
 
       <div class="flex-fill p-2">
-        <%= f.label :record_display_name_matches, t('loggable_activity.activity.record_display_name') %>
-        <%= f.search_field :record_display_name_matches, {class: "form-control" } %>
+        <%#= f.label :record_display_name_matches, t('loggable_activity.activity.record_display_name') %>
+        <%#= f.search_field :record_display_name_matches, {class: "form-control" } %>
       </div>
 
       <div class="flex-fill p-2">
         <%= f.label :actor_id_eq, t('loggable_activity.actioin.actor') %>
-        <%= f.select :actor_id_eq, options_for_select(@actor_names, selected: params.dig(:q, :actor_id_eq)), {include_blank: 'All'}, {class: 'form-select'}%>
+        <%= f.select :actor_id_eq, options_for_select(@actor_display_names, selected: params.dig(:q, :actor_id_eq)), {include_blank: 'All'}, {class: 'form-select'}%>
       </div>
     </div>
 
