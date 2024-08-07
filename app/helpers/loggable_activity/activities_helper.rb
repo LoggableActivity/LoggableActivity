@@ -13,5 +13,11 @@ module LoggableActivity
     rescue JSON::ParserError
       hash_data.to_s
     end
+
+    def translated_actions(actions)
+      actions.map do |action|
+        [I18n.t("loggable_activity.#{action}"), action]
+      end
+    end
   end
 end
